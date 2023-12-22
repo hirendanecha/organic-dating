@@ -17,7 +17,7 @@ const routes: Routes = [
         }
       },
       {
-        path: 'health-practitioner',
+        path: 'connection',
         loadChildren: () => import('./pages/communities/communities.module').then((m) => m.CommunitiesModule),
         data: {
           isShowLeftSideBar: true
@@ -25,7 +25,7 @@ const routes: Routes = [
         canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
-        path: 'pages',
+        path: 'promote-you',
         loadChildren: () => import('./pages/freedom-page/freedom-page.module').then((m) => m.FreedomPageModule),
         data: {
           isShowLeftSideBar: true

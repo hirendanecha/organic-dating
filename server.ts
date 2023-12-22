@@ -84,14 +84,14 @@ export function app(): express.Express {
         }
         const params = req.params[0];
         var seo: any = {
-          title: 'Healing Tube',
+          title: 'Organic dating',
           description:
             'The Umbrella platform for All freedom based projects worldwide',
           image:
             'https://www.healing.tube/assets/images/Healing-Tube-Logo.png',
           site: 'https://www.healing.tube/',
           url: 'https://www.healing.tube' + params,
-          keywords: 'HealingTube',
+          keywords: 'Organic dating',
         };
         if (
           params.indexOf('communities/') > -1 ||
@@ -170,7 +170,7 @@ export function app(): express.Express {
 
           console.log('group===>', group);
           const talent = {
-            name: `HealingTube Research ${group?.PageTitle}`,
+            name: `Organic dating Research ${group?.PageTitle}`,
             description: group?.PageDescription,
             image: group?.CoverPicName || group?.ProfilePicName
           };
