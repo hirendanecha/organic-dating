@@ -88,14 +88,14 @@ export function app(): express.Express {
           description:
             'The Umbrella platform for All freedom based projects worldwide',
           image:
-            'https://www.healing.tube/assets/images/Healing-Tube-Logo.png',
-          site: 'https://www.healing.tube/',
-          url: 'https://www.healing.tube' + params,
+            'https://www.organic.dating/assets/images/landingpage/OD-default-profile.png',
+          site: 'https://www.organic.dating/',
+          url: 'https://www.organic.dating' + params,
           keywords: 'Organic dating',
         };
         if (
-          params.indexOf('communities/') > -1 ||
-          params.indexOf('pages/') > -1
+          params.indexOf('connection/') > -1 ||
+          params.indexOf('promote-you/') > -1
         ) {
           let id = params.split('/');
           id = id[id.length - 1];
@@ -155,13 +155,13 @@ export function app(): express.Express {
           const talent = {
             name: post?.title || post?.albumname || 'Healing.Tube Post',
             description: pdhtml?.textContent || 'Post content',
-            image: post?.thumbfilename || post?.metaimage || post?.imageUrl || 'https://www.healing.tube/assets/images/Healing-Tube-Logo.png',
+            image: post?.thumbfilename || post?.metaimage || post?.imageUrl || 'https://www.organic.dating/assets/images/landingpage/OD-default-profile.png',
           };
           seo.title = talent.name;
           seo.description = strip_html_tags(talent.description);
           seo.image = talent.image;
           // }
-        }else if (params.indexOf('research/') > -1) {
+        } else if (params.indexOf('research/') > -1) {
           let id = params.split('/');
           id = id[id.length - 1];
           console.log({ id });
