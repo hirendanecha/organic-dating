@@ -37,7 +37,7 @@ export class CommunitiesComponent {
     }
     // this.getCommunities();
     const data = {
-      title: 'HealingTube Health Practitioner',
+      title: 'Organic dating Connection',
       url: `${window.location.href}`,
       description: '',
     };
