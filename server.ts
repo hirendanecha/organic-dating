@@ -86,7 +86,7 @@ export function app(): express.Express {
         var seo: any = {
           title: 'Organic dating',
           description:
-            'The Umbrella platform for All freedom based projects worldwide',
+            'Find like minded male or female unvaccinated organic humans!',
           image:
             'https://www.organic.dating/assets/images/landingpage/OD-default-profile.png',
           site: 'https://www.organic.dating/',
