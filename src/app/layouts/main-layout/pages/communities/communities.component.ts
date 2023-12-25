@@ -95,7 +95,7 @@ export class CommunitiesComponent {
 
 
   createCommunity() {
-    this.router.navigate(['health-practitioner/add-practitioner'])
+    this.router.navigate(['connection/add-connection'])
   }
   // createCommunity() {
   //   const modalRef = this.modalService.open(AddCommunityModalComponent, {
