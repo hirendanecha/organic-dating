@@ -6,6 +6,8 @@ import { Meta } from '@angular/platform-browser';
 import { SocketService } from './@shared/services/socket.service';
 import { CustomerService } from './@shared/services/customer.service';
 import { Howl } from 'howler';
+import { TokenStorageService } from './@shared/services/token-storage.service';
+import { ToastService } from './@shared/services/toast.service';
 
 @Component({
   selector: 'app-root',
@@ -20,16 +22,18 @@ export class AppComponent {
   profileId = '';
   notificationId: number;
   originalFavicon: HTMLLinkElement;
-  notificationSoundOct = ''
+  notificationSoundOct = '';
 
   constructor(
     private sharedService: SharedService,
     private spinner: NgxSpinnerService,
     private socketService: SocketService,
     private customerService: CustomerService,
+    private tokenService: TokenStorageService,
+    private toastService: ToastService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    this.checkDocumentFocus()
+    this.checkDocumentFocus();
   }
 
   ngOnInit(): void {
@@ -37,6 +41,22 @@ export class AppComponent {
       this.profileId = localStorage.getItem('profileId');
       this.originalFavicon = document.querySelector('link[rel="icon"]');
       this.sharedService.getUserDetails();
+
+      if (this.tokenService.getToken()) {
+        this.customerService
+          .verifyToken(this.tokenService.getToken())
+          .subscribe({
+            next: (res: any) => {
+              if (!res?.verifiedToken) {
+                this.tokenService.signOut();
+              }
+            },
+            error: (err) => {
+              this.toastService.danger(err.error.message);
+              this.tokenService.signOut();
+            },
+          });
+      }
     }
   }
 
@@ -56,15 +76,19 @@ export class AppComponent {
     this.socketService.socket?.emit('join', { room: this.profileId });
     this.socketService.socket?.on('notification', (data: any) => {
       if (data) {
-        console.log('new-notification', data)
+        console.log('new-notification', data);
         this.notificationId = data.id;
         this.sharedService.isNotify = true;
         this.originalFavicon.href = '/assets/images/icon-unread.jpg';
         if (data?.actionType === 'T') {
           var sound = new Howl({
-            src: ['https://s3.us-east-1.wasabisys.com/freedom-social/freedom-notification.mp3']
+            src: [
+              'https://s3.us-east-1.wasabisys.com/freedom-social/freedom-notification.mp3',
+            ],
           });
-          this.notificationSoundOct = localStorage?.getItem('notificationSoundEnabled');
+          this.notificationSoundOct = localStorage?.getItem(
+            'notificationSoundEnabled'
+          );
           if (this.notificationSoundOct !== 'N') {
             if (sound) {
               sound?.play();
@@ -89,7 +113,6 @@ export class AppComponent {
     }
   }
 
-
   @HostListener('window:scroll', [])
   onWindowScroll() {
     if (window.scrollY > 300) {
@@ -110,7 +133,7 @@ export class AppComponent {
   @HostListener('document:visibilitychange', ['$event']) checkDocumentFocus() {
     if (!window.document.hidden) {
       if (this.tab) {
-        clearInterval(this.tab);  
+        clearInterval(this.tab);
       }
       if (!this.socketService.socket?.connected) {
         this.socketService.socket?.connect();
@@ -124,8 +147,7 @@ export class AppComponent {
           const profileId = +localStorage.getItem('profileId');
           this.socketService.socket?.emit('join', { room: profileId });
         }
-      }, 3000)
-
+      }, 3000);
     }
   }
 }
