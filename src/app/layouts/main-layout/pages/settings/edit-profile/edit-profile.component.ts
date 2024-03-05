@@ -83,11 +83,11 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    fromEvent(this.zipCode.nativeElement, 'input')
-      .pipe(debounceTime(1000))
-      .subscribe((event) => {
-        this.onZipChange(event['target'].value);
-      });
+    // fromEvent(this.zipCode.nativeElement, 'input')
+    //   .pipe(debounceTime(1000))
+    //   .subscribe((event) => {
+    //     // this.onZipChange(event['target'].value);
+    //   });
   }
 
   getUserDetails(id): void {
@@ -318,5 +318,12 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
     } else {
       localStorage.setItem('notificationSoundEnabled', this.isNotificationSoundEnabled ? 'Y' : 'N');
     }
+  }
+
+  convertToUppercase(event: any) {
+    const inputElement = event.target as HTMLInputElement;
+    let inputValue = inputElement.value;
+    inputValue = inputValue.replace(/\s/g, '');
+    inputElement.value = inputValue.toUpperCase();
   }
 }
