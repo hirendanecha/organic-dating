@@ -10,65 +10,95 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./pages/home/home.module').then((m) => m.HomeModule),
+        loadChildren: () =>
+          import('./pages/home/home.module').then((m) => m.HomeModule),
         data: {
           isShowLeftSideBar: true,
-          isShowRightSideBar: true
-        }
+          isShowRightSideBar: true,
+        },
+      },
+      {
+        path: 'on-boarding',
+        loadChildren: () =>
+          import('./pages/on-boarding/on-boarding.module').then(
+            (m) => m.OnBoardingModule
+          ),
+        data: {
+          isShowLeftSideBar: true,
+        },
+        canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'connection',
-        loadChildren: () => import('./pages/communities/communities.module').then((m) => m.CommunitiesModule),
+        loadChildren: () =>
+          import('./pages/communities/communities.module').then(
+            (m) => m.CommunitiesModule
+          ),
         data: {
-          isShowLeftSideBar: true
+          isShowLeftSideBar: true,
         },
         canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'promote-you',
-        loadChildren: () => import('./pages/freedom-page/freedom-page.module').then((m) => m.FreedomPageModule),
+        loadChildren: () =>
+          import('./pages/freedom-page/freedom-page.module').then(
+            (m) => m.FreedomPageModule
+          ),
         data: {
-          isShowLeftSideBar: true
+          isShowLeftSideBar: true,
         },
         canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'settings',
-        loadChildren: () => import('./pages/settings/settings.module').then((m) => m.SettingsModule),
+        loadChildren: () =>
+          import('./pages/settings/settings.module').then(
+            (m) => m.SettingsModule
+          ),
         data: {
-          isShowLeftSideBar: true
+          isShowLeftSideBar: true,
         },
         canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'notifications',
-        loadChildren: () => import('./pages/notifications/notification.module').then((m) => m.NotificationsModule),
+        loadChildren: () =>
+          import('./pages/notifications/notification.module').then(
+            (m) => m.NotificationsModule
+          ),
         data: {
-          isShowLeftSideBar: true
+          isShowLeftSideBar: true,
         },
         canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'research',
-        loadChildren: () => import('./pages/research/research.module').then((m) => m.ResearchModule),
+        loadChildren: () =>
+          import('./pages/research/research.module').then(
+            (m) => m.ResearchModule
+          ),
         data: {
           isShowLeftSideBar: true,
           isShowRightSideBar: true,
-          isShowResearchLeftSideBar: true
+          isShowResearchLeftSideBar: true,
         },
         canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'request-video-call',
-        loadChildren: () => import('src/app/layouts/main-layout/pages/healing-practitioner-registration/healing-practitioner-registration.module').then((m) => m.HealingPractitionerRegistrationModule),
+        loadChildren: () =>
+          import(
+            'src/app/layouts/main-layout/pages/healing-practitioner-registration/healing-practitioner-registration.module'
+          ).then((m) => m.HealingPractitionerRegistrationModule),
         data: {
           isShowLeftSideBar: false,
           isShowRightSideBar: false,
           isShowResearchLeftSideBar: false,
         },
         canActivate: mapToCanActivate([AuthenticationGuard]),
-      }
-    ]
+      },
+    ],
   },
 ];
 
@@ -76,4 +106,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class MainLayoutRoutingModule { }
+export class MainLayoutRoutingModule {}
