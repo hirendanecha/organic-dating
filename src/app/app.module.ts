@@ -16,28 +16,30 @@ import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationGuard } from './@shared/guards/authentication.guard';
 import { SharedModule } from './@shared/shared.module';
 import { AuthInterceptor } from './@shared/intersaptor/auth.interceptor';
+import { AuthLayoutModule } from "./layouts/auth-layout/auth-layout.module";
 
 @NgModule({
-  declarations: [AppComponent, ToastsContainerComponent, LandingPageComponent],
-  imports: [
-    AppRoutingModule,
-    HttpClientModule,
-    SharedModule,
-    BrowserModule.withServerTransition({ appId: 'OrganicDating' }),
-    BrowserAnimationsModule,
-    TransferHttpCacheModule,
-  ],
-  providers: [
-    AuthenticationGuard,
-    CookieService,
-    Meta,
-    provideClientHydration(),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true
-    }
-  ],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent, ToastsContainerComponent, LandingPageComponent],
+    providers: [
+        AuthenticationGuard,
+        CookieService,
+        Meta,
+        provideClientHydration(),
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true
+        }
+    ],
+    bootstrap: [AppComponent],
+    imports: [
+        AppRoutingModule,
+        HttpClientModule,
+        SharedModule,
+        BrowserModule.withServerTransition({ appId: 'OrganicDating' }),
+        BrowserAnimationsModule,
+        TransferHttpCacheModule,
+        AuthLayoutModule
+    ]
 })
 export class AppModule { }

@@ -74,6 +74,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.loginForm = this.fb.group({
       Email: [null, [Validators.required]],
       Password: [null, [Validators.required]],
+      captcha: [null, [Validators.required]],
     });
   }
 
@@ -151,5 +152,18 @@ export class LoginComponent implements OnInit, AfterViewInit {
         this.type = 'success';
       }
     });
+  }
+
+  onVerify(event) {
+    this.loginForm.get('captcha').setValue(event);
+    console.log('verify', event);
+  }
+
+  onExpired(event) {
+    console.log('expire', event);
+  }
+
+  onError(event) {
+    console.log('error', event);
   }
 }

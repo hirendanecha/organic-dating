@@ -11,7 +11,7 @@ import { TokenStorageService } from 'src/app/@shared/services/token-storage.serv
 })
 export class LandingPageComponent {
   mobileMenuToggle: boolean = false;
-
+  isLogin: boolean = false;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -27,12 +27,13 @@ export class LandingPageComponent {
     } else if (this.tokenStorageService.getToken()) {
       this.router.navigate(['/home']);
     }
+    this.isLogin = this.route.snapshot.routeConfig.path === 'login' || false;
     console.log('Constructor');
   }
 
   openLoginPage(): void {
     console.log('Login Clicked!');
-    
+
     this.closeMenu();
     this.router.navigate(['/login']);
   }

@@ -1,5 +1,11 @@
-:host {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+.main-content {
+  .login-content {
+    background: var(--section-1st-color);
+    box-shadow: var(--box-shadow);
+    border-radius: 10px;
+    min-width: 350px;
+    @media (min-width: 992px) and (max-width: 1200px) {
+      right: 50px;
+    }
+  }
 }

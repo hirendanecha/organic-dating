@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as moment from 'moment';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { debounceTime, fromEvent } from 'rxjs';
 import { Customer } from 'src/app/@shared/constant/customer';
@@ -20,7 +21,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
 })
-export class SignUpComponent implements OnInit, AfterViewInit {
+export class SignUpComponent implements OnInit {
   customer = new Customer();
   useDetails: any = {};
   isragister = false;
@@ -38,22 +39,26 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     url: '',
   };
 
+  dates: any = [];
+  years: any = [];
+  months: any = [];
+  whatIm = '';
+  selectedDate: string;
+  selectedMonth: number;
+  selectedYear: number;
+
   @ViewChild('zipCode') zipCode: ElementRef;
 
   registerForm = new FormGroup({
-    FirstName: new FormControl(''),
-    LastName: new FormControl(''),
-    Username: new FormControl('', [Validators.required]),
     Email: new FormControl('', [Validators.required]),
     Password: new FormControl('', [Validators.required]),
-    confirm_password: new FormControl('', [Validators.required]),
-    MobileNo: new FormControl('', [Validators.required]),
-    Country: new FormControl('US', [Validators.required]),
-    Zip: new FormControl('', Validators.required),
-    State: new FormControl('', Validators.required),
-    City: new FormControl('', Validators.required),
-    County: new FormControl('', Validators.required),
-    TermAndPolicy: new FormControl(false, Validators.required),
+    // confirm_password: new FormControl('', [Validators.required]),
+    captcha: new FormControl('', [Validators.required]),
+    gender: new FormControl('', [Validators.required]),
+    dateSelect: new FormControl('', Validators.required),
+    monthSelect: new FormControl('', Validators.required),
+    yearSelect: new FormControl('', Validators.required),
+    birthDate: new FormControl('', [Validators.required]),
   });
 
   constructor(
@@ -71,89 +76,11 @@ export class SignUpComponent implements OnInit, AfterViewInit {
       description: 'Registration page',
       image: `${environment.webUrl}assets/images/landingpage/Healing-Tube-Logo.png`,
     };
-    // this.seoService.updateSeoMetaData(data);
+    this.seoService.updateSeoMetaData(data);
   }
 
   ngOnInit(): void {
-    this.getAllCountries();
-  }
-
-  ngAfterViewInit(): void {
-    fromEvent(this.zipCode.nativeElement, 'input')
-      .pipe(debounceTime(1000))
-      .subscribe((event) => {
-        const val = event['target'].value;
-        if (val.length > 3) {
-          // this.onZipChange(val);
-        }
-      });
-  }
-
-  selectFiles(event) {
-    this.profileImg = event;
-  }
-
-  upload(file: any = {}) {
-    // if (file.size / (1024 * 1024) > 5) {
-    //   return 'Image file size exceeds 5 MB!';
-    // }
-    this.spinner.show();
-    if (file) {
-      this.uploadService.uploadFile(file).subscribe({
-        next: (res: any) => {
-          this.spinner.hide();
-          if (res.body) {
-            this.profilePic = res?.body?.url;
-            this.creatProfile(this.registerForm.value);
-          }
-          // if (file?.size < 5120000) {
-          // } else {
-          //   this.toastService.warring('Image is too large!');
-          // }
-        },
-        error: (err) => {
-          this.spinner.hide();
-          this.profileImg = {
-            file: null,
-            url: '',
-          };
-          return 'Could not upload the file:' + file.name;
-        },
-      });
-    } else {
-      this.spinner.hide();
-      this.creatProfile(this.registerForm.value);
-    }
-  }
-
-  save() {
-    this.spinner.show();
-
-    this.customerService.createCustomer(this.registerForm.value).subscribe({
-      next: (data: any) => {
-        this.spinner.hide();
-        if (!data.error) {
-          this.submitted = true;
-          window.sessionStorage.user_id = data.data;
-          this.registrationMessage =
-            'Your account has registered successfully. Kindly login with your email and password !!!';
-          this.scrollTop();
-          this.isragister = true;
-          const id = data.data;
-          if (id) {
-            this.upload(this.profileImg?.file);
-            localStorage.setItem('register', String(this.isragister));
-            this.router.navigateByUrl('/login?isVerify=false');
-          }
-        }
-      },
-      error: (err) => {
-        this.registrationMessage = err.error.message;
-        this.type = 'danger';
-        this.spinner.hide();
-        this.scrollTop();
-      },
-    });
+    this.generateFullDates();
   }
 
   validatepassword(): boolean {
@@ -181,29 +108,47 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     return true;
   }
 
+  changeGender(gender: string) {
+    this.whatIm = gender;
+    this.registerForm.get('gender').setValue(this.whatIm);
+  }
+
   onSubmit(): void {
     this.msg = '';
-    // if (!this.profileImg?.file?.name) {
-    //   this.msg = 'Please upload profile picture';
-    //   this.scrollTop();
-    //   // return false;
-    // }
-    // this.profileImg?.file?.name &&
-    if (
-      this.registerForm.valid &&
-      this.registerForm.get('TermAndPolicy').value === true
-    ) {
-      if (!this.validatepassword()) {
-        return;
-      }
-
-      const id = this.route.snapshot.paramMap.get('id');
-      if (this.userId) {
-        // this.updateCustomer();
-      } else {
-        // this.submitted = true;
-        this.save();
-      }
+    if (this.registerForm.valid) {
+      // this.spinner.show();
+      const data = {
+        Email: this.registerForm.value.Email,
+        Password: this.registerForm.value.Password,
+        gender: this.registerForm.value.gender,
+        birthDate: this.registerForm.value.birthDate,
+      };
+      console.log(data);
+      // this.customerService.createCustomer(data).subscribe({
+      //   next: (data: any) => {
+      //     this.spinner.hide();
+      //     if (!data.error) {
+      //       this.submitted = true;
+      //       window.sessionStorage.user_id = data.data;
+      //       this.registrationMessage =
+      //         'Your account has registered successfully. Kindly login with your email and password !!!';
+      //       this.scrollTop();
+      //       this.isragister = true;
+      //       const id = data.data;
+      //       if (id) {
+      //         this.createProfile(this.registerForm.value);
+      //         localStorage.setItem('register', String(this.isragister));
+      //         this.router.navigateByUrl('/login?isVerify=false');
+      //       }
+      //     }
+      //   },
+      //   error: (err) => {
+      //     this.registrationMessage = err.error.message;
+      //     this.type = 'danger';
+      //     this.spinner.hide();
+      //     this.scrollTop();
+      //   },
+      // });
     } else {
       this.msg = 'Please enter mandatory fields(*) data.';
       this.scrollTop();
@@ -223,10 +168,10 @@ export class SignUpComponent implements OnInit, AfterViewInit {
   }
 
   changeCountry() {
-    this.registerForm.get('Zip').setValue('');
-    this.registerForm.get('State').setValue('');
-    this.registerForm.get('City').setValue('');
-    this.registerForm.get('County').setValue('');
+    // this.registerForm.get('Zip').setValue('');
+    // this.registerForm.get('State').setValue('');
+    // this.registerForm.get('City').setValue('');
+    // this.registerForm.get('County').setValue('');
   }
 
   getAllCountries() {
@@ -282,7 +227,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     this.msg = '';
   }
 
-  creatProfile(data) {
+  createProfile(data) {
     this.spinner.show();
     const profile = {
       Username: data?.Username,
@@ -334,9 +279,9 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     });
   }
   onChangeTag(event) {
-    this.registerForm
-      .get('Username')
-      .setValue(event.target.value.replaceAll(' ', ''));
+    // this.registerForm
+    //   .get('Username')
+    //   .setValue(event.target.value.replaceAll(' ', ''));
   }
 
   convertToUppercase(event: any) {
@@ -344,5 +289,57 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     let inputValue = inputElement.value;
     inputValue = inputValue.replace(/\s/g, '');
     inputElement.value = inputValue.toUpperCase();
+  }
+
+  onVerify(event) {
+    this.registerForm.get('captcha').setValue(event);
+    console.log('verify', event);
+  }
+
+  onExpired(event) {
+    console.log('expire', event);
+  }
+
+  onError(event) {
+    console.log('error', event);
+  }
+
+  generateFullDates(): void {
+    const currentYear = new Date().getFullYear();
+    for (let i = 1; i <= 31; i++) {
+      this.dates.push(String(i));
+    }
+    this.months = Array.from({ length: 12 }, (_, i) => {
+      return new Date(0, i).toLocaleString('default', { month: 'long' });
+    });
+    const startYear = 1900;
+    this.years = Array.from(
+      { length: currentYear - startYear + 1 },
+      (_, i) => currentYear - i
+    );
+  }
+
+  onDateMonthYearChange(controlName: string): void {
+    const control = this.registerForm.get(controlName);
+    if (control) {
+      switch (controlName) {
+        case 'dateSelect':
+          this.selectedDate = control.value;
+          break;
+        case 'monthSelect':
+          this.selectedMonth = control.value;
+          break;
+        case 'yearSelect':
+          this.selectedYear = control.value;
+          break;
+      }
+      if (this.selectedYear && this.selectedMonth && this.selectedDate) {      
+        const date = moment(
+          `${this.selectedYear}-${this.selectedMonth}-${this.selectedDate}`,
+          'YYYY-MM-DD'
+        )?.format('YYYY-MM-DD');
+        this.registerForm.get('birthDate').setValue(date);
+      }
+    }
   }
 }

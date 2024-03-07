@@ -1,24 +1,8 @@
-<div class="row">
-  <div class="col-12 col-md-8 col-lg-7 col-xl-6 mx-auto d-flex flex-column">
-    <div class="d-flex justify-content-center my-20" routerLink="/">
-      <img
-        height="60"
-        src="/assets/images/landingpage/OD-default-profile-banner.png"
-        class="h-200-px w-100 rounded"
-        alt=""
-      />
-    </div>
+<div class="row mt-8 main-content m-5 m-lg-0 m-md-5">
+  <div
+    class="login-content col-12 col-md-6 col-lg-3 offset-md-3 offset-lg-8 card rounded-3 p-5"
+  >
     <div class="d-flex flex-column justify-content-center mt-10">
-      <!-- <p class="text-2 mb-5">
-        Have an existing old Freedom.social account, click on Reset Password or create a new account!
-        <a class="fw-500 cursor" (click)="forgotPasswordOpen()">Click here</a>
-      </p> -->
-      <p class="text-2 mb-5">
-        Not activated?
-        <a class="fw-500" routerLink="/register">Register</a>
-      </p>
-      <h3 class="mb-4">Log In to Your Account</h3>
-
       <form
         id="loginForm"
         class="form-dark d-flex flex-column"
@@ -38,7 +22,7 @@
         </div>
         <div class="mb-3">
           <label class="form-label"
-            >Email Address or Username<span class="text-danger">*</span></label
+            >Email Address <span class="text-danger">*</span></label
           >
           <input
             type="email"
@@ -86,16 +70,40 @@
             Please enter valid password!
           </div>
         </div>
-
-        <button class="btn cmn-btn my-2 ms-auto" type="submit">
-          Log in
-        </button>
+        <div class="mb-3">
+          <ng-hcaptcha
+            formControlName="captcha"
+            (verify)="onVerify($event)"
+            (expired)="onExpired($event)"
+            (error)="onError($event)"
+          ></ng-hcaptcha>
+          <div
+            class="text-danger"
+            *ngIf="
+              loginForm.get('captcha').hasError('captcha') &&
+              loginForm.get('captcha').touched
+            "
+          >
+            Captcha required.
+          </div>
+        </div>
+        <div class="">
+          <button
+            class="btn cmn-btn my-2 ms-auto w-100 rounded-5"
+            type="submit"
+          >
+            Log in
+          </button>
+        </div>
+        <div class="text-center mt-3">
+          <p class="text-danger">
+            If you are having technical issues, email
+            <a href="mailto:support@organic.dating">{{
+              "support@organic.dating"
+            }}</a>
+          </p>
+        </div>
       </form>
     </div>
-  </div>
-  <div class="text-center mt-3">
-    <p class="text-danger">
-      If you are having technical issues, email <a href="mailto:support@organic.dating">{{'support@organic.dating'}}</a>
-    </p>
   </div>
 </div>

@@ -14,11 +14,11 @@ const routes: Routes = [
     children: [
       {
         path: 'login',
-        component: LoginComponent,
+        component: LandingPageComponent,
       },
       {
         path: 'register',
-        component: SignUpComponent,
+        component: LandingPageComponent,
       },
       {
         path: 'reset-password/user',
@@ -26,20 +26,23 @@ const routes: Routes = [
       },
       {
         path: 'healing-registration',
-        loadChildren: () => import('src/app/layouts/main-layout/pages/healing-practitioner-registration/healing-practitioner-registration.module').then((m) => m.HealingPractitionerRegistrationModule),
+        loadChildren: () =>
+          import(
+            'src/app/layouts/main-layout/pages/healing-practitioner-registration/healing-practitioner-registration.module'
+          ).then((m) => m.HealingPractitionerRegistrationModule),
         data: {
           isShowLeftSideBar: false,
           isShowRightSideBar: false,
-          isShowResearchLeftSideBar: false
+          isShowResearchLeftSideBar: false,
         },
         // canActivate: mapToCanActivate([AuthenticationGuard]),
-      }
-    ]
-  }
+      },
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthLayoutRoutingModule { }
+export class AuthLayoutRoutingModule {}
