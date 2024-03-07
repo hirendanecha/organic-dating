@@ -40,6 +40,17 @@ const routes: Routes = [
         // canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
+        path: 'community',
+        loadChildren: () =>
+          import('./pages/communities/communities.module').then(
+            (m) => m.CommunitiesModule
+          ),
+        data: {
+          isShowLeftSideBar: true,
+        },
+        canActivate: mapToCanActivate([AuthenticationGuard]),
+      },
+      {
         path: 'promote-you',
         loadChildren: () =>
           import('./pages/freedom-page/freedom-page.module').then(
