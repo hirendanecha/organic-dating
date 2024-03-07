@@ -26,18 +26,18 @@ const routes: Routes = [
         data: {
           isShowLeftSideBar: true,
         },
-        canActivate: mapToCanActivate([AuthenticationGuard]),
+        // canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'connection',
         loadChildren: () =>
-          import('./pages/communities/communities.module').then(
-            (m) => m.CommunitiesModule
+          import('./pages/find-connections/find-connections.module').then(
+            (m) => m.ConnectionsModule
           ),
         data: {
           isShowLeftSideBar: true,
         },
-        canActivate: mapToCanActivate([AuthenticationGuard]),
+        // canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'promote-you',
