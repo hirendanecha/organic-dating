@@ -99,6 +99,29 @@
 
       <div class="mb-3">
         <label class="form-label"
+          >Full Name<span class="text-danger">*</span></label
+        >
+        <input
+          type="text"
+          name="fullname"
+          class="input-area"
+          required
+          placeholder="Enter your Full Name"
+          formControlName="fullname"
+          autocomplete="false"
+        />
+        <div
+          class="text-danger"
+          *ngIf="
+            registerForm.get('fullname').hasError('required') &&
+            registerForm.get('fullname').touched
+          "
+        >
+          Please enter Full Name.
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label"
           >Email Address<span class="text-danger">*</span></label
         >
         <input

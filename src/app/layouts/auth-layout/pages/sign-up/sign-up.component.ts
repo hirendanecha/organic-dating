@@ -53,6 +53,7 @@ export class SignUpComponent implements OnInit {
     Email: new FormControl('', [Validators.required]),
     Password: new FormControl('', [Validators.required]),
     // confirm_password: new FormControl('', [Validators.required]),
+    fullname: new FormControl('', [Validators.required]),
     captcha: new FormControl('', [Validators.required]),
     gender: new FormControl('', [Validators.required]),
     dateSelect: new FormControl('', Validators.required),
@@ -119,6 +120,7 @@ export class SignUpComponent implements OnInit {
       // this.spinner.show();
       const data = {
         Email: this.registerForm.value.Email,
+        fullname: this.registerForm.value.fullname,
         Password: this.registerForm.value.Password,
         gender: this.registerForm.value.gender,
         birthDate: this.registerForm.value.birthDate,

@@ -24,7 +24,7 @@ const routes: Routes = [
             (m) => m.OnBoardingModule
           ),
         data: {
-          isShowLeftSideBar: true,
+          // isShowLeftSideBar: true,
         },
         // canActivate: mapToCanActivate([AuthenticationGuard]),
       },
