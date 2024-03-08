@@ -48,7 +48,7 @@ const routes: Routes = [
         data: {
           isShowLeftSideBar: true,
         },
-        canActivate: mapToCanActivate([AuthenticationGuard]),
+        // canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'promote-you',
@@ -59,7 +59,7 @@ const routes: Routes = [
         data: {
           isShowLeftSideBar: true,
         },
-        canActivate: mapToCanActivate([AuthenticationGuard]),
+        // canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'settings',
@@ -70,7 +70,7 @@ const routes: Routes = [
         data: {
           isShowLeftSideBar: true,
         },
-        canActivate: mapToCanActivate([AuthenticationGuard]),
+        // canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'notifications',
@@ -81,7 +81,7 @@ const routes: Routes = [
         data: {
           isShowLeftSideBar: true,
         },
-        canActivate: mapToCanActivate([AuthenticationGuard]),
+        // canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'research',
@@ -94,7 +94,7 @@ const routes: Routes = [
           isShowRightSideBar: true,
           isShowResearchLeftSideBar: true,
         },
-        canActivate: mapToCanActivate([AuthenticationGuard]),
+        // canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'request-video-call',
@@ -107,7 +107,7 @@ const routes: Routes = [
           isShowRightSideBar: false,
           isShowResearchLeftSideBar: false,
         },
-        canActivate: mapToCanActivate([AuthenticationGuard]),
+        // canActivate: mapToCanActivate([AuthenticationGuard]),
       },
     ],
   },
