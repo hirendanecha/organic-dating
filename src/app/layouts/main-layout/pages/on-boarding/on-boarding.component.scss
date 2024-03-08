@@ -4,7 +4,7 @@
   margin-top: 30px;
 
   fieldset {
-    background: white;
+    background: var(--section-1st-color);
     border: 0 none;
     border-radius: 8px;
     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
@@ -33,14 +33,15 @@
     transition: border-color 0.5s ease-in-out;
 
     &:focus {
-      border-color: #2098ce;
+      border-color: #ff8763;
       outline: none;
     }
   }
 
   .action-button {
     width: 100px;
-    background: #2098ce;
+    background: #ff8763;
+    // background: var(--primary-color);
     font-weight: bold;
     color: white;
     border: 0 none;
@@ -57,7 +58,8 @@
 
   .action-button-previous {
     width: 100px;
-    background: #acbed0;
+    background: #ffd3c6;
+    // background: var(--font-icon-color);
     font-weight: bold;
     color: white;
     border: 0 none;
@@ -134,7 +136,8 @@
 
       &.active:before,
       &.active:after {
-        background: #2098ce;
+        background: #ff8763;
+        // background: var(--primary-color);
         color: white;
       }
     }

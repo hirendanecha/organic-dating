@@ -5,6 +5,7 @@ import { CustomerService } from './customer.service';
 import { PostService } from './post.service';
 import { CommunityService } from './community.service';
 import { ActivatedRoute } from '@angular/router';
+import { TokenStorageService } from './token-storage.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,7 @@ export class SharedService {
     private route: ActivatedRoute,
     private communityService: CommunityService,
     private postService: PostService,
+    private tokenStorageService: TokenStorageService,
   ) {
     this.route.paramMap.subscribe((paramMap) => {
       const name = paramMap.get('name');
@@ -60,7 +62,8 @@ export class SharedService {
   }
 
   getUserDetails() {
-    const profileId = localStorage.getItem('profileId');
+    // const profileId = localStorage.getItem('profileId');
+    const profileId = this.tokenStorageService.getUser()?.profileId;
     if (profileId) {
       // const localUserData = JSON.parse(localStorage.getItem('userData'));
       // if (localUserData?.Id) {
@@ -105,20 +108,20 @@ export class SharedService {
   }
   getAdvertizeMentLink(id): void {
     if (id) {
-      this.communityService.getLinkById(id).subscribe({
-        next: ((res: any) => {
-          if (res.data) {
-            console.log(res.data)
-            if (res.data[0]?.link1 || res.data[0]?.link2) {
-              this.getMetaDataFromUrlStr(res.data[0]?.link1);
-              this.getMetaDataFromUrlStr(res.data[0]?.link2);
-            }
-          }
-        }),
-        error: (err) => {
-          console.log(err);
-        }
-      })
+      // this.communityService.getLinkById(id).subscribe({
+      //   next: ((res: any) => {
+      //     if (res.data) {
+      //       console.log(res.data)
+      //       if (res.data[0]?.link1 || res.data[0]?.link2) {
+      //         this.getMetaDataFromUrlStr(res.data[0]?.link1);
+      //         this.getMetaDataFromUrlStr(res.data[0]?.link2);
+      //       }
+      //     }
+      //   }),
+      //   error: (err) => {
+      //     console.log(err);
+      //   }
+      // })
     } else {
       this.advertizementLink = null;
     }

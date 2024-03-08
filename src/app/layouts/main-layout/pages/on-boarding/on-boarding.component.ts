@@ -1,16 +1,13 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { debounceTime, fromEvent } from 'rxjs';
 import { CustomerService } from 'src/app/@shared/services/customer.service';
+import { SharedService } from 'src/app/@shared/services/shared.service';
 import { ToastService } from 'src/app/@shared/services/toast.service';
+import { TokenStorageService } from 'src/app/@shared/services/token-storage.service';
+import { UploadFilesService } from 'src/app/@shared/services/upload-files.service';
 
 @Component({
   selector: 'app-on-boarding',
@@ -36,7 +33,7 @@ export class OnBoardingComponent implements OnInit {
     'Yes, at home with me',
     "Yes, but they don't live with me",
   ];
-  smokeOptions = ['No', 'Yes, socially', 'Yes, regularly'];
+  smokeOptions = ['No', 'Yes'];
   religions: string[] = [
     'Agnostic',
     'Atheist',
@@ -81,6 +78,7 @@ export class OnBoardingComponent implements OnInit {
   inchOptions: number[] = [];
   allCountryData: any;
   @ViewChild('zipCode') zipCode: ElementRef;
+  profilePic: string;
   profileImg: any = {
     file: null,
     url: '',
@@ -93,8 +91,11 @@ export class OnBoardingComponent implements OnInit {
   statusofReligion: string = '';
   statusofSmoke: string = '';
   selectedRelationOptions: string[] = [];
+  userId: number;
+  profileId: number;
 
   onBoardingForm = new FormGroup({
+    userId: new FormControl(null),
     isVaccinated: new FormControl('', [Validators.required]),
     isFluShot: new FormControl('', [Validators.required]),
     haveChild: new FormControl('', [Validators.required]),
@@ -103,18 +104,28 @@ export class OnBoardingComponent implements OnInit {
     religion: new FormControl('', [Validators.required]),
     isSmoke: new FormControl('', [Validators.required]),
     relationshipType: new FormControl('', [Validators.required]),
-    heightFeet: new FormControl('5', [Validators.required]),
-    heightInches: new FormControl('0', [Validators.required]),
+    height: new FormControl('', [Validators.required]),
     country: new FormControl('US', [Validators.required]),
     zip: new FormControl({ value: '', disabled: true }, [Validators.required]),
     city: new FormControl({ value: '', disabled: true }, [Validators.required]),
+    imageUrl: new FormControl('', [Validators.required]),
   });
 
   constructor(
     private spinner: NgxSpinnerService,
     private customerService: CustomerService,
-    private toastService: ToastService
-  ) {}
+    private toastService: ToastService,
+    private uploadService: UploadFilesService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private tokenStorageService: TokenStorageService,
+    private sharedService: SharedService
+  ) {
+    this.route.queryParams.subscribe((params) => {
+      const token = params['token'];
+      this.tokenStorageService.saveToken(token);
+    });
+  }
 
   ngOnInit(): void {
     this.getAllCountries();
@@ -131,13 +142,112 @@ export class OnBoardingComponent implements OnInit {
       });
   }
 
+  getImageName(step: string): string {
+    switch (step) {
+      case 'Tell Us Your Location':
+        return 'location.png';
+      case 'Add a photo':
+        return 'photo.png';
+      case 'Vaccine status':
+        return 'vaccine.png';
+      case 'Do You Have Children':
+        return 'children.png';
+      case `What's Your Highest Level of Education?`:
+        return 'education.png';
+      case `What's Your Ethnicity?`:
+        return 'ethnicity.png';
+      case `What's Your Height?`:
+        return 'height.png';
+      case `What's Your Religion?`:
+        return 'religion.png';
+      case 'Do You Smoke?':
+        return 'smoke.png';
+      case 'What type of relationship are you looking for?':
+        return 'relationship.png';
+      default:
+        return 'default.png';
+    }
+  }
+
   goToStep(index: number): void {
     this.currentStep = index;
+  }
+
+  validateAndNextStep(): void {
+    const validations = [
+      {
+        step: 0,
+        condition:
+          this.onBoardingForm.get('zip').valid ||
+          this.onBoardingForm.get('city').valid,
+        errorMessage: 'Please fill in ZIP or city',
+      },
+      {
+        step: 1,
+        condition: !!this.profileImg.file,
+        errorMessage: 'Please select an image',
+      },
+      {
+        step: 2,
+        condition:
+          this.onBoardingForm.get('isFluShot').valid &&
+          this.onBoardingForm.get('isVaccinated').valid,
+        errorMessage: 'Please select options',
+      },
+      {
+        step: 3,
+        condition: this.onBoardingForm.get('haveChild').valid,
+        errorMessage: 'Please select an option',
+      },
+      {
+        step: 4,
+        condition: this.onBoardingForm.get('education').valid,
+        errorMessage: 'Please select an option',
+      },
+      {
+        step: 5,
+        condition: this.onBoardingForm.get('ethnicity').valid,
+        errorMessage: 'Please select an option',
+      },
+      {
+        step: 6,
+        condition: this.onBoardingForm.get('height').valid,
+        errorMessage: 'Please select an option',
+      },
+      {
+        step: 7,
+        condition: this.onBoardingForm.get('religion').valid,
+        errorMessage: 'Please select an option',
+      },
+      {
+        step: 8,
+        condition: this.onBoardingForm.get('isSmoke').valid,
+        errorMessage: 'Please select an option',
+      },
+      {
+        step: 9,
+        condition: this.onBoardingForm.get('relationshipType').valid,
+        errorMessage: 'Please select an option',
+      },
+    ];
+    const validation = validations.find(
+      (item) => item.step === this.currentStep
+    );
+    if (validation) {
+      if (validation.condition) {
+        this.nextStep();
+      } else {
+        this.toastService.danger(validation.errorMessage);
+      }
+    }
   }
 
   nextStep(): void {
     if (this.currentStep < this.steps.length - 1) {
       this.currentStep++;
+    }
+    if (this.currentStep === 2 && this.profileImg?.file) {
+      this.upload(this.profileImg?.file);
     }
   }
 
@@ -148,8 +258,28 @@ export class OnBoardingComponent implements OnInit {
   }
 
   submitForm(): void {
-    console.log('Form submitted!');
-    console.log(this.onBoardingForm.value);
+    this.userId = this.tokenStorageService.getUser()?.id;
+    this.profileId = this.tokenStorageService.getUser()?.profileId;
+    this.onBoardingForm.get('userId').setValue(this.userId);
+    this.customerService
+      .updateProfile(this.profileId, this.onBoardingForm.value)
+      .subscribe({
+        next: (res: any) => {
+          this.spinner.hide();
+          if (!res.error) {
+            this.toastService.success(res.message);
+            this.sharedService.getUserDetails();
+            this.router.navigate([`/home`]);
+          } else {
+            this.toastService.danger(res?.message);
+          }
+        },
+        error: (error) => {
+          console.log(error.error.message);
+          this.spinner.hide();
+          this.toastService.danger(error.error.message);
+        },
+      });
   }
 
   getAllCountries() {
@@ -159,6 +289,7 @@ export class OnBoardingComponent implements OnInit {
         this.spinner.hide();
         this.allCountryData = result;
         this.onBoardingForm.get('zip').enable();
+        this.onBoardingForm.get('city').enable();
       },
       error: (error) => {
         this.spinner.hide();
@@ -175,12 +306,12 @@ export class OnBoardingComponent implements OnInit {
         (data) => {
           if (data[0]) {
             const zipData = data[0];
-            this.onBoardingForm.get('city').enable();
+            // this.onBoardingForm.get('city').enable();
             this.onBoardingForm.patchValue({
               city: zipData.city,
             });
           } else {
-            this.onBoardingForm.get('city').disable();
+            // this.onBoardingForm.get('city').enable();
             this.toastService.danger(data?.message);
           }
           this.spinner.hide();
@@ -194,8 +325,31 @@ export class OnBoardingComponent implements OnInit {
 
   selectFiles(event) {
     this.profileImg = event;
-    
   }
+
+  upload(file: any = {}) {
+    this.spinner.show();
+    if (file) {
+      this.uploadService.uploadFile(file).subscribe({
+        next: (res: any) => {
+          this.spinner.hide();
+          if (res.body) {
+            this.profilePic = res?.body?.url;
+            this.onBoardingForm.get('imageUrl').setValue(this.profilePic);
+          }
+        },
+        error: (err) => {
+          this.spinner.hide();
+          this.profileImg = {
+            file: null,
+            url: '',
+          };
+          return 'Could not upload the file:' + file.name;
+        },
+      });
+    }
+  }
+
   clearProfileImg(event: any): void {
     event.stopPropagation();
     event.preventDefault();
@@ -204,6 +358,17 @@ export class OnBoardingComponent implements OnInit {
       file: null,
       url: '',
     };
+  }
+
+  calculateTotalHeight(event: Event) {
+    const feet = parseInt(
+      (document.getElementById('heightFeet') as HTMLSelectElement).value
+    );
+    const inches = parseInt(
+      (document.getElementById('heightInches') as HTMLSelectElement).value
+    );
+    const height = feet + 'feet' + inches + 'inches';
+    this.onBoardingForm.get('height').setValue(height);
   }
 
   vaccineStatus(vaccine: string, type: string) {
@@ -241,17 +406,19 @@ export class OnBoardingComponent implements OnInit {
   }
 
   smokeStatus(smoke: string) {
+    let mappedValue: string;
+    if (smoke === 'Yes') {
+      mappedValue = 'Y';
+    } else if (smoke === 'No') {
+      mappedValue = 'N';
+    }
     this.statusofSmoke = smoke;
-    this.onBoardingForm.get('isSmoke').setValue(this.statusofSmoke);
+    this.onBoardingForm.get('isSmoke').setValue(mappedValue);
   }
 
   relationshipOption(option: string) {
-    const index = this.selectedRelationOptions.indexOf(option);
-    if (index === -1) {
-      this.selectedRelationOptions.push(option);
-    } else {
-      this.selectedRelationOptions.splice(index, 1);
-    }
+    this.selectedRelationOptions = [];
+    this.selectedRelationOptions.push(option);
     const selectedValue = this.selectedRelationOptions.join(', ');
     this.onBoardingForm.get('relationshipType').setValue(selectedValue);
   }
