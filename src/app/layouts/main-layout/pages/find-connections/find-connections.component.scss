@@ -10,28 +10,33 @@
         .carousel-inner {
           border-radius: 1rem 0 0 1rem;
         }
+        @media (max-width: 992px) {
+          .carousel-inner {
+            border-radius: 1rem 1rem 0 1rem;
+          }
+        }
 
         .carousel-control-prev,
         .carousel-control-next {
-          width: 32px;
+          width: 40px;
           opacity: 1;
 
           span {
             background-color: var(--primary-color);
             border-radius: 25px;
             background-size: 18px;
-            width: 32px;
-            height: 32px;
-            padding: 18px;
+            width: 50px;
+            height: 50px;
+            padding: 25px;
           }
         }
 
         .carousel-control-prev {
-          left: -15px;
+          left: -10px;
         }
 
         .carousel-control-next {
-          right: -15px;
+          right: -10px;
         }
       }
       .user-profile {
@@ -50,6 +55,15 @@
       padding: 50px 35px;
     }
   }
+  .intrests-box {
+    border-radius: 10px;
+    text-align: start;
+    .itrested-item {
+      background: var(--primary-color);
+      border-radius: 25px;
+      padding: 8px 15px;
+    }
+  }
 }
 
 ::ng-deep {
@@ -61,4 +75,25 @@
       fill: var(--secondary-color) !important;
     }
   }
+}
+.input-area {
+  border-radius: 40px;
+}
+.msg-section {
+  background-color: var(--section-1st-color);
+  border-radius: 15px;
+}
+.msg-section-icon {
+  font-size: larger;
+}
+.top-icon {
+  font-size: 24px;
+}
+.btn-down {
+  z-index: 1;
+}
+.gift-btn {
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
 }

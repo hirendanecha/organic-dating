@@ -1,4 +1,7 @@
 <div class="connection-slider rounded-4">
+  <fa-icon class="top-icon me-3" [icon]="['fas', 'sliders-h']" /><span
+    >Filter</span
+  >
   <ngb-carousel
     [showNavigationIndicators]="false"
     [interval]="0"
@@ -19,9 +22,8 @@
               'col-6': pagination.limit === 2,
               'col-12': pagination.limit === 1
             }" -->
-          >
           <!-- <div class="d-flex justify-content-center"> -->
-          <div class="user-profile col-8 p-0">
+          <div class="user-profile col-12 col-lg-8 p-0">
             <!-- <ngb-carousel
               [showNavigationIndicators]="false"
               [interval]="0"
@@ -47,6 +49,17 @@
                 />
               </ng-template>
             </ngb-carousel>
+
+            <!-- <div class="btn-down position-relative">
+            <div class="btn-down position-absolute" >
+                <button class="xmark-btn btn btn-danger">
+                    <fa-icon [icon]="['fas','xmark']" />
+                </button>
+                <button class="btn btn-success">
+                    <fa-icon [icon]="['fas','check']"/>
+                </button>
+            </div>
+        </div> -->
           </div>
           <div class="user-information w-100 col rounded-end-4 m-auto">
             <div class="d-block">
@@ -57,8 +70,8 @@
                   [icon]="['fas', 'ellipsis-v']"
                 />
               </div>
-              <div class="px-1 text-start">
-                <p class="">{{ image.city }}</p>
+              <div class="text-start">
+                <h5 class="">{{ image.city }}</h5>
               </div>
               <div class="py-5 d-flex flex-column gap-4 px-1 text-start">
                 <div>
@@ -100,6 +113,31 @@
     </ng-container>
     <!-- </ng-container> -->
   </ngb-carousel>
-  <div class="col-7"></div>
-  <div class="col-3"></div>
+  <!-- <div class="col-7"></div>
+  <div class="col-3"></div> -->
+</div>
+<div class="mt-5 h-140-px mb-0 single-box">
+  <div class="input-area d-inline-flex gap-3 mt-8 w-75 py-5">
+    <input
+      type="text "
+      class="h-25 rounded-5 mx-5"
+      placeholder="  Wirte her a  message..."
+      [(ngModel)]="message"
+      (keyup)="sendMessage()"
+    />
+    <fa-icon class="msg-section-icon" [icon]="['fas', 'paper-plane']" />
+    <i class="fa-solid fa-gift"></i>
+  </div>
+  <button class="gift-btn btn cmn-btn mx-md-10 mx-2 mx-sm-5">
+    <fa-icon class="msg-section-icon" [icon]="['fas', 'gift']" />
+  </button>
+</div>
+
+<div class="intrests-box single-box mt-5 p-8">
+  <h5 class="text-start">Interests</h5>
+  <div class="d-flex flex-row flex-wrap mt-5 gap-3">
+    <div *ngFor="let item of intrests">
+      <span class="itrested-item p-2">{{ item }}</span>
+    </div>
+  </div>
 </div>
