@@ -7,6 +7,7 @@ import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./find-connections.component.scss'],
 })
 export class ConnectionsComponent {
+  message: string = '';
   pagination: any = {
     page: 0,
     limit: 0,
@@ -65,6 +66,28 @@ export class ConnectionsComponent {
       married: 'Has No Children',
     },
   ];
+  intrests = [
+    'Athelet',
+    'Dancing',
+    'Writing',
+    'Cricket',
+    'Politics',
+    'Gujarati',
+    'Coding',
+    'Chess',
+    'Science',
+    'Ancient History',
+    'Finance',
+    'Science',
+    'Ancient History',
+    'Finance',
+    'Science',
+    'Ancient History',
+    'Finance',
+    'Science',
+    'Ancient History',
+    'Finance',
+  ];
   constructor() {}
 
   getNextPageGroupPostsById(event: NgbSlideEvent): void {
@@ -76,4 +99,5 @@ export class ConnectionsComponent {
       // }
     }
   }
+  sendMessage() {}
 }
