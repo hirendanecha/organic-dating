@@ -1,0 +1,105 @@
+<div class="connection-slider rounded-4">
+  <ngb-carousel
+    [showNavigationIndicators]="false"
+    [interval]="0"
+    (slide)="getNextPageGroupPostsById($event)"
+  >
+    <ng-container *ngFor="let image of images; let i = index">
+      <!-- <ng-container *ngIf="i !== 0 && (i + 1) % pagination.limit === 0"> -->
+      <ng-template ngbSlide>
+        <div
+          class="single-box d-flex row w-100 justify-content-start rounded-4 mb-0"
+        >
+          <!-- <ng-container *ngFor="let revIndex of pagination.limitArray">
+            </ng-container> -->
+          <!-- <div
+            class="px-2"
+            [ngClass]="{
+              'col-4': pagination.limit === 3,
+              'col-6': pagination.limit === 2,
+              'col-12': pagination.limit === 1
+            }" -->
+          >
+          <!-- <div class="d-flex justify-content-center"> -->
+          <div class="user-profile col-8 p-0">
+            <!-- <ngb-carousel
+              [showNavigationIndicators]="false"
+              [interval]="0"
+              (slide)="getNextPageGroupPostsById($event)"
+            >
+              <ng-container *ngFor="let img of image.images">
+                <ng-template ngbSlide>
+                  <img [src]="image.img" class="w-100 rounded-start-4" alt="" />
+                </ng-template>
+              </ng-container>
+            </ngb-carousel> -->
+            <ngb-carousel
+              class="line-indicators"
+              [showNavigationIndicators]="
+                image.images.length > 0 ? true : false
+              "
+            >
+              <ng-template ngbSlide *ngFor="let img of image.images">
+                <img
+                  class="w-100 rounded-start-4"
+                  [src]="img.img"
+                  alt="Random slide"
+                />
+              </ng-template>
+            </ngb-carousel>
+          </div>
+          <div class="user-information w-100 col rounded-end-4 m-auto">
+            <div class="d-block">
+              <div class="d-flex justify-content-between">
+                <h5 class="">{{ image.name }}, {{ image.age }}</h5>
+                <fa-icon
+                  class="font-20-px gap-2"
+                  [icon]="['fas', 'ellipsis-v']"
+                />
+              </div>
+              <div class="px-1 text-start">
+                <p class="">{{ image.city }}</p>
+              </div>
+              <div class="py-5 d-flex flex-column gap-4 px-1 text-start">
+                <div>
+                  <fa-icon
+                    class="font-20-px gap-2 card-icon"
+                    [icon]="['fas', 'child']"
+                  />
+                  <span class="mx-2"> {{ image.height }}</span>
+                </div>
+
+                <div>
+                  <fa-icon
+                    class="font-18-px gap-2"
+                    [icon]="['fas', 'smoking']"
+                  />
+                  <span class="mx-2"> {{ image.smoke }}</span>
+                </div>
+
+                <div>
+                  <fa-icon
+                    class="font-18-px gap-2"
+                    [icon]="['fas', 'graduation-cap']"
+                  /><span class="mx-2"> {{ image.graduate }}</span>
+                </div>
+
+                <div>
+                  <fa-icon
+                    class="font-18-px gap-2"
+                    [icon]="['fas', 'heart']"
+                  /><span class="mx-2">{{ image.married }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- </div> -->
+        </div>
+        <!-- </div> -->
+      </ng-template>
+    </ng-container>
+    <!-- </ng-container> -->
+  </ngb-carousel>
+  <div class="col-7"></div>
+  <div class="col-3"></div>
+</div>
