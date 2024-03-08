@@ -14,6 +14,7 @@ import { Customer } from 'src/app/@shared/constant/customer';
 import { CustomerService } from 'src/app/@shared/services/customer.service';
 import { SeoService } from 'src/app/@shared/services/seo.service';
 import { ToastService } from 'src/app/@shared/services/toast.service';
+import { TokenStorageService } from 'src/app/@shared/services/token-storage.service';
 import { UploadFilesService } from 'src/app/@shared/services/upload-files.service';
 import { environment } from 'src/environments/environment';
 @Component({
@@ -53,6 +54,7 @@ export class SignUpComponent implements OnInit {
     Email: new FormControl('', [Validators.required]),
     Password: new FormControl('', [Validators.required]),
     // confirm_password: new FormControl('', [Validators.required]),
+    fullname: new FormControl('', [Validators.required]),
     captcha: new FormControl('', [Validators.required]),
     gender: new FormControl('', [Validators.required]),
     dateSelect: new FormControl('', Validators.required),
@@ -68,7 +70,8 @@ export class SignUpComponent implements OnInit {
     private router: Router,
     private uploadService: UploadFilesService,
     private toastService: ToastService,
-    private seoService: SeoService
+    private seoService: SeoService,
+    private tokenStorageService: TokenStorageService
   ) {
     const data = {
       title: 'Organic dating Registration',
@@ -118,37 +121,38 @@ export class SignUpComponent implements OnInit {
     if (this.registerForm.valid) {
       // this.spinner.show();
       const data = {
-        Email: this.registerForm.value.Email,
-        Password: this.registerForm.value.Password,
+        email: this.registerForm.value.Email,
+        userName: this.registerForm.value.fullname,
+        password: this.registerForm.value.Password,
         gender: this.registerForm.value.gender,
         birthDate: this.registerForm.value.birthDate,
       };
       console.log(data);
-      // this.customerService.createCustomer(data).subscribe({
-      //   next: (data: any) => {
-      //     this.spinner.hide();
-      //     if (!data.error) {
-      //       this.submitted = true;
-      //       window.sessionStorage.user_id = data.data;
-      //       this.registrationMessage =
-      //         'Your account has registered successfully. Kindly login with your email and password !!!';
-      //       this.scrollTop();
-      //       this.isragister = true;
-      //       const id = data.data;
-      //       if (id) {
-      //         this.createProfile(this.registerForm.value);
-      //         localStorage.setItem('register', String(this.isragister));
-      //         this.router.navigateByUrl('/login?isVerify=false');
-      //       }
-      //     }
-      //   },
-      //   error: (err) => {
-      //     this.registrationMessage = err.error.message;
-      //     this.type = 'danger';
-      //     this.spinner.hide();
-      //     this.scrollTop();
-      //   },
-      // });
+      this.customerService.createCustomer(data).subscribe({
+        next: (data: any) => {
+          this.spinner.hide();
+          if (!data.error) {
+            this.submitted = true;
+            this.registrationMessage =
+              'Your account has registered successfully. Kindly login with your email and password !!!';
+            this.scrollTop();
+            this.isragister = true;
+            const userData = data.data;
+            if (userData) {
+              // this.createProfile(this.registerForm.value);
+              localStorage.setItem('register', String(this.isragister));
+              this.tokenStorageService.saveUser(userData)
+              // this.router.navigateByUrl('/login?isVerify=false');
+            }
+          }
+        },
+        error: (err) => {
+          this.registrationMessage = err.error.message;
+          this.type = 'danger';
+          this.spinner.hide();
+          this.scrollTop();
+        },
+      });
     } else {
       this.msg = 'Please enter mandatory fields(*) data.';
       this.scrollTop();
@@ -333,7 +337,7 @@ export class SignUpComponent implements OnInit {
           this.selectedYear = control.value;
           break;
       }
-      if (this.selectedYear && this.selectedMonth && this.selectedDate) {      
+      if (this.selectedYear && this.selectedMonth && this.selectedDate) {
         const date = moment(
           `${this.selectedYear}-${this.selectedMonth}-${this.selectedDate}`,
           'YYYY-MM-DD'

@@ -36,7 +36,7 @@ import { EditPostModalComponent } from 'src/app/@shared/modals/edit-post-modal/e
   styleUrls: ['./home.component.scss'],
   // providers: [MetafrenzyService]
 })
-export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy {
   postMessageInputValue: string = '';
   postMessageTags: any[];
   postData: any = {
@@ -84,28 +84,28 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     // private metafrenzyService: MetafrenzyService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
-    if (isPlatformBrowser(this.platformId)) {
-      this.profileId = localStorage.getItem('profileId');
-      this.postData.profileid = +this.profileId;
+    // if (isPlatformBrowser(this.platformId)) {
+    //   this.profileId = localStorage.getItem('profileId');
+    //   this.postData.profileid = +this.profileId;
 
-      this.route.paramMap.subscribe((paramMap) => {
-        const name = paramMap.get('name');
+    //   this.route.paramMap.subscribe((paramMap) => {
+    //     const name = paramMap.get('name');
 
-        if (name) {
-          this.communitySlug = name;
-          this.getCommunityDetailsBySlug();
-        } else {
-          this.sharedService.advertizementLink = [];
-        }
+    //     if (name) {
+    //       this.communitySlug = name;
+    //       this.getCommunityDetailsBySlug();
+    //     } else {
+    //       this.sharedService.advertizementLink = [];
+    //     }
 
-        this.isNavigationEnd = true;
-      });
-      const data = {
-        title: 'Organic dating',
-        url: `${location.href}`,
-      };
-      this.seoService.updateSeoMetaData(data);
-    }
+    //     this.isNavigationEnd = true;
+    //   });
+    //   const data = {
+    //     title: 'Organic dating',
+    //     url: `${location.href}`,
+    //   };
+    //   this.seoService.updateSeoMetaData(data);
+    // }
   }
 
   ngOnInit(): void {

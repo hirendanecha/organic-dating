@@ -55,7 +55,7 @@
           </div>
         </ng-template>
 
-        <div
+        <!-- <div
           class="input-area h-48-px d-md-flex d-none align-items-center"
           *ngIf="tokenService.getToken()"
         >
@@ -69,7 +69,7 @@
             [(ngModel)]="searchText"
             (input)="getUserList()"
           />
-        </div>
+        </div> -->
 
         <ng-container *ngIf="searchText">
           <div #userSearchDropdownRef ngbDropdown>
@@ -96,13 +96,11 @@
         </ng-container>
       </div>
 
-      <ul
+      <!-- <ul
         *ngIf="tokenService.getToken()"
         class="navbar-nav d-flex flex-row justify-content-around align-self-center ms-auto m-lg-auto gap-3 gap-xl-20 gap-lg-10 py-0"
       >
         <li>
-          <!-- (click)="scrollToTop()" -->
-          <!-- (dblclick)="reloadPage()" -->
           <a
             routerLink="/home"
             (dblclick)="reloadPage()"
@@ -115,21 +113,7 @@
             <fa-icon [icon]="['fas', 'house']" class="font-24-px me-8" />
           </a>
         </li>
-        <!-- <li>
-          <a
-            routerLink="/research"
-            target="_blank"
-            routerLinkActive="active"
-            class="nav-icon research"
-            data-toggle="tooltip"
-            data-placement="bottom"
-            title="Research"
-          >
-            <fa-icon [icon]="['fas', 'book-open']" class="font-24-px mx-5" />
-          </a>
-        </li> -->
         <li>
-          <!-- (click)="redirectToTube()" -->
           <a
             [href]="
               channelId
@@ -146,7 +130,7 @@
             <fa-icon [icon]="['fas', 'play']" class="font-24-px me-7" />
           </a>
         </li>
-      </ul>
+      </ul> -->
 
       <div
         class="right-area d-lg-flex d-none justify-content-end align-items-center gap-6 cus-z p-0"
