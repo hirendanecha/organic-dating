@@ -111,4 +111,12 @@ export class CustomerService {
   verifyToken(token): Observable<any> {
     return this.http.get(`${this.baseUrl}/verify-token/${token}`);
   }
+
+  getInterests(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/get-interest`);
+  }
+
+  addInterests(data): Observable<any> {
+    return this.http.post(`${this.baseUrl}/add-interest`, data);
+  }
 }

@@ -1,0 +1,22 @@
+.option-step {
+  background: var(--body-color);
+}
+
+.progress-bar {
+  border-radius: 10px;
+  background-image: linear-gradient(
+    to right,
+    #28a745 0%,
+    #28a745 15%,
+    #007bff 15%,
+    #007bff 45%,
+    #17a2b8 45%,
+    #17a2b8 65%,
+    #ffc107 65%,
+    #ffc107 100%
+  );
+}
+
+.custom-text-color{
+  color: var(--para-2nd-color);
+}

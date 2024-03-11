@@ -5,6 +5,7 @@ import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { DeleteAccountComponent } from './delete-account/delete-account.component';
 import { SeeFirstUserComponent } from './see-first-user/see-first-user.component';
 import { UnsubscribedUsersComponent } from './unsubscribed-users/unsubscribed-users.component';
+import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'delete-profile',
     component: DeleteAccountComponent,
+  },
+  {
+    path: 'complete-profile',
+    component: CompleteProfileComponent,
   },
   {
     path: 'see-first-users',

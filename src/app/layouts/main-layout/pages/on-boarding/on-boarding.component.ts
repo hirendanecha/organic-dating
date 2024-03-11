@@ -48,6 +48,7 @@ export class OnBoardingComponent implements OnInit {
     'Spiritual',
   ];
   ethnicities = [
+    'White / Caucasian',
     'Black / African Descent',
     'East Asian',
     'Hispanic / Latinx',
@@ -55,7 +56,6 @@ export class OnBoardingComponent implements OnInit {
     'Mixed',
     'Other',
     'South Asian',
-    'White / Caucasian',
   ];
   studyOptions = [
     'No degree',
@@ -132,14 +132,14 @@ export class OnBoardingComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
-    fromEvent(this.zipCode.nativeElement, 'input')
-      .pipe(debounceTime(1000))
-      .subscribe((event) => {
-        const val = event['target'].value;
-        if (val.length > 3) {
-          this.onZipChange(val);
-        }
-      });
+    // fromEvent(this.zipCode.nativeElement, 'input')
+    //   .pipe(debounceTime(1000))
+    //   .subscribe((event) => {
+    //     const val = event['target'].value;
+    //     if (val.length > 3) {
+    //       this.onZipChange(val);
+    //     }
+    //   });
   }
 
   getImageName(step: string): string {
