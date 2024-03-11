@@ -72,7 +72,8 @@ export class ProfileMenusModalComponent {
   }
 
   goToSetting() {
-    this.router.navigate([`settings/edit-profile/${this.userId}`]);
+    this.router.navigate([`settings/setting-users`]);
+    // this.router.navigate([`settings/edit-profile/${this.userId}`]);
     // window.open(`settings/edit-profile/${userId}`, '_blank')
   }
 
