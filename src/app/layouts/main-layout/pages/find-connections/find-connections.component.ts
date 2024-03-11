@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarouselConfig, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-find-connections',
@@ -88,9 +88,16 @@ export class ConnectionsComponent {
     'Ancient History',
     'Finance',
   ];
-  constructor() {}
+  activeSlideIndex: number;
+  constructor(config: NgbCarouselConfig) {
+    config.interval = 0;
+    config.wrap = false;
+    config.keyboard = false;
+    config.pauseOnHover = false;
+  }
 
   getNextPageGroupPostsById(event: NgbSlideEvent): void {
+    this.activeSlideIndex = +event.current.split('-')[2];
     if (event.source === 'arrowRight') {
       // if (!group?.page) {
       //   group['page'] = this.pagination.page;
@@ -99,5 +106,17 @@ export class ConnectionsComponent {
       // }
     }
   }
+  nextSlide() {
+    if (this.activeSlideIndex < this.images.length - 1) {
+      this.activeSlideIndex++;
+    }
+  }
+
+  prevSlide() {
+    if (this.activeSlideIndex > 0) {
+      this.activeSlideIndex--;
+    }
+  }
+
   sendMessage() {}
 }

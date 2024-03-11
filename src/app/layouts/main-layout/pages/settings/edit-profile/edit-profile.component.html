@@ -20,7 +20,7 @@
         ngNativeValidate
         autocomplete="off"
       >
-        <!-- (ngSubmit)="confirmAndUpdateCustomer()" -->
+        
         <div class="row">
           <div class="col-12 col-md-6 mb-3">
             <label class="d-flex form-label">First Name</label>
@@ -116,14 +116,7 @@
           </div>
           <div class="col-12 col-md-6 mb-3">
             <label class="d-flex form-label">City</label>
-            <!-- <input
-              type="text"
-              class="input-area"
-              name="city"
-              placeholder="Enter your city"
-              disabled
-              [(ngModel)]="customer.City"
-            /> -->
+           
 
             <input
               type="text"
@@ -137,14 +130,7 @@
         <div class="row">
           <div class="col-6 col-md-6 mb-3">
             <label class="d-flex form-label">County</label>
-            <!-- <input
-              type="text"
-              class="input-area"
-              name="County"
-              placeholder="Enter your county"
-              disabled
-              [(ngModel)]="customer.County"
-            /> -->
+           
             <input
               type="text"
               class="input-area"
@@ -163,10 +149,7 @@
               [(ngModel)]="customer.MobileNo"
             />
           </div>
-          <!-- <div
-            class="justify-content-end align-items-end d-flex"
-          >
-        </div> -->
+      
         </div>
       </form>
       <div class="d-flex flex-column">
@@ -192,7 +175,7 @@
         class="btn cmn-btn mt-5 login-button float-end w-100-px"
         (click)="confirmAndUpdateCustomer()"
       >
-        <!-- type="submit" -->
+       
         Update
       </button>
       <button
