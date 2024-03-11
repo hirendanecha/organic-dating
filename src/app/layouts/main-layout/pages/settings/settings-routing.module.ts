@@ -6,6 +6,7 @@ import { DeleteAccountComponent } from './delete-account/delete-account.componen
 import { SeeFirstUserComponent } from './see-first-user/see-first-user.component';
 import { UnsubscribedUsersComponent } from './unsubscribed-users/unsubscribed-users.component';
 import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
+import { SettingsComponent } from './settings/settings.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
     path: 'unsubscribed-users',
     component: UnsubscribedUsersComponent,
   },
+  {
+    path: 'setting-users',
+    component: SettingsComponent
+  }
 ];
 
 @NgModule({

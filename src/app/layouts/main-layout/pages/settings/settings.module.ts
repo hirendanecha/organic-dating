@@ -8,6 +8,7 @@ import { UnsubscribedUsersComponent } from './unsubscribed-users/unsubscribed-us
 import { SharedModule } from 'src/app/@shared/shared.module';
 import { DeleteAccountComponent } from './delete-account/delete-account.component';
 import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
+import { SettingsComponent } from './settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { CompleteProfileComponent } from './complete-profile/complete-profile.co
     DeleteAccountComponent,
     SeeFirstUserComponent,
     UnsubscribedUsersComponent,
-    CompleteProfileComponent
+    CompleteProfileComponent,
+    SettingsComponent
   ],
   imports: [SettingsRoutingModule, SharedModule],
 })
