@@ -25,8 +25,9 @@
   </div>
   <ul class="ps-0">
     <li>
+      <!-- [routerLink]="'settings/edit-profile/' + userId" -->
       <a 
-        [routerLink]="'settings/edit-profile/' + userId"
+        [routerLink]="'/settings/setting-users'"
         class="mdtxt" (click)="closeMenu($event, 'setting')">
         <fa-icon [icon]="['fas', 'gear']" class="font-20-px" />
         Setting & Privacy

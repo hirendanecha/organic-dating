@@ -89,6 +89,8 @@ import {
   faHeart,
   faEllipsisV,
   faSlidersH,
+  faAngleRight,
+  faAngleLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { ClaimTokenModalComponent } from './modals/clai-1776-token-modal/claim-token-modal.component';
 import { WalletLinkComponent } from './modals/wallet-download-modal/1776-wallet.component';
@@ -114,6 +116,7 @@ import { RePostCardComponent } from './components/re-post-card/re-post-card.comp
 import { HealthPraatitionerCardComponent } from './components/health-partitioner-card/health-partitioner-card.component';
 import { EditPostModalComponent } from './modals/edit-post-modal/edit-post-modal.component';
 import { NgHcaptchaModule } from 'ng-hcaptcha';
+import { CompleteProfileModalComponent } from './modals/complete-profile/complete-profile-modal.component';
 
 const sharedComponents = [
   ConfirmationModalComponent,
@@ -139,6 +142,7 @@ const sharedComponents = [
   RePostCardComponent,
   HealthPraatitionerCardComponent,
   EditPostModalComponent,
+  CompleteProfileModalComponent,
 ];
 
 const sharedModules = [
@@ -239,8 +243,9 @@ export class SharedModule {
       faGraduationCap,
       faHeart,
       faEllipsisV,
-      faSlidersH
-
+      faSlidersH,
+      faAngleRight,
+      faAngleLeft
     );
   }
 }

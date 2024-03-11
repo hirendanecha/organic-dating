@@ -5,6 +5,8 @@ import { ViewProfileComponent } from './view-profile/view-profile.component';
 import { DeleteAccountComponent } from './delete-account/delete-account.component';
 import { SeeFirstUserComponent } from './see-first-user/see-first-user.component';
 import { UnsubscribedUsersComponent } from './unsubscribed-users/unsubscribed-users.component';
+import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
+import { SettingsComponent } from './settings.component';
 
 const routes: Routes = [
   {
@@ -24,6 +26,10 @@ const routes: Routes = [
     component: DeleteAccountComponent,
   },
   {
+    path: 'complete-profile',
+    component: CompleteProfileComponent,
+  },
+  {
     path: 'see-first-users',
     component: SeeFirstUserComponent,
   },
@@ -31,6 +37,10 @@ const routes: Routes = [
     path: 'unsubscribed-users',
     component: UnsubscribedUsersComponent,
   },
+  {
+    path: 'setting-users',
+    component: SettingsComponent
+  }
 ];
 
 @NgModule({

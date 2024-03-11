@@ -1,0 +1,78 @@
+<div class="d-flex flex-column main-setting">
+  <div class="d-flex">
+    <button
+      class="btn btn-sm cmn-btn"
+      (click)="goBack()"
+      [ngClass]="{ collapsed: !isCollapsed }"
+    >
+    <fa-icon [icon]="['fas', 'angle-left']" class="eye-icon"></fa-icon>
+    </button>
+    <div class="m-auto">
+      <fa-icon class="top-icon me-3" [icon]="['fas', 'gear']" /><span
+      >Settings</span
+      >
+    </div>
+  </div>
+  <div class="intrests-box single-box mt-5 p-8">
+    <ul class="d-flex flex-column ps-0 mb-0 c-pointer" *ngIf="!isCollapsed">
+      <li
+        class="p-2 d-flex justify-content-between border-bottom py-3"
+        (click)="closeMenu($event, 'account')"
+      >
+        <span>Account</span>
+        <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
+      </li>
+      <li
+        class="p-2 d-flex justify-content-between border-bottom py-3"
+        (click)="closeMenu($event, 'complete-profile')"
+      >
+        <span>Complete Profile</span>
+        <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
+      </li>
+      <li
+        class="p-2 d-flex justify-content-between border-bottom py-3"
+        (click)="closeMenu($event, 'create')"
+      >
+        <span>Payments</span>
+        <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
+      </li>
+      <li
+        class="p-2 d-flex justify-content-between border-bottom py-3"
+        (click)="closeMenu($event, 'profile')"
+      >
+        <span>Subscription</span>
+        <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
+      </li>
+      <li
+        class="p-2 d-flex justify-content-between border-bottom py-3"
+        (click)="closeMenu($event, 'block')"
+      >
+        <span>Blocked Members</span>
+        <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
+      </li>
+      <li
+        class="p-2 d-flex justify-content-between"
+        (click)="closeMenu($event, 'logout')"
+      >
+        <span>Logout</span>
+        <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
+      </li>
+    </ul>
+    <ng-container *ngIf="visibleIndex === 'account' && isCollapsed">
+      <app-edit-profile></app-edit-profile>
+    </ng-container>
+    <ng-container *ngIf="visibleIndex === 'complete-profile' && isCollapsed">
+      <app-complete-profile></app-complete-profile>
+    </ng-container>
+    <ng-container *ngIf="visibleIndex === 'block' && isCollapsed">
+      <app-unsubscribed-users></app-unsubscribed-users>
+    </ng-container>
+    <ng-container *ngIf="visibleIndex === 'profile' && isCollapsed">
+      <!-- <app-edit-profile></app-edit-profile> -->
+      <h2>Coming Soon!</h2>
+    </ng-container>
+    <ng-container *ngIf="visibleIndex === 'create' && isCollapsed">
+      <h2>Coming Soon!</h2>
+    </ng-container>
+  </div>
+</div>

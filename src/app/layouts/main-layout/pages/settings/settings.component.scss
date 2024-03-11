@@ -1,0 +1,21 @@
+.main-setting {
+  .intrests-box {
+    border-radius: 10px;
+    text-align: start;
+    .itrested-item {
+      background: var(--primary-color);
+      border-radius: 25px;
+      padding: 8px 15px;
+    }
+  }
+  
+  .collapsed {
+    display: none !important;
+  }
+
+  ::ng-deep .cmn-btn{
+    fa-icon svg path {
+      fill: #fff;
+    }
+  }
+}
