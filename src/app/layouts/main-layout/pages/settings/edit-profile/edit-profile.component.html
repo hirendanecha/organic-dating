@@ -1,7 +1,7 @@
 <div class="d-flex flex-column flex-lg-row w-100 gap-5 edit-profile">
   <app-img-picker
     classes="w-300-px h-300-px"
-    [url]="customer.ProfilePicName"
+    [url]="customer?.ProfilePicName"
     (onFileChange)="onProfileImgChange($event)"
   />
 
@@ -9,7 +9,7 @@
     <app-img-picker
       classes="w-100 h-300-px"
       defaultImg="/assets/images/profile-cover.png"
-      [url]="customer.CoverPicName"
+      [url]="customer?.CoverPicName"
       (onFileChange)="onProfileCoverImgChange($event)"
     />
 

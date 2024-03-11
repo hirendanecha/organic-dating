@@ -14,20 +14,7 @@
     </div>
   </div>
   <div class="intrests-box single-box mt-5 p-8">
-    <!-- <div *ngFor="let item of collapse; let index = index; let last = last">
-      <div class="d-flex flex-column gap-5" (click)="toggleSidebar(index)">
-        <div class="d-flex justify-content-between" [ngClass]="{ 'collapsed': isCollapsed }">
-          <span>{{ item.text | titlecase }}</span>
-          <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
-        </div>
-        <div>
-          <ng-container *ngIf="visibleIndex === index && isCollapsed">
-            <ng-container *ngComponentOutlet="item.routeLink"></ng-container>
-          </ng-container>
-        </div>
-      </div>
-    </div> -->
-    <ul class="d-flex flex-column ps-0 mb-0" *ngIf="!isCollapsed">
+    <ul class="d-flex flex-column ps-0 mb-0 c-pointer" *ngIf="!isCollapsed">
       <li
         class="p-2 d-flex justify-content-between border-bottom py-3"
         (click)="closeMenu($event, 'account')"
@@ -37,23 +24,30 @@
       </li>
       <li
         class="p-2 d-flex justify-content-between border-bottom py-3"
+        (click)="closeMenu($event, 'complete-profile')"
+      >
+        <span>Complete Profile</span>
+        <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
+      </li>
+      <li
+        class="p-2 d-flex justify-content-between border-bottom py-3"
         (click)="closeMenu($event, 'create')"
       >
-        <span>Create</span>
+        <span>Payments</span>
         <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
       </li>
       <li
         class="p-2 d-flex justify-content-between border-bottom py-3"
         (click)="closeMenu($event, 'profile')"
       >
-        <span>Profile</span>
+        <span>Subscription</span>
         <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
       </li>
       <li
         class="p-2 d-flex justify-content-between border-bottom py-3"
         (click)="closeMenu($event, 'block')"
       >
-        <span>Block Member</span>
+        <span>Blocked Members</span>
         <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
       </li>
       <li
@@ -66,6 +60,9 @@
     </ul>
     <ng-container *ngIf="visibleIndex === 'account' && isCollapsed">
       <app-edit-profile></app-edit-profile>
+    </ng-container>
+    <ng-container *ngIf="visibleIndex === 'complete-profile' && isCollapsed">
+      <app-complete-profile></app-complete-profile>
     </ng-container>
     <ng-container *ngIf="visibleIndex === 'block' && isCollapsed">
       <app-unsubscribed-users></app-unsubscribed-users>

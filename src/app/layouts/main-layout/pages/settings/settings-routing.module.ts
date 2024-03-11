@@ -6,7 +6,7 @@ import { DeleteAccountComponent } from './delete-account/delete-account.componen
 import { SeeFirstUserComponent } from './see-first-user/see-first-user.component';
 import { UnsubscribedUsersComponent } from './unsubscribed-users/unsubscribed-users.component';
 import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
-import { SettingsComponent } from './settings/settings.component';
+import { SettingsComponent } from './settings.component';
 
 const routes: Routes = [
   {

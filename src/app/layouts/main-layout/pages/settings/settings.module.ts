@@ -8,7 +8,7 @@ import { UnsubscribedUsersComponent } from './unsubscribed-users/unsubscribed-us
 import { SharedModule } from 'src/app/@shared/shared.module';
 import { DeleteAccountComponent } from './delete-account/delete-account.component';
 import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
-import { SettingsComponent } from './settings/settings.component';
+import { SettingsComponent } from './settings.component';
 
 @NgModule({
   declarations: [

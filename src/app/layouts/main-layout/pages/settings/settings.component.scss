@@ -1,5 +1,4 @@
 .main-setting {
-  // width: 80%;
   .intrests-box {
     border-radius: 10px;
     text-align: start;
@@ -12,5 +11,11 @@
   
   .collapsed {
     display: none !important;
+  }
+
+  ::ng-deep .cmn-btn{
+    fa-icon svg path {
+      fill: #fff;
+    }
   }
 }
