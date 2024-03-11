@@ -12,7 +12,7 @@
         }
         @media (max-width: 992px) {
           .carousel-inner {
-            border-radius: 1rem 1rem 0 1rem;
+            border-radius: 1rem 1rem  1rem;
           }
         }
 
@@ -30,13 +30,24 @@
             padding: 25px;
           }
         }
+       
 
         .carousel-control-prev {
           left: -10px;
         }
+        @media (max-width:576px) {
+          .carousel-control-prev{
+            left: 0px;
+          }
+        }
 
         .carousel-control-next {
           right: -10px;
+        }
+        @media (max-width:576px) {
+          .carousel-control-next{
+            right: 0px;
+          }
         }
       }
       .user-profile {
@@ -51,9 +62,9 @@
         }
       }
     }
-    .user-information {
-      padding: 50px 35px;
-    }
+    // .user-information {
+    //   padding: 50px 35px;
+    // }
   }
   .intrests-box {
     border-radius: 10px;
@@ -62,6 +73,23 @@
       background: var(--primary-color);
       border-radius: 25px;
       padding: 8px 15px;
+    }
+  }
+  .single-box {
+    .gift-btn {
+      border-radius: 50%;
+      height: 60px;
+      width: 60px;
+      // color:var(--body-color)
+      // background-color: white;
+    }
+  
+    @media (max-width: 768px) {
+      .gift-btn {
+        border-radius: 50%;
+        height: 45px;
+        width: 45px;
+      }
     }
   }
 }
@@ -75,6 +103,14 @@
       fill: var(--secondary-color) !important;
     }
   }
+
+  
+  .gift-icon {
+    svg path {
+      fill: var(--body-color);
+    }
+  }
+  
 }
 .input-area {
   border-radius: 40px;
@@ -85,6 +121,7 @@
 }
 .msg-section-icon {
   font-size: larger;
+  // color: var(--body-color);
 }
 .top-icon {
   font-size: 24px;
@@ -92,8 +129,20 @@
 .btn-down {
   z-index: 1;
 }
-.gift-btn {
-  border-radius: 50%;
-  height: 60px;
-  width: 60px;
+.user-information{
+  span{
+    font-size: larger;
+  }
 }
+.itrested-item {
+  color: var(--body-color);
+}
+@media (max-width:400px){
+  .user-info{
+    margin: 30px !important;
+  }
+}
+
+
+
+
