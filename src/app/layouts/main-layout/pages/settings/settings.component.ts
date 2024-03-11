@@ -67,8 +67,8 @@ export class SettingsComponent {
     this.customerService.logout().subscribe({
       next: (res) => {
         this.spinner.hide();
-        this.tokenStorageService.signOut();
         this.router.navigate(['/']);
+        this.tokenStorageService.signOut();
       },
       error: (error) => {
         this.spinner.hide();
