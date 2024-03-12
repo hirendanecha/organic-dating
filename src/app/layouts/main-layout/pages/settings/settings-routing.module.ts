@@ -10,12 +10,16 @@ import { SettingsComponent } from './settings.component';
 
 const routes: Routes = [
   {
+    path: '',
+    component: SettingsComponent,
+  },
+  {
     path: 'edit-profile/:id',
     component: EditProfileComponent,
     data: {
       isShowLeftSideBar: false,
-      isShowRightSideBar: false
-    }
+      isShowRightSideBar: false,
+    },
   },
   {
     path: 'view-profile/:id',
@@ -37,14 +41,10 @@ const routes: Routes = [
     path: 'unsubscribed-users',
     component: UnsubscribedUsersComponent,
   },
-  {
-    path: 'setting-users',
-    component: SettingsComponent
-  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SettingsRoutingModule { }
+export class SettingsRoutingModule {}

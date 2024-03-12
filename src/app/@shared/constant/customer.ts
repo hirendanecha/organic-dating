@@ -24,7 +24,7 @@ export class Customer {
   profileId: string;
   AccountType: string;
   termAndPolicy: boolean;
-  UserID: number
+  UserID: number;
 }
 
 export class Community {

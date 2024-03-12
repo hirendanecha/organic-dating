@@ -59,6 +59,17 @@
       <li class="ms-1">
         <a
           class="d-flex gap-4"
+          routerLink="/carousel"
+          routerLinkActive="active"
+          (click)="closeSidebar()"
+        >
+          <fa-icon [icon]="['fas', 'book-open-reader']" class="font-24-px" />
+          <span>Carousel</span>
+        </a>
+      </li>
+      <!-- <li class="ms-1">
+        <a
+          class="d-flex gap-4"
           routerLink="/request-video-call"
           routerLinkActive="active"
           (click)="closeSidebar()"
@@ -66,9 +77,9 @@
           <fa-icon [icon]="['fas', 'phone']" class="font-24-px" />
           <span>Request Private Video Call</span>
         </a>
-      </li>
+      </li> -->
 
-      <li class="ms-1">
+      <!-- <li class="ms-1">
         <a
           routerLink="/research"
           target="_blank"
@@ -81,7 +92,7 @@
           <fa-icon [icon]="['fas', 'book-open']" class="font-24-px" />
           <span>Research</span>
         </a>
-      </li>
+      </li> -->
 
       <li class="ms-1">
         <a
@@ -99,7 +110,7 @@
           <span>Notifications</span>
         </a>
       </li>
-      <li class="ms-1">
+      <!-- <li class="ms-1">
         <a
           class="d-flex gap-4"
           [routerLink]="'settings/view-profile/' + profileId"
@@ -108,7 +119,7 @@
           <fa-icon [icon]="['fas', 'gear']" class="font-20-px" />
           <span>View Profile</span>
         </a>
-      </li>
+      </li> -->
       <!-- <li>
         <a
           href="https://1776token.com/"
@@ -142,6 +153,16 @@
           <span>Lamars List</span>
         </a>
       </li>
+      <li>
+        <a
+          [routerLink]="'/settings'"
+          class="d-flex gap-4"
+          (click)="closeSidebar()"
+        >
+          <fa-icon [icon]="['fas', 'gear']" class="font-24-px" />
+          <span>Settings</span>
+        </a>
+      </li>
       <!-- <li>
         <a class="d-flex gap-4" (click)="openWalletPopUp()">
           <fa-icon [icon]="['fas', 'download']" class="font-24-px" />
@@ -155,7 +176,8 @@
         </a>
       </li> -->
 
-      <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <!-- setting old options -->
+      <!-- <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <div
           class="d-flex gap-4 toggle-dropdown align-items-center"
           (click)="collapse.toggle()"
@@ -193,7 +215,7 @@
               </a>
             </li>
 
-            <!-- <li>
+            <li>
               <a
                 routerLink="/settings/delete-profile"
                 routerLinkActive="active"
@@ -203,10 +225,10 @@
                 <fa-icon [icon]="['fas', 'user-xmark']" class="font-24-px" />
                 <span>Delete Account</span>
               </a>
-            </li> -->
+            </li>
           </ul>
         </div>
-      </li>
+      </li> -->
 
       <li class="d-lg-none d-block">
         <a class="d-flex gap-4" (click)="openProfileMenuModal()">

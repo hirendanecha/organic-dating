@@ -24,7 +24,7 @@ import { UploadFilesService } from 'src/app/@shared/services/upload-files.servic
   styleUrls: ['./edit-profile.component.scss'],
 })
 export class EditProfileComponent implements OnInit, AfterViewInit {
-  customer: Customer = new Customer();
+  customer: any = '';
   allCountryData: any;
   confirm_password = '';
   msg = '';
@@ -70,7 +70,6 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
     //   this.getUserDetails(this.userId);
     // }
   }
-
   ngOnInit(): void {
     if (!this.tokenStorage.getToken()) {
       this.router.navigate([`/login`]);
@@ -258,8 +257,8 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
       next: (res: any) => {
         this.spinner.hide();
         if (res.data) {
-          this.customer = res.data[0];
-          console.log(this.customer)
+          this.customer = res.data;
+          console.log("customer  : ", this.customer)
           this.getAllCountries();
         }
       },
