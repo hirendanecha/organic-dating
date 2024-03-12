@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CompleteProfileModalComponent } from 'src/app/@shared/modals/complete-profile/complete-profile-modal.component';
+import { SharedService } from 'src/app/@shared/services/shared.service';
 
 @Component({
   selector: 'app-complete-profile',
@@ -9,20 +10,27 @@ import { CompleteProfileModalComponent } from 'src/app/@shared/modals/complete-p
 })
 export class CompleteProfileComponent implements OnInit, AfterViewInit {
   stepLeft = 5;
-  progressValue = 20
+  progressValue = 20;
   steps: string[] = [
     'Photos',
     'Relationship History',
-    'Industry',
+    'Ideal date',
     'Body Type',
     'Interests',
   ];
+  existingUserData: any = {};
+  // 'Industry',
   // 'Verification',
   // 'Icebreakers',
 
-  constructor(private modalService: NgbModal) {}
+  constructor(
+    private modalService: NgbModal,
+    private sharedService: SharedService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.existingUserData = this.sharedService.userData;
+  }
 
   ngAfterViewInit(): void {}
 
@@ -48,5 +56,23 @@ export class CompleteProfileComponent implements OnInit, AfterViewInit {
         console.log(res);
       }
     });
+  }
+
+  isDone(title: string): boolean {
+    switch (title) {
+      case 'Relationship History':
+        return this.existingUserData.relationshipHistory !== null;
+      case 'Body Type':
+        return this.existingUserData.bodyType !== null;
+      case 'Ideal date':
+        return this.existingUserData.idealDate !== null;
+      case 'Interests':
+        return (
+          this.existingUserData.interestList !== null &&
+          this.existingUserData.interestList.length > 0
+        );
+      default:
+        return false;
+    }
   }
 }

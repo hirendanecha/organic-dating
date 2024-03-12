@@ -17,7 +17,7 @@
         <div *ngFor="let step of steps" class="d-flex align-items-center option-step rounded-5 p-3 justify-content-between custom-text-color">
           {{ step }}
           <button type="button" class="btn btn-outline-primary rounded-5 py-0" (click)="selectedStep(step)">
-            Add
+            {{ isDone(step) ? 'Done' : 'Add' }}
           </button>
         </div>
       </div>

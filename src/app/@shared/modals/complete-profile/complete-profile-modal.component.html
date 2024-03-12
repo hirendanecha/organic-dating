@@ -89,6 +89,21 @@
     <h3 class="text-center">Coming Soon!</h3>
   </ng-container>
 
+  <ng-container *ngIf="title === 'Ideal date'">
+    <textarea
+    cols="30"
+    rows="8"
+    placeholder="start typing..."
+    [(ngModel)]="idealText" 
+  ></textarea>
+  <span class="text-danger">{{idealText?.length || 0}} / 300</span>
+  <div class="d-center m-5">
+    <button type="button" class="btn btn-sm cmn-btn w-200-px" (click)="submitIdealText()">
+      {{ confirmButtonLabel }}
+    </button>
+  </div>
+  </ng-container>
+
   <ng-container *ngIf="title === 'Body Type'">
     <div class="d-center">
       <div
@@ -138,17 +153,7 @@
   </ng-container>
   
   <ng-container *ngIf="title === 'Complete All Steps'">
-    <p class="text-center">Ideal date</p>
-    <textarea
-    cols="30"
-    rows="6"
-    placeholder="start typing..."
-  ></textarea>
-  <div class="d-center m-5">
-    <button type="button" class="btn btn-sm cmn-btn w-200-px" (click)="activeModal.close('success')">
-      {{ confirmButtonLabel }}
-    </button>
-  </div>
+    <h3 class="text-center">Coming Soon!</h3>
   </ng-container>
 </div>
 

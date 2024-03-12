@@ -75,7 +75,7 @@ export class SharedService {
       this.customerService.getProfile(profileId).subscribe({
         next: (res: any) => {
           this.spinner.hide();
-          const data = res?.data?.[0];
+          const data = res?.data;
 
           if (data) {
             this.userData = data;
