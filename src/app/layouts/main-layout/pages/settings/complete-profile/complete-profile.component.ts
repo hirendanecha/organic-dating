@@ -36,19 +36,21 @@ export class CompleteProfileComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {}
 
   selectedStep(step: string) {
-    // console.log(step.replace(/\s+/g, ''));
     this.openModel(step);
   }
 
-  completeAllSteps(step) {
-    this.openModel(step);
+  completeAllSteps() {
+    this.openModel(this.steps);
   }
 
-  openModel(step) {
+  openModel(step: string | string[]) {
     const modalRef = this.modalService.open(CompleteProfileModalComponent, {
       centered: true,
     });
     modalRef.componentInstance.title = step;
+    if (Array.isArray(step)) {
+      modalRef.componentInstance.steps = step;
+    }
     modalRef.componentInstance.progressValue = this.progressValue
     // modalRef.componentInstance.confirmButtonLabel = 'Done';
     // modalRef.componentInstance.cancelButtonLabel = 'Cancel';

@@ -119,4 +119,12 @@ export class CustomerService {
   addInterests(data): Observable<any> {
     return this.http.post(`${this.baseUrl}/add-interest`, data);
   }
+
+  addProfileImages(post): Observable<any> {
+    return this.http.post(`${this.baseUrl}/add-pictures/`, post);
+  }
+
+  updateProfileImages(id, image: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/update-picture/${id}`, image);
+  }
 }
