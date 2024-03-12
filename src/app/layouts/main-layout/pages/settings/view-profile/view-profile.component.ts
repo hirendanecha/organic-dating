@@ -25,11 +25,34 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   profilePic: any = {};
   coverPic: any = {};
   profileId: number;
-  activeTab = 1;
+  activeTab = 0;
   communityList = [];
   communityId = '';
   isExpand = false;
   pdfList: any = [];
+
+  intrests = [
+    'Athelet',
+    'Dancing',
+    'Writing',
+    'Cricket',
+    'Politics',
+    'Gujarati',
+    'Coding',
+    'Chess',
+    'Science',
+    'Ancient History',
+    'Finance',
+    'Science',
+    'Ancient History',
+    'Finance',
+    'Science',
+    'Ancient History',
+    'Finance',
+    'Science',
+    'Ancient History',
+    'Finance',
+  ];
   constructor(
     private modalService: NgbActiveModal,
     private router: Router,
@@ -40,11 +63,11 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     private communityService: CommunityService,
     public breakpointService: BreakpointService,
     private postService: PostService,
-    private seoService: SeoService,
+    private seoService: SeoService
   ) {
     this.router.events.subscribe((event: any) => {
       const id = event?.routerEvent?.url.split('/')[3];
-      this.profileId = id
+      this.profileId = id;
       if (id) {
         this.getProfile(id);
       }
@@ -58,7 +81,7 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.modalService.close();
   }
 
-  ngAfterViewInit(): void { }
+  ngAfterViewInit(): void {}
 
   getProfile(id): void {
     this.spinner.show();
@@ -129,24 +152,22 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getPdfs(): void {
-    this.postService.getPdfsFile(this.customer.Id).subscribe(
-      {
-        next: (res: any) => {
-          this.spinner.hide();
-          if (res) {
-            res.map((e: any) => {
-              e.pdfName = e.pdfUrl.split('/')[3].replaceAll('%', ' ')
-            })
-            this.pdfList = res;
-            console.log(this.pdfList);
-          }
-        },
-        error:
-          (error) => {
-            this.spinner.hide();
-            console.log(error);
-          }
-      });
+    this.postService.getPdfsFile(this.customer.Id).subscribe({
+      next: (res: any) => {
+        this.spinner.hide();
+        if (res) {
+          res.map((e: any) => {
+            e.pdfName = e.pdfUrl.split('/')[3].replaceAll('%', ' ');
+          });
+          this.pdfList = res;
+          console.log(this.pdfList);
+        }
+      },
+      error: (error) => {
+        this.spinner.hide();
+        console.log(error);
+      },
+    });
   }
 
   viewUserPost(id) {

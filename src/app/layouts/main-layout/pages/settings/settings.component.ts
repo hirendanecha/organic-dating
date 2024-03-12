@@ -1,8 +1,4 @@
-import {
-  Component,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
+import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CustomerService } from 'src/app/@shared/services/customer.service';
@@ -35,23 +31,27 @@ export class SettingsComponent {
       this.isCollapsed = !this.isCollapsed;
       switch (type) {
         case 'profile':
-          this.visibleIndex = 'profile'
+          this.visibleIndex = 'profile';
           break;
         case 'complete-profile':
-          this.visibleIndex = 'complete-profile'
+          this.visibleIndex = 'complete-profile';
           break;
         case 'logout':
           this.logout();
           break;
         case 'account':
-          this.visibleIndex = 'account'
+          this.visibleIndex = 'account';
           break;
         case 'create':
-          this.visibleIndex = 'create'
+          this.visibleIndex = 'create';
           break;
         case 'block':
-          this.visibleIndex = 'block'
+          this.visibleIndex = 'block';
           break;
+        case 'notification':
+          this.visibleIndex = 'notification';
+          break;
+
         default:
           break;
       }

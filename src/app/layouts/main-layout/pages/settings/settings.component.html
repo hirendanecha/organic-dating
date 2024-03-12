@@ -1,25 +1,33 @@
-<div class="d-flex flex-column main-setting">
+<div class="d-flex flex-column main-setting ms-md-5 ms-lg-5">
   <div class="d-flex">
     <button
       class="btn btn-sm cmn-btn"
       (click)="goBack()"
       [ngClass]="{ collapsed: !isCollapsed }"
     >
-    <fa-icon [icon]="['fas', 'angle-left']" class="eye-icon"></fa-icon>
+      <fa-icon [icon]="['fas', 'angle-left']" class="eye-icon"></fa-icon>
+      Back
     </button>
     <div class="m-auto">
       <fa-icon class="top-icon me-3" [icon]="['fas', 'gear']" /><span
-      >Settings</span
+        >Settings</span
       >
     </div>
   </div>
-  <div class="intrests-box single-box mt-5 p-8">
-    <ul class="d-flex flex-column ps-0 mb-0 c-pointer" *ngIf="!isCollapsed">
+  <div class="single-box mt-5 p-8" *ngIf="!isCollapsed">
+    <ul class="d-flex flex-column ps-0 mb-0 c-pointer">
       <li
         class="p-2 d-flex justify-content-between border-bottom py-3"
         (click)="closeMenu($event, 'account')"
       >
         <span>Account</span>
+        <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
+      </li>
+      <li
+        class="p-2 d-flex justify-content-between border-bottom py-3"
+        (click)="closeMenu($event, 'profile')"
+      >
+        <span>Profile</span>
         <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
       </li>
       <li
@@ -31,17 +39,17 @@
       </li>
       <li
         class="p-2 d-flex justify-content-between border-bottom py-3"
-        (click)="closeMenu($event, 'create')"
+        (click)="closeMenu($event, 'payment')"
       >
         <span>Payments</span>
         <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
       </li>
       <li
         class="p-2 d-flex justify-content-between border-bottom py-3"
-        (click)="closeMenu($event, 'profile')"
+        (click)="closeMenu($event, 'notification')"
       >
-        <span>Subscription</span>
-        <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
+        <span>Notifications</span>
+        <fa-icon [icon]="['fas', 'bell']" class="eye-icon"></fa-icon>
       </li>
       <li
         class="p-2 d-flex justify-content-between border-bottom py-3"
@@ -58,21 +66,33 @@
         <fa-icon [icon]="['fas', 'angle-right']" class="eye-icon"></fa-icon>
       </li>
     </ul>
+  </div>
+  <div class="content">
     <ng-container *ngIf="visibleIndex === 'account' && isCollapsed">
       <app-edit-profile></app-edit-profile>
     </ng-container>
     <ng-container *ngIf="visibleIndex === 'complete-profile' && isCollapsed">
-      <app-complete-profile></app-complete-profile>
+      <div class="intrests-box mt-5">
+        <app-complete-profile></app-complete-profile>
+      </div>
     </ng-container>
     <ng-container *ngIf="visibleIndex === 'block' && isCollapsed">
-      <app-unsubscribed-users></app-unsubscribed-users>
+      <div class="mt-5">
+        <app-unsubscribed-users></app-unsubscribed-users>
+      </div>
     </ng-container>
     <ng-container *ngIf="visibleIndex === 'profile' && isCollapsed">
-      <!-- <app-edit-profile></app-edit-profile> -->
-      <h2>Coming Soon!</h2>
+      <app-view-profile></app-view-profile>
     </ng-container>
     <ng-container *ngIf="visibleIndex === 'create' && isCollapsed">
-      <h2>Coming Soon!</h2>
+      <div class="intrests-box mt-5">
+        <h2>Coming Soon!</h2>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="visibleIndex === 'notification' && isCollapsed">
+      <div class="intrests-box mt-5">
+        <h2>Coming Soon!</h2>
+      </div>
     </ng-container>
   </div>
 </div>
