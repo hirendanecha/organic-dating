@@ -9,8 +9,8 @@ import { SharedService } from 'src/app/@shared/services/shared.service';
   styleUrls: ['./complete-profile.component.scss'],
 })
 export class CompleteProfileComponent implements OnInit, AfterViewInit {
-  stepLeft = 5;
-  progressValue = 20;
+  stepLeft: number;
+  progressValue: number;
   steps: string[] = [
     'Photos',
     'Relationship History',
@@ -30,6 +30,7 @@ export class CompleteProfileComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.existingUserData = this.sharedService.userData;
+    this.updateStepLeft();
   }
 
   ngAfterViewInit(): void {}
@@ -48,9 +49,9 @@ export class CompleteProfileComponent implements OnInit, AfterViewInit {
       centered: true,
     });
     modalRef.componentInstance.title = step;
+    modalRef.componentInstance.progressValue = this.progressValue
     // modalRef.componentInstance.confirmButtonLabel = 'Done';
     // modalRef.componentInstance.cancelButtonLabel = 'Cancel';
-    // modalRef.componentInstance.data
     modalRef.result.then((res) => {
       if (res) {
         console.log(res);
@@ -62,6 +63,8 @@ export class CompleteProfileComponent implements OnInit, AfterViewInit {
     switch (title) {
       case 'Relationship History':
         return this.existingUserData.relationshipHistory !== null;
+      case 'Photos':
+        return this.existingUserData.profilePictures.length;
       case 'Body Type':
         return this.existingUserData.bodyType !== null;
       case 'Ideal date':
@@ -74,5 +77,14 @@ export class CompleteProfileComponent implements OnInit, AfterViewInit {
       default:
         return false;
     }
+  }
+
+  updateStepLeft() {
+    const completedSteps = this.steps.reduce((count, step) => {
+      return this.isDone(step) ? count + 1 : count;
+    }, 0);
+    this.stepLeft = this.steps.length - completedSteps;
+    const progressPercentage = (completedSteps / this.steps.length) * 100;
+    this.progressValue = Math.round(progressPercentage);
   }
 }

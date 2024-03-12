@@ -15,6 +15,7 @@ export class CompleteProfileModalComponent implements OnInit, AfterViewInit {
   @Input() confirmButtonLabel: string | undefined = 'Done';
   @Input() title: string | undefined = 'Complete All Steps';
   @Input() message: string | undefined;
+  @Input() progressValue: number | undefined;
 
   profilePic: string;
   profileImg: any = {
@@ -26,7 +27,7 @@ export class CompleteProfileModalComponent implements OnInit, AfterViewInit {
   selectedInterests: number[] = [];
   interests: any[];
   profileId: number;
-  progressValue = 50;
+  // progressValue = 50;
   updateUserData: any = {};
   idealText: string = '';
 
