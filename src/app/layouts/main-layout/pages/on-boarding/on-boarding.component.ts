@@ -367,7 +367,7 @@ export class OnBoardingComponent implements OnInit {
     const inches = parseInt(
       (document.getElementById('heightInches') as HTMLSelectElement).value
     );
-    const height = feet + 'feet' + inches + 'inches';
+    const height = feet + ' Feet ' + inches + ' Inches';
     this.onBoardingForm.get('height').setValue(height);
   }
 
