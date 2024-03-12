@@ -258,7 +258,7 @@ export class OnBoardingComponent implements OnInit {
   }
 
   submitForm(): void {
-    this.userId = this.tokenStorageService.getUser()?.id;
+    this.userId = this.tokenStorageService.getUser()?.userId;
     this.profileId = this.tokenStorageService.getUser()?.profileId;
     this.onBoardingForm.get('userId').setValue(this.userId);
     this.customerService
