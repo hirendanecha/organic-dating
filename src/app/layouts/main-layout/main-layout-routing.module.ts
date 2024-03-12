@@ -40,6 +40,17 @@ const routes: Routes = [
         // canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
+        path: 'carousel',
+        loadChildren: () =>
+          import('./pages/carousel/carousel.module').then(
+            (m) => m.CarouselModule
+          ),
+        data: {
+          isShowLeftSideBar: true,
+        },
+        // canActivate: mapToCanActivate([AuthenticationGuard]),
+      },
+      {
         path: 'community',
         loadChildren: () =>
           import('./pages/communities/communities.module').then(

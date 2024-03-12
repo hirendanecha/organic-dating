@@ -78,6 +78,17 @@ export class CustomerService {
       `${this.baseUrl}/search-user?searchText=${searchText}`
     );
   }
+  getProfiles(pages, limit): Observable<object> {
+    return this.http.get(
+      `${this.baseUrl}/get-profiles?page=${pages}&limit=${limit}`
+    );
+  }
+
+  getPictures(pages, limit): Observable<object> {
+    return this.http.get(
+      `${this.baseUrl}/get-profile-pictures?page=${pages}&limit=${limit}`
+    );
+  }
 
   getNotificationList(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/get-notification/${id}?q=${Date.now()}`);
