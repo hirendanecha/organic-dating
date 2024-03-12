@@ -3,6 +3,11 @@
   flex-direction: column;
   width: 100%;
 
+  .carousel-custom-image{
+    min-height: 500px;
+    max-height: 500px;
+  }
+
   .connection-slider {
     ::ng-deep {
       .carousel {
