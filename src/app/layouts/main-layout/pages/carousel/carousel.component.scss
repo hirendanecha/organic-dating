@@ -12,9 +12,22 @@
 }
 .history-btn{
   border-radius: 50%;
-  height: 40px;
-  width: 40px;
+  height: 42px;
+  width: 42px;
   font-size: 15px;
+}
+.btn-star{
+  border-radius: 50%;
+  height: 42px;
+  width: 42px;
+  font-size: 15px;
+}
+::ng-deep{
+  .btn-star{
+    svg path{
+      fill: var(--secondary-color) !important;
+    }
+  }
 }
 .main-img{
   border-radius: 15px;
@@ -42,55 +55,6 @@
   margin: 20px auto;
   width: 146px;
 }
-
-// Button styles from Foundation - https://foundation.zurb.com
-// .button {
-//   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-//   width: auto;
-//   background: #2ba6cb;
-//   border: 1px solid #1e728c;
-//   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
-//   color: #ffffff;
-//   cursor: pointer;
-//   display: inline-block;
-//   font-size: 14px;
-//   font-weight: bold;
-//   line-height: 1;
-//   margin: 0;
-//   padding: 10px 20px 11px;
-//   position: relative;
-//   text-align: center;
-//   text-decoration: none;
-//   transition: background-color 0.15s ease-in-out;
-
-//   &:hover,
-//   &:focus {
-//     color: #ffffff;
-//     background-color: #2284a1;
-//   }
-
-//   &:active {
-//     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
-//   }
-
-//   &.large {
-//     font-size: 17px;
-//     padding: 15px 30px 16px;
-//   }
-
-//   &.secondary {
-//     background-color: #e9e9e9;
-//     color: #1d1d1d;
-//     border: 1px solid #c3c3c3;
-//     font-weight: normal;
-
-//     &:hover,
-//     &:focus {
-//       background-color: #d0d0d0;
-//     }
-//   }
-// }
-
 .right-img {
   width: 110px;
   height: 110px;
