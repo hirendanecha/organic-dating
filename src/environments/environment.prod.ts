@@ -12,5 +12,7 @@ export const environment = {
   socketUrl: `${url}/`,
   webUrl: webUrl,
   tubeUrl: tubeUrl,
-  domain: '.organic.dating'
+  domain: '.organic.dating',
+  siteKey: '0x4AAAAAAATU1CBk_lvwGxIy',
+  secretKey: '0x4AAAAAAATU1GanFiWSflL_7a_cnZt_SKM',
 };

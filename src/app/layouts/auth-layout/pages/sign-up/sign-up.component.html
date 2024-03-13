@@ -178,12 +178,8 @@
           (expired)="onExpired($event)"
           (error)="onError($event)"
         ></ng-hcaptcha> -->
-        <div
-          class="cf-turnstile"
-          data-sitekey="0x4AAAAAAATU1CBk_lvwGxIy"
-          data-callback="javascriptCallback"
-        ></div>
-        <div
+        <div id="captcha"></div>
+        <!-- <div
           class="text-danger"
           *ngIf="
             registerForm.get('captcha').hasError('captcha') &&
@@ -191,7 +187,7 @@
           "
         >
           Captcha required.
-        </div>
+        </div> -->
       </div>
 
       <!-- <div class="col-12 col-md-6 mb-3">

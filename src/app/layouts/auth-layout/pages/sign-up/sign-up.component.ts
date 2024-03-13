@@ -17,12 +17,14 @@ import { ToastService } from 'src/app/@shared/services/toast.service';
 import { TokenStorageService } from 'src/app/@shared/services/token-storage.service';
 import { UploadFilesService } from 'src/app/@shared/services/upload-files.service';
 import { environment } from 'src/environments/environment';
+
+declare var turnstile: any;
 @Component({
   selector: 'app-sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, AfterViewInit {
   customer = new Customer();
   useDetails: any = {};
   isragister = false;
@@ -61,7 +63,7 @@ export class SignUpComponent implements OnInit {
     yearSelect: new FormControl('', Validators.required),
     birthDate: new FormControl('', [Validators.required]),
   });
-
+  theme = '';
   constructor(
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
@@ -79,10 +81,30 @@ export class SignUpComponent implements OnInit {
       image: `${environment.webUrl}assets/images/landingpage/Healing-Tube-Logo.png`,
     };
     this.seoService.updateSeoMetaData(data);
+    this.theme = localStorage.getItem('theme');
   }
 
   ngOnInit(): void {
     this.generateFullDates();
+  }
+
+  ngAfterViewInit(): void {
+    this.loadCloudFlareWidget();
+  }
+
+  loadCloudFlareWidget() {
+    turnstile?.render('#captcha', {
+      sitekey: environment.siteKey,
+      theme: this.theme === 'dark' ? 'light' : 'dark',
+      callback: function (token) {
+        localStorage.setItem('captcha-token', token);
+        console.log(`Challenge Success ${token}`);
+        if (!token) {
+          this.msg = 'invalid captcha kindly try again!';
+          this.type = 'danger';
+        }
+      },
+    });
   }
 
   validatepassword(): boolean {
@@ -117,46 +139,52 @@ export class SignUpComponent implements OnInit {
 
   onSubmit(): void {
     this.msg = '';
-    if (this.registerForm.valid) {
-      // this.spinner.show();
-      const data = {
-        email: this.registerForm.value.Email,
-        userName: this.registerForm.value.fullname,
-        password: this.registerForm.value.Password,
-        gender: this.registerForm.value.gender,
-        birthDate: this.registerForm.value.birthDate,
-      };
-      console.log(data);
-      this.customerService.createCustomer(data).subscribe({
-        next: (data: any) => {
-          this.spinner.hide();
-          if (!data.error) {
-            this.submitted = true;
-            this.type = 'success';
-            this.registrationMessage =
-              'Your account has registered successfully. Kindly login with your email and password !!!';
-            this.scrollTop();
-            this.isragister = true;
-            const userData = data.data;
-            if (userData) {
-              // this.createProfile(this.registerForm.value);
-              localStorage.setItem('register', String(this.isragister));
-              this.tokenStorageService.saveUser(userData);
-              // this.router.navigateByUrl('/login?isVerify=false');
-            }
-          }
-        },
-        error: (err) => {
-          this.registrationMessage = err.error.message;
-          this.type = 'danger';
-          this.spinner.hide();
-          this.scrollTop();
-        },
-      });
+    const token = localStorage.getItem('captcha-token');
+    if (!token) {
+      this.msg = 'invalid captcha please kindly try again!';
+      this.type = 'danger';
     } else {
-      this.msg = 'Please enter mandatory fields(*) data.';
-      this.scrollTop();
-      // return false;
+      if (this.registerForm.valid) {
+        // this.spinner.show();
+        const data = {
+          email: this.registerForm.value.Email,
+          userName: this.registerForm.value.fullname,
+          password: this.registerForm.value.Password,
+          gender: this.registerForm.value.gender,
+          birthDate: this.registerForm.value.birthDate,
+        };
+        console.log(data);
+        this.customerService.createCustomer(data).subscribe({
+          next: (data: any) => {
+            this.spinner.hide();
+            if (!data.error) {
+              this.submitted = true;
+              this.type = 'success';
+              this.registrationMessage =
+                'Your account has registered successfully. Kindly login with your email and password !!!';
+              this.scrollTop();
+              this.isragister = true;
+              const userData = data.data;
+              if (userData) {
+                // this.createProfile(this.registerForm.value);
+                localStorage.setItem('register', String(this.isragister));
+                this.tokenStorageService.saveUser(userData);
+                // this.router.navigateByUrl('/login?isVerify=false');
+              }
+            }
+          },
+          error: (err) => {
+            this.registrationMessage = err.error.message;
+            this.type = 'danger';
+            this.spinner.hide();
+            this.scrollTop();
+          },
+        });
+      } else {
+        this.msg = 'Please enter mandatory fields(*) data.';
+        this.scrollTop();
+        // return false;
+      }
     }
 
     // if (

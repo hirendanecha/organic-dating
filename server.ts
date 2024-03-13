@@ -88,7 +88,10 @@ export function app(): express.Express {
         if (err) {
           console.log('Error', err);
         }
-        handlePost(req);
+        // const token = await handlePost(req);
+        // if (token) {
+        //   localStorage.setItem('captcha-token', token);
+        // }
         const params = req.params[0];
         var seo: any = {
           title: 'Organic dating',
@@ -241,31 +244,31 @@ function strip_html_tags(str: any) {
   }
 }
 
-async function handlePost(request): Promise<any> {
-  try {
-    const body = request;
-    // Turnstile injects a token in "cf-turnstile-response".
-    const token = body.get('cf-turnstile-response');
-    const ip = request.get('CF-Connecting-IP');
+// async function handlePost(request): Promise<any> {
+//   try {
+//     const body = request;
+//     // Turnstile injects a token in "cf-turnstile-response".
+//     const token = body.get('cf-turnstile-response');
+//     const ip = request.get('CF-Connecting-IP');
 
-    // Validate the token by calling the "/siteverify" API endpoint.
-    let formData = new FormData();
-    formData.append('secret', SECRET_KEY);
-    formData.append('response', token);
-    formData.append('remoteip', ip);
+//     // Validate the token by calling the "/siteverify" API endpoint.
+//     let formData = new FormData();
+//     formData.append('secret', SECRET_KEY);
+//     formData.append('response', token);
+//     formData.append('remoteip', ip);
 
-    // const result = await this.http
-    //   .post(TURNSTILE_API_URL, formData)
-    //   .toPromise();
-    return fetch(TURNSTILE_API_URL, {
-      method: 'POST',
-      body: JSON.stringify(formData),
-    });
-  } catch (error) {
-    console.error('Error while handling post:', error);
-    throw error;
-  }
-}
+//     // const result = await this.http
+//     //   .post(TURNSTILE_API_URL, formData)
+//     //   .toPromise();
+//     return fetch(TURNSTILE_API_URL, {
+//       method: 'POST',
+//       body: JSON.stringify(formData),
+//     });
+//   } catch (error) {
+//     console.error('Error while handling post:', error);
+//     throw error;
+//   }
+// }
 
 function run(): void {
   const port = process.env['PORT'] || 4000;
