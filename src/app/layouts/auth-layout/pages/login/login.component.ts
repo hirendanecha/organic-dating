@@ -77,13 +77,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.loginForm = this.fb.group({
       Email: [null, [Validators.required]],
       Password: [null, [Validators.required]],
-      captcha: [null, [Validators.required]],
+      // captcha: [null, [Validators.required]],
     });
-  }
-
-  ngAfterViewInit(): void {
     this.loadCloudFlareWidget();
   }
+
+  ngAfterViewInit(): void {}
 
   loadCloudFlareWidget() {
     turnstile?.render('#captcha', {
@@ -175,7 +174,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   onVerify(event) {
-    this.loginForm.get('captcha').setValue(event);
+    // this.loginForm.get('captcha').setValue(event);
     console.log('verify', event);
   }
 
