@@ -11,14 +11,8 @@ import 'localstorage-polyfill';
 import 'reflect-metadata';
 import { environment } from 'src/environments/environment.prod';
 
-// SEO
-// const url = 'https://freedom-api.opash.in';
-// const url = 'https://freedom-api.opash.in';
-// const url_img = url;
+
 const api_url = environment.serverUrl;
-const SECRET_KEY = '0x4AAAAAAATU1GanFiWSflL_7a_cnZt_SKM';
-const TURNSTILE_API_URL =
-  'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -88,10 +82,6 @@ export function app(): express.Express {
         if (err) {
           console.log('Error', err);
         }
-        // const token = await handlePost(req);
-        // if (token) {
-        //   localStorage.setItem('captcha-token', token);
-        // }
         const params = req.params[0];
         var seo: any = {
           title: 'Organic dating',
@@ -243,32 +233,6 @@ function strip_html_tags(str: any) {
     return str.replace(/<[^>]*>/g, '');
   }
 }
-
-// async function handlePost(request): Promise<any> {
-//   try {
-//     const body = request;
-//     // Turnstile injects a token in "cf-turnstile-response".
-//     const token = body.get('cf-turnstile-response');
-//     const ip = request.get('CF-Connecting-IP');
-
-//     // Validate the token by calling the "/siteverify" API endpoint.
-//     let formData = new FormData();
-//     formData.append('secret', SECRET_KEY);
-//     formData.append('response', token);
-//     formData.append('remoteip', ip);
-
-//     // const result = await this.http
-//     //   .post(TURNSTILE_API_URL, formData)
-//     //   .toPromise();
-//     return fetch(TURNSTILE_API_URL, {
-//       method: 'POST',
-//       body: JSON.stringify(formData),
-//     });
-//   } catch (error) {
-//     console.error('Error while handling post:', error);
-//     throw error;
-//   }
-// }
 
 function run(): void {
   const port = process.env['PORT'] || 4000;
