@@ -47,7 +47,7 @@
       <ng-container *ngFor="let slide of rightImage">
         <img class="right-img m-3" src="{{ slide.img }}" />
       </ng-container>
-      <button ngbTooltip="Cooming Soon" class="btn btn-secondary mt-2">
+      <button ngbTooltip="Cooming Soon" class="btn btn-secondary mt-2" (click)="subscribeBtn()" >
         Subscribe
       </button>
     </div>

@@ -119,6 +119,11 @@
 }
 .input-area {
   border-radius: 40px;
+  padding: 0 10px !important;
+
+  input{
+    padding: 15px;
+  }
 }
 .msg-section {
   background-color: var(--section-1st-color);
@@ -147,7 +152,3 @@
     margin: 30px !important;
   }
 }
-
-
-
-

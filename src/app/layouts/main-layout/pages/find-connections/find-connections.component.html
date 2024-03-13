@@ -22,13 +22,13 @@
                 profile.profilePictures.length > 0 ? true : false
               "
             >
-              <ng-template ngbSlide *ngFor="let img of profile.profilePictures">
-                <img
-                  class="carousel-custom-image w-100 rounded-start-4 main-img"
-                  [src]="img.imageUrl"
-                  alt="Random slide"
-                />
-              </ng-template>
+            <ng-template ngbSlide *ngFor="let img of addDefaultImageIfNeeded(profile)">
+              <img
+                class="carousel-custom-image w-100 rounded-start-4 main-img"
+                [src]="img.imageUrl"
+                alt="Random slide"
+              />
+            </ng-template>            
             </ngb-carousel>
           </div>
 
@@ -90,12 +90,14 @@
   <div class="input-area d-inline-flex gap-3 mt-10 w-75">
     <input
       type="text"
-      class="rounded-5 mx-5"
-      placeholder="  Wirte her a  message..."
+      class="rounded-5"
+      placeholder="Write a message..."
       [(ngModel)]="message"
       (keyup)="sendMessage()"
     />
+    <button (click)="SendMessageInpt()" >
     <fa-icon class="msg-section-icon" [icon]="['fas', 'paper-plane']" />
+  </button>
     <i class="fa-solid fa-gift"></i>
   </div>
   <button class="gift-btn btn cmn-btn mx-md-10 mx-2 mx-sm-5">
