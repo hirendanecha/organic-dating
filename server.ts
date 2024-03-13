@@ -16,6 +16,9 @@ import { environment } from 'src/environments/environment.prod';
 // const url = 'https://freedom-api.opash.in';
 // const url_img = url;
 const api_url = environment.serverUrl;
+const SECRET_KEY = '0x4AAAAAAATU1GanFiWSflL_7a_cnZt_SKM';
+const TURNSTILE_API_URL =
+  'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -30,7 +33,10 @@ export function app(): express.Express {
   const path = require('path');
   const template = fs
     .readFileSync(
-      path.join(join(process.cwd(), 'dist/organic-dating/browser'), 'index.html')
+      path.join(
+        join(process.cwd(), 'dist/organic-dating/browser'),
+        'index.html'
+      )
     )
     .toString();
   // Shim for the global window and document objects.
@@ -82,6 +88,7 @@ export function app(): express.Express {
         if (err) {
           console.log('Error', err);
         }
+        handlePost(req);
         const params = req.params[0];
         var seo: any = {
           title: 'Organic dating',
@@ -155,7 +162,11 @@ export function app(): express.Express {
           const talent = {
             name: post?.title || post?.albumname || 'Organic-Dating Post',
             description: pdhtml?.textContent || 'Post content',
-            image: post?.thumbfilename || post?.metaimage || post?.imageUrl || 'https://www.organic.dating/assets/images/landingpage/OD-default-profile.png',
+            image:
+              post?.thumbfilename ||
+              post?.metaimage ||
+              post?.imageUrl ||
+              'https://www.organic.dating/assets/images/landingpage/OD-default-profile.png',
           };
           seo.title = talent.name;
           seo.description = strip_html_tags(talent.description);
@@ -172,7 +183,7 @@ export function app(): express.Express {
           const talent = {
             name: `Organic dating Research ${group?.PageTitle}`,
             description: group?.PageDescription,
-            image: group?.CoverPicName || group?.ProfilePicName
+            image: group?.CoverPicName || group?.ProfilePicName,
           };
           seo.title = talent.name;
           seo.description = talent.description;
@@ -202,9 +213,7 @@ export function app(): express.Express {
 }
 
 async function getCommunity(id: any) {
-  return fetch(api_url + 'community/bySlug/' + id).then((resp) =>
-    resp.json()
-  );
+  return fetch(api_url + 'community/bySlug/' + id).then((resp) => resp.json());
 }
 
 async function getPost(id: any) {
@@ -218,8 +227,8 @@ async function getProfile(id: any) {
 }
 
 async function getResearchGroup(id: any) {
-  return fetch(api_url + 'profile/getGroupBasicDetails/' + id).then((resp: any) =>
-    resp.json()
+  return fetch(api_url + 'profile/getGroupBasicDetails/' + id).then(
+    (resp: any) => resp.json()
   );
 }
 
@@ -229,6 +238,32 @@ function strip_html_tags(str: any) {
   } else {
     str = str.toString();
     return str.replace(/<[^>]*>/g, '');
+  }
+}
+
+async function handlePost(request): Promise<any> {
+  try {
+    const body = request;
+    // Turnstile injects a token in "cf-turnstile-response".
+    const token = body.get('cf-turnstile-response');
+    const ip = request.get('CF-Connecting-IP');
+
+    // Validate the token by calling the "/siteverify" API endpoint.
+    let formData = new FormData();
+    formData.append('secret', SECRET_KEY);
+    formData.append('response', token);
+    formData.append('remoteip', ip);
+
+    // const result = await this.http
+    //   .post(TURNSTILE_API_URL, formData)
+    //   .toPromise();
+    return fetch(TURNSTILE_API_URL, {
+      method: 'POST',
+      body: JSON.stringify(formData),
+    });
+  } catch (error) {
+    console.error('Error while handling post:', error);
+    throw error;
   }
 }
 

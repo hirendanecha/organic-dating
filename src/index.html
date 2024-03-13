@@ -36,9 +36,13 @@
       src="https://cdn.jwplayer.com/libraries/JPyzCeMq.js"
     ></script>
     <script src="/node_modules/howler/dist/howler.js"></script>
-    <script
+    <!-- <script
       src="https://js.hcaptcha.com/1/api.js?onload=yourFunction&render=explicit"
       async
+      defer
+    ></script> -->
+    <script
+      src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback"
       defer
     ></script>
     <base href="/" />
@@ -116,6 +120,17 @@
         <div class="logo"></div>
       </div>
     </div>
+
+    <script>
+      window.onloadTurnstileCallback = function () {
+        turnstile.render("#captcha", {
+          sitekey: "0x4AAAAAAATU1CBk_lvwGxIy",
+          callback: function (token) {
+            console.log(`Challenge Success ${token}`);
+          },
+        });
+      };
+    </script>
 
     <app-root></app-root>
   </body>

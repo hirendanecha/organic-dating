@@ -49,13 +49,12 @@ export class SignUpComponent implements OnInit {
   selectedYear: number;
 
   @ViewChild('zipCode') zipCode: ElementRef;
-
   registerForm = new FormGroup({
     Email: new FormControl('', [Validators.required]),
     Password: new FormControl('', [Validators.required]),
     // confirm_password: new FormControl('', [Validators.required]),
     fullname: new FormControl('', [Validators.required]),
-    captcha: new FormControl('', [Validators.required]),
+    // captcha: new FormControl('', [Validators.required]),
     gender: new FormControl('', [Validators.required]),
     dateSelect: new FormControl('', Validators.required),
     monthSelect: new FormControl('', Validators.required),
@@ -133,6 +132,7 @@ export class SignUpComponent implements OnInit {
           this.spinner.hide();
           if (!data.error) {
             this.submitted = true;
+            this.type = 'success';
             this.registrationMessage =
               'Your account has registered successfully. Kindly login with your email and password !!!';
             this.scrollTop();
@@ -141,7 +141,7 @@ export class SignUpComponent implements OnInit {
             if (userData) {
               // this.createProfile(this.registerForm.value);
               localStorage.setItem('register', String(this.isragister));
-              this.tokenStorageService.saveUser(userData)
+              this.tokenStorageService.saveUser(userData);
               // this.router.navigateByUrl('/login?isVerify=false');
             }
           }
@@ -296,7 +296,7 @@ export class SignUpComponent implements OnInit {
   }
 
   onVerify(event) {
-    this.registerForm.get('captcha').setValue(event);
+    // this.registerForm.get('captcha').setValue(event);
     console.log('verify', event);
   }
 
@@ -309,14 +309,14 @@ export class SignUpComponent implements OnInit {
   }
 
   generateFullDates(): void {
-    const currentYear = new Date().getFullYear();
+    const currentYear = new Date().getFullYear() - 18;
     for (let i = 1; i <= 31; i++) {
       this.dates.push(String(i));
     }
     this.months = Array.from({ length: 12 }, (_, i) => {
       return new Date(0, i).toLocaleString('default', { month: 'long' });
     });
-    const startYear = 1900;
+    const startYear = 1930;
     this.years = Array.from(
       { length: currentYear - startYear + 1 },
       (_, i) => currentYear - i
