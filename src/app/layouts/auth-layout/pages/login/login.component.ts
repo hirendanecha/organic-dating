@@ -14,6 +14,7 @@ import { CustomerService } from 'src/app/@shared/services/customer.service';
 import { SeoService } from 'src/app/@shared/services/seo.service';
 import { SocketService } from 'src/app/@shared/services/socket.service';
 
+declare var turnstile: any;
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   loginMessage = '';
   msg = '';
   type = 'danger';
+  theme = '';
 
   constructor(
     private modalService: NgbModal,
@@ -62,6 +64,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       description: 'login page',
       image: `${environment.webUrl}assets/images/landingpage/Healing-Tube-Logo.png`,
     };
+    this.theme = localStorage.getItem('theme');
     // this.seoService.updateSeoMetaData(data);
   }
 
@@ -78,7 +81,24 @@ export class LoginComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    this.loadCloudFlareWidget();
+  }
+
+  loadCloudFlareWidget() {
+    turnstile?.render('#captcha', {
+      sitekey: environment.siteKey,
+      theme: this.theme === 'dark' ? 'light' : 'dark',
+      callback: function (token) {
+        localStorage.setItem('captcha-token', token);
+        console.log(`Challenge Success ${token}`);
+        if (!token) {
+          this.msg = 'invalid captcha kindly try again!';
+          this.type = 'danger';
+        }
+      },
+    });
+  }
 
   onSubmit(): void {
     this.spinner.show();

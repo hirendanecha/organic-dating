@@ -11,10 +11,7 @@ import 'localstorage-polyfill';
 import 'reflect-metadata';
 import { environment } from 'src/environments/environment.prod';
 
-// SEO
-// const url = 'https://freedom-api.opash.in';
-// const url = 'https://freedom-api.opash.in';
-// const url_img = url;
+
 const api_url = environment.serverUrl;
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -30,7 +27,10 @@ export function app(): express.Express {
   const path = require('path');
   const template = fs
     .readFileSync(
-      path.join(join(process.cwd(), 'dist/organic-dating/browser'), 'index.html')
+      path.join(
+        join(process.cwd(), 'dist/organic-dating/browser'),
+        'index.html'
+      )
     )
     .toString();
   // Shim for the global window and document objects.
@@ -155,7 +155,11 @@ export function app(): express.Express {
           const talent = {
             name: post?.title || post?.albumname || 'Organic-Dating Post',
             description: pdhtml?.textContent || 'Post content',
-            image: post?.thumbfilename || post?.metaimage || post?.imageUrl || 'https://www.organic.dating/assets/images/landingpage/OD-default-profile.png',
+            image:
+              post?.thumbfilename ||
+              post?.metaimage ||
+              post?.imageUrl ||
+              'https://www.organic.dating/assets/images/landingpage/OD-default-profile.png',
           };
           seo.title = talent.name;
           seo.description = strip_html_tags(talent.description);
@@ -172,7 +176,7 @@ export function app(): express.Express {
           const talent = {
             name: `Organic dating Research ${group?.PageTitle}`,
             description: group?.PageDescription,
-            image: group?.CoverPicName || group?.ProfilePicName
+            image: group?.CoverPicName || group?.ProfilePicName,
           };
           seo.title = talent.name;
           seo.description = talent.description;
@@ -202,9 +206,7 @@ export function app(): express.Express {
 }
 
 async function getCommunity(id: any) {
-  return fetch(api_url + 'community/bySlug/' + id).then((resp) =>
-    resp.json()
-  );
+  return fetch(api_url + 'community/bySlug/' + id).then((resp) => resp.json());
 }
 
 async function getPost(id: any) {
@@ -218,8 +220,8 @@ async function getProfile(id: any) {
 }
 
 async function getResearchGroup(id: any) {
-  return fetch(api_url + 'profile/getGroupBasicDetails/' + id).then((resp: any) =>
-    resp.json()
+  return fetch(api_url + 'profile/getGroupBasicDetails/' + id).then(
+    (resp: any) => resp.json()
   );
 }
 

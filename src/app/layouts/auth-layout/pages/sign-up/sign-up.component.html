@@ -16,7 +16,9 @@
       </div>
       <!-- <div class="row"> -->
       <div class="gender d-flex flex-column mb-3">
-        <label class="form-label">I'M A<span class="text-danger">*</span></label>
+        <label class="form-label form-label-transform"
+          >I'm a<span class="text-danger">*</span></label
+        >
         <div class="d-flex justify-content-around">
           <div class="chip-group" tabindex="-1" role="radiogroup">
             <div
@@ -170,13 +172,14 @@
         </div>
       </div>
       <div class="mb-3">
-        <ng-hcaptcha
+        <!-- <ng-hcaptcha
           formControlName="captcha"
           (verify)="onVerify($event)"
           (expired)="onExpired($event)"
           (error)="onError($event)"
-        ></ng-hcaptcha>
-        <div
+        ></ng-hcaptcha> -->
+        <div id="captcha"></div>
+        <!-- <div
           class="text-danger"
           *ngIf="
             registerForm.get('captcha').hasError('captcha') &&
@@ -184,7 +187,7 @@
           "
         >
           Captcha required.
-        </div>
+        </div> -->
       </div>
 
       <!-- <div class="col-12 col-md-6 mb-3">
