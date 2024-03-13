@@ -22,7 +22,10 @@
                 profile.profilePictures.length > 0 ? true : false
               "
             >
-              <ng-template ngbSlide *ngFor="let img of profile.profilePictures">
+              <ng-template
+                ngbSlide
+                *ngFor="let img of addDefaultImageIfNeeded(profile)"
+              >
                 <img
                   class="carousel-custom-image w-100 rounded-start-4 main-img"
                   [src]="img.imageUrl"
@@ -36,18 +39,24 @@
             class="user-information w-100 justify-content-center m-5 col rounded-end-4 m-auto"
           >
             <div class="user-info d-block py-5">
-              <div class="d-flex justify-content-between">
+              <div class="d-flex justify-content-between" ngbDropdown>
                 <h5 class="">{{ profile.userName }}, {{ profile.gender }}</h5>
+
                 <fa-icon
-                  class="font-20-px gap-2 me-5"
+                  ngbDropdownToggle
+                  class="dots font-20-px gap-2 me-5"
                   [icon]="['fas', 'ellipsis-v']"
                 />
+
+                <div ngbDropdownMenu class="dropdown-menu w-100-px py-1 me-2">
+                  <span ngbDropdownItem class="">Report</span>
+                </div>
               </div>
-              <div class="text-start" *ngIf="profile.city">
+              <div class="text-start " *ngIf="profile.city">
                 <h5 class="">{{ profile.city }}</h5>
               </div>
               <div class="py-5 d-flex flex-column gap-4 px-1 text-start">
-                <div *ngIf="profile.height">
+                <div class="d-flex" *ngIf="profile.height">
                   <fa-icon
                     class="font-20-px gap-2 card-icon"
                     [icon]="['fas', 'child']"
@@ -55,7 +64,7 @@
                   <span class="mx-2"> {{ profile.height }}</span>
                 </div>
 
-                <div *ngIf="profile.isSmoke">
+                <div class="d-flex" *ngIf="profile.isSmoke">
                   <fa-icon
                     class="font-18-px gap-2"
                     [icon]="['fas', 'smoking']"
@@ -65,14 +74,14 @@
                   >
                 </div>
 
-                <div *ngIf="profile.education">
+                <div class="d-flex" *ngIf="profile.education">
                   <fa-icon
                     class="font-18-px gap-2"
                     [icon]="['fas', 'graduation-cap']"
                   /><span class="mx-2"> {{ profile.education }}</span>
                 </div>
 
-                <div *ngIf="profile.relationshipHistory">
+                <div class="d-flex" *ngIf="profile.relationshipHistory">
                   <fa-icon
                     class="font-18-px gap-2"
                     [icon]="['fas', 'heart']"
@@ -90,12 +99,14 @@
   <div class="input-area d-inline-flex gap-3 mt-10 w-75">
     <input
       type="text"
-      class="rounded-5 mx-5"
-      placeholder="  Wirte her a  message..."
+      class="rounded-5"
+      placeholder="Write a message..."
       [(ngModel)]="message"
       (keyup)="sendMessage()"
     />
-    <fa-icon class="msg-section-icon" [icon]="['fas', 'paper-plane']" />
+    <button (click)="SendMessageInpt()">
+      <fa-icon class="msg-section-icon" [icon]="['fas', 'paper-plane']" />
+    </button>
     <i class="fa-solid fa-gift"></i>
   </div>
   <button class="gift-btn btn cmn-btn mx-md-10 mx-2 mx-sm-5">

@@ -34,7 +34,7 @@ export class NotificationsComponent {
   }
 
   ngOnInit(): void {
-    this.getNotificationList();
+    // this.getNotificationList();
   }
 
   getNotificationList() {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbCarouselConfig, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCarouselConfig, NgbModal, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
+import { SubscribeModalComponent } from 'src/app/@shared/modals/subscribe-model/subscribe-modal.component';
 import { CustomerService } from 'src/app/@shared/services/customer.service';
 
 @Component({
@@ -13,59 +14,6 @@ export class ConnectionsComponent implements OnInit {
     page: 0,
     limit: 10,
   };
-  images = [
-    {
-      images: [
-        {
-          img: '',
-        },
-        {
-          img: '',
-        },
-        {
-          img: '',
-        },
-        {
-          img: '',
-        },
-      ],
-      name: '',
-      age: '',
-      city: '',
-      height: '',
-      smoke: '',
-      graduate: '',
-      married: '',
-    },
-    // {
-    //   images: [
-    //     {
-    //       img: 'assets/images/banner/banner-1.png',
-    //     },
-    //   ],
-    //   name: 'Prashant',
-    //   age: 23,
-    //   city: 'Surat',
-    //   height: '5.10 ft',
-    //   smoke: 'Smoke Socially',
-    //   graduate: 'Collage Graduate',
-    //   married: 'Has No Children',
-    // },
-    // {
-    //   images: [
-    //     {
-    //       img: 'assets/images/banner/banner-1.png',
-    //     },
-    //   ],
-    //   name: 'Prashant',
-    //   age: 23,
-    //   city: 'Surat',
-    //   height: '5.10 ft',
-    //   smoke: 'Smoke Socially',
-    //   graduate: 'Collage Graduate',
-    //   married: 'Has No Children',
-    // },
-  ];
   intrests = [
     'Athelet',
     'Dancing',
@@ -90,7 +38,9 @@ export class ConnectionsComponent implements OnInit {
   ];
   activeSlideIndex: number;
   profileList: any = [];
-  constructor(config: NgbCarouselConfig, private customerService: CustomerService) {
+  constructor(config: NgbCarouselConfig, 
+    private customerService: CustomerService,
+    private modelService:NgbModal) {
     config.interval = 0;
     config.wrap = false;
     config.keyboard = false;
@@ -99,6 +49,15 @@ export class ConnectionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getProfile(this.pagination);
+  }
+
+  addDefaultImageIfNeeded(profile): any[] {
+    if (!profile.profilePictures || profile.profilePictures.length === 0) {
+      profile.profilePictures = [{
+        imageUrl: '/assets/images/landingpage/OD-default-profile.png'
+      }];
+    }
+    return profile.profilePictures;
   }
 
   getNextPageGroupPostsById(event: NgbSlideEvent): void {
@@ -128,5 +87,10 @@ export class ConnectionsComponent implements OnInit {
         },
         error: (err) => {},
       });
+  }
+  SendMessageInpt(){
+    const modalRef = this.modelService.open(SubscribeModalComponent, {
+      centered: true,
+    });
   }
 }

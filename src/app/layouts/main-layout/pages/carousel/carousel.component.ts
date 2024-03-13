@@ -5,7 +5,9 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { NgbCarouselConfig, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
+
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { SubscribeModalComponent } from 'src/app/@shared/modals/subscribe-model/subscribe-modal.component';
 import { CustomerService } from 'src/app/@shared/services/customer.service';
 
 @Component({
@@ -51,7 +53,10 @@ export class CarouselComponent implements OnInit {
   currentSlideIndex = 0;
   currentImageIndex: number = this.pictureList.length - 1;
 
-  constructor(private customerService: CustomerService) {}
+  constructor(
+    private customerService: CustomerService,
+    private modelService: NgbModal
+  ) {}
 
   ngOnInit(): void {
     this.currentImageIndex = this.pictureList.length;
@@ -65,7 +70,7 @@ export class CarouselComponent implements OnInit {
       this.currentImageIndex = this.pictureList.length - 1;
     }
   }
-  
+
   next() {
     if (this.currentImageIndex < this.pictureList.length - 1) {
       this.currentImageIndex++;
@@ -73,8 +78,8 @@ export class CarouselComponent implements OnInit {
       this.currentImageIndex = 0;
     }
   }
-  backFirst(){
-    this.currentImageIndex=0
+  backFirst() {
+    this.currentImageIndex = 0;
   }
 
   getPictures(paggination) {
@@ -97,5 +102,10 @@ export class CarouselComponent implements OnInit {
     const slides = this.slidesContainer?.nativeElement?.children;
 
     return this.currentSlideIndex === slides?.length - 1;
+  }
+  subscribeBtn() {
+    const modalRef = this.modelService.open(SubscribeModalComponent, {
+      centered: true,
+    });
   }
 }

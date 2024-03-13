@@ -121,6 +121,7 @@ import { RePostCardComponent } from './components/re-post-card/re-post-card.comp
 import { HealthPraatitionerCardComponent } from './components/health-partitioner-card/health-partitioner-card.component';
 import { EditPostModalComponent } from './modals/edit-post-modal/edit-post-modal.component';
 import { CompleteProfileModalComponent } from './modals/complete-profile/complete-profile-modal.component';
+import { SubscribeModalComponent } from './modals/subscribe-model/subscribe-modal.component';
 
 const sharedComponents = [
   ConfirmationModalComponent,
@@ -147,6 +148,7 @@ const sharedComponents = [
   HealthPraatitionerCardComponent,
   EditPostModalComponent,
   CompleteProfileModalComponent,
+  SubscribeModalComponent,
 ];
 
 const sharedModules = [

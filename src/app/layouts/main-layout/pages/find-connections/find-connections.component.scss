@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 100%;
 
-  .carousel-custom-image{
+  .carousel-custom-image {
     min-height: 500px;
     max-height: 500px;
   }
@@ -17,7 +17,7 @@
         }
         @media (max-width: 992px) {
           .carousel-inner {
-            border-radius: 1rem 1rem  1rem;
+            border-radius: 1rem 1rem 1rem;
           }
         }
 
@@ -35,13 +35,12 @@
             padding: 25px;
           }
         }
-       
 
         .carousel-control-prev {
           left: -10px;
         }
-        @media (max-width:576px) {
-          .carousel-control-prev{
+        @media (max-width: 576px) {
+          .carousel-control-prev {
             left: 0px;
           }
         }
@@ -49,8 +48,8 @@
         .carousel-control-next {
           right: -10px;
         }
-        @media (max-width:576px) {
-          .carousel-control-next{
+        @media (max-width: 576px) {
+          .carousel-control-next {
             right: 0px;
           }
         }
@@ -109,16 +108,19 @@
     }
   }
 
-  
   .gift-icon {
     svg path {
       fill: var(--body-color);
     }
   }
-  
 }
 .input-area {
   border-radius: 40px;
+  padding: 0 10px !important;
+
+  input {
+    padding: 15px;
+  }
 }
 .msg-section {
   background-color: var(--section-1st-color);
@@ -134,20 +136,25 @@
 .btn-down {
   z-index: 1;
 }
-.user-information{
-  span{
+.user-information {
+  span {
     font-size: larger;
   }
+}
+.dropdown-toggle::after {
+  display: none;
+}
+.dropdown-menu {
+  background-color: var(--icon-color) !important;
+  border: 1px solid var(--scroll-color) !important;
+  cursor:  pointer !important;
+ 
 }
 .itrested-item {
   color: var(--body-color);
 }
-@media (max-width:400px){
-  .user-info{
+@media (max-width: 400px) {
+  .user-info {
     margin: 30px !important;
   }
 }
-
-
-
-
