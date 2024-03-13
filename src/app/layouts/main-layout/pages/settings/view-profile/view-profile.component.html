@@ -257,39 +257,36 @@
 
 <!-- New view profile -->
 
-<div class="mt-8">
+<div class="mt-8" *ngIf="!profilePreview">
   <div class="d-flex justify-content-between">
     <h5>My Profile</h5>
-    <button class="btn btn-sm cmn-btn">Preview Profile</button>
+    <button class="btn btn-sm cmn-btn" (click)="profilePre()">
+      Preview Profile
+    </button>
   </div>
 
   <div class="intrests-box mt-5 p-5">
     <div class="first-section d-flex justify-content-between">
       <!-- col-4 -->
       <div class="d-flex flex-column justify-content-evenly col-12 col-md-3">
-        <div class="d-flex flex-column gap-3">
-          <div class="d-flex justify-content-between">
-            <label>Name</label>
-            <fa-icon [icon]="['fas', 'pencil']" class="eye-icon"></fa-icon>
-          </div>
-          <h6>SRA</h6>
+        <div class="d-flex justify-content-between">
+          <label>Name</label>
+          <h6>{{ customer?.userName }}</h6>
         </div>
-
         <div class="d-flex justify-content-between">
           <label>Location</label>
-          <h6>Balva</h6>
+          <h6>{{ customer?.city }}, {{ customer?.country }}</h6>
         </div>
-
         <div class="d-flex justify-content-between">
           <label>Birthday</label>
-          <h6>1 Nov 1999</h6>
+          <h6>{{ customer?.birthDate | date : "d MMM yyyy" }}</h6>
         </div>
       </div>
 
       <!-- offset-1 col-5 -->
       <div class="col-12 offset-md-2 col-md-5 mt-lg-0 mt-md-0 mt-5 mb-3">
         <img
-          src="/assets/images/banner/Healing-Tube-Logo.png"
+          src="{{ customer.profilePictures[0].imageUrl }}"
           class="img-fluid w-100 h-100 rounded-3"
           alt="..."
         />
@@ -297,9 +294,12 @@
 
       <!-- offset-1 col-1 -->
       <div
-        class="col-12 col-md-2 d-flex flex-md-column align-items-center gap-6 mt-lg-0 mt-md-0 mt-5"
+        class="col-12 col-md-2 d-flex flex-md-column align-items-center justify-content-around gap-6 mt-lg-0 mt-md-0 mt-5 h-320-px overflow-y-auto"
       >
-        <div class="bg-light text-center p-1 rounded-2 w-50">
+      <div *ngFor="let item of customer.profilePictures">
+        <img src="{{ item.imageUrl }}" class="h-56-px w-56-px rounded-3" alt="">
+      </div>
+        <!-- <div class="bg-light text-center p-1 rounded-2 w-50">
           <fa-icon [icon]="['fas', 'plus']" class="eye-icon"></fa-icon>
         </div>
         <div class="bg-light text-center p-1 rounded-2 w-50">
@@ -313,7 +313,7 @@
         </div>
         <div class="bg-light text-center p-1 rounded-2 w-50">
           <fa-icon [icon]="['fas', 'plus']" class="eye-icon"></fa-icon>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -365,15 +365,22 @@
         <div class="col-12 col-md-6 my-3">
           <div class="d-flex justify-content-between input-field p-3 rounded-5">
             <span>Relationship History</span>
-            <button class="btn cmn-btn rounded-5 py-0">Add</button>
+            <div class="d-flex gap-3">
+              <span>{{ customer.relationshipHistory }}</span>
+              <!-- <fa-icon
+                [icon]="['fas', 'pencil']"
+                class="eye-icon"
+                (click)="openModel(customer.haveChild)"
+              ></fa-icon> -->
+            </div>
           </div>
         </div>
         <div class="col-12 col-md-6 my-3">
           <div class="d-flex justify-content-between input-field p-3 rounded-5">
             <span>Child</span>
             <div class="d-flex gap-3">
-              <span>No</span>
-              <fa-icon [icon]="['fas', 'pencil']" class="eye-icon"></fa-icon>
+              <span>{{ customer.haveChild }}</span>
+              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.haveChild)"></fa-icon> -->
             </div>
           </div>
         </div>
@@ -384,8 +391,8 @@
           <div class="d-flex justify-content-between input-field p-3 rounded-5">
             <span>Ethnicity</span>
             <div class="d-flex gap-3">
-              <span>White</span>
-              <fa-icon [icon]="['fas', 'pencil']" class="eye-icon"></fa-icon>
+              <span>{{ customer.ethnicity }}</span>
+              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.ethnicity)"></fa-icon> -->
             </div>
           </div>
         </div>
@@ -393,8 +400,8 @@
           <div class="d-flex justify-content-between input-field p-3 rounded-5">
             <span>Education</span>
             <div class="d-flex gap-3">
-              <span>High School</span>
-              <fa-icon [icon]="['fas', 'pencil']" class="eye-icon"></fa-icon>
+              <span>{{ customer.education }}</span>
+              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.education)"></fa-icon> -->
             </div>
           </div>
         </div>
@@ -403,14 +410,20 @@
       <div class="row">
         <div class="col-12 col-md-6 my-3">
           <div class="d-flex justify-content-between input-field p-3 rounded-5">
-            <span>Indusrty</span>
-            <button class="btn cmn-btn rounded-5 py-0">Add</button>
+            <span>Religion</span>
+            <div class="d-flex gap-3">
+              <span>{{ customer.religion }}</span>
+              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.education)"></fa-icon> -->
+            </div>
           </div>
         </div>
         <div class="col-12 col-md-6 my-3">
           <div class="d-flex justify-content-between input-field p-3 rounded-5">
-            <span>Religion</span>
-            <button class="btn cmn-btn rounded-5 py-0">Add</button>
+            <span>Gender</span>
+            <div class="d-flex gap-3">
+              <span>{{ customer.gender }}</span>
+              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.gender)"></fa-icon> -->
+            </div>
           </div>
         </div>
       </div>
@@ -419,15 +432,18 @@
         <div class="col-12 col-md-6 my-3">
           <div class="d-flex justify-content-between input-field p-3 rounded-5">
             <span>Body Type</span>
-            <button class="btn cmn-btn rounded-5 py-0">Add</button>
+            <div class="d-flex gap-3">
+              <span>{{ customer.bodyType }}</span>
+              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.haveChild)"></fa-icon> -->
+            </div>
           </div>
         </div>
         <div class="col-12 col-md-6 my-3">
           <div class="d-flex justify-content-between input-field p-3 rounded-5">
             <span>Smoking</span>
             <div class="d-flex gap-3">
-              <span>No</span>
-              <fa-icon [icon]="['fas', 'pencil']" class="eye-icon"></fa-icon>
+              <span>{{ customer.isSmoke }}</span>
+              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.isSmoke)"></fa-icon> -->
             </div>
           </div>
         </div>
@@ -438,8 +454,8 @@
           <div class="d-flex justify-content-between input-field p-3 rounded-5">
             <span>Looking For</span>
             <div class="d-flex gap-3">
-              <span>Don't know yet</span>
-              <fa-icon [icon]="['fas', 'pencil']" class="eye-icon"></fa-icon>
+              <span>{{ customer.relationshipType }}</span>
+              <!-- <button class="btn cmn-btn rounded-5 py-0" (click)="openModel('Relationship History')">Add</button> -->
             </div>
           </div>
         </div>
@@ -447,29 +463,8 @@
           <div class="d-flex justify-content-between input-field p-3 rounded-5">
             <span>Height</span>
             <div class="d-flex gap-3">
-              <span>182cm</span>
-              <fa-icon [icon]="['fas', 'pencil']" class="eye-icon"></fa-icon>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12 col-md-6 my-3">
-          <div class="d-flex justify-content-between input-field p-3 rounded-5">
-            <span>Gender</span>
-            <div class="d-flex gap-3">
-              <span>Male</span>
-              <fa-icon [icon]="['fas', 'pencil']" class="eye-icon"></fa-icon>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 my-3">
-          <div class="d-flex justify-content-between input-field p-3 rounded-5">
-            <span>Instrested In</span>
-            <div class="d-flex gap-3">
-              <span>Women</span>
-              <fa-icon [icon]="['fas', 'pencil']" class="eye-icon"></fa-icon>
+              <span>{{ customer.height }}</span>
+              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.height)"></fa-icon> -->
             </div>
           </div>
         </div>
@@ -477,13 +472,68 @@
     </div>
   </ng-container>
   <ng-container *ngIf="activeTab === 1">
-    <div class="intrests-box single-box mt-5 p-8">
+    <div class="intrests-box single-box mt-8 p-8">
       <h5 class="text-start">Interests</h5>
       <div class="d-flex flex-row flex-wrap mt-5 gap-3">
-        <div *ngFor="let item of intrests">
-          <span class="itrested-item">{{ item }}</span>
+        <div *ngFor="let item of customer.interestList">
+          <span class="itrested-item">{{ item.name }}</span>
         </div>
       </div>
     </div>
   </ng-container>
+</div>
+
+<div class="mt-8" *ngIf="profilePreview">
+  <div class="single-box">
+    <div class="d-flex row">
+      <div class="user-profile col-12 col-md-8">
+        <ngb-carousel class="line-indicators" #carousel [interval]="0">
+          <ng-template ngbSlide *ngFor="let item of customer.profilePictures">
+            <img class="carousel-custom-image w-100" src="{{ item.imageUrl }}" alt="" />
+          </ng-template>
+        </ngb-carousel>
+      </div>
+      <div class="d-flex col-12 col-md-4 flex-column gap-6 m-md-auto p-10 p-md-0">
+        <div class="d-flex justify-content-between">
+          <h5 class="">{{ customer.userName }}, {{ customer.gender }}</h5>
+          <fa-icon class="font-20-px gap-2 me-5" [icon]="['fas', 'ellipsis-v']" />
+        </div>
+  
+        <div class="text-start" *ngIf="customer.city">
+          <h5 class="">{{ customer.city }}</h5>
+        </div>
+  
+        <div class="py-5 d-flex flex-column gap-4 px-1 text-start">
+          <div *ngIf="customer.height">
+            <fa-icon
+              class="font-20-px gap-2 card-icon"
+              [icon]="['fas', 'child']"
+            />
+            <span class="mx-2"> {{ customer.height }}</span>
+          </div>
+  
+          <div *ngIf="customer.isSmoke">
+            <fa-icon class="font-18-px gap-2" [icon]="['fas', 'smoking']" />
+            <span class="mx-2">
+              {{ customer.isSmoke === "N" ? "No" : "Yes" }}</span
+            >
+          </div>
+  
+          <div *ngIf="customer.education">
+            <fa-icon
+              class="font-18-px gap-2"
+              [icon]="['fas', 'graduation-cap']"
+            /><span class="mx-2"> {{ customer.education }}</span>
+          </div>
+  
+          <div *ngIf="customer.relationshipHistory">
+            <fa-icon class="font-18-px gap-2" [icon]="['fas', 'heart']" /><span
+              class="mx-2"
+              >{{ customer.relationshipHistory }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

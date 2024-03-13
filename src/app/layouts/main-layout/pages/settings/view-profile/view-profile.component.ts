@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Customer } from 'src/app/@shared/constant/customer';
+import { ConfirmationModalComponent } from 'src/app/@shared/modals/confirmation-modal/confirmation-modal.component';
 import { BreakpointService } from 'src/app/@shared/services/breakpoint.service';
 import { CommunityService } from 'src/app/@shared/services/community.service';
 import { CustomerService } from 'src/app/@shared/services/customer.service';
@@ -11,6 +12,8 @@ import { SeoService } from 'src/app/@shared/services/seo.service';
 import { SharedService } from 'src/app/@shared/services/shared.service';
 import { TokenStorageService } from 'src/app/@shared/services/token-storage.service';
 import { environment } from 'src/environments/environment';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CompleteProfileModalComponent } from 'src/app/@shared/modals/complete-profile/complete-profile-modal.component';
 
 @Component({
   selector: 'app-view-profile',
@@ -30,29 +33,8 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   communityId = '';
   isExpand = false;
   pdfList: any = [];
+  profilePreview: boolean = false;
 
-  intrests = [
-    'Athelet',
-    'Dancing',
-    'Writing',
-    'Cricket',
-    'Politics',
-    'Gujarati',
-    'Coding',
-    'Chess',
-    'Science',
-    'Ancient History',
-    'Finance',
-    'Science',
-    'Ancient History',
-    'Finance',
-    'Science',
-    'Ancient History',
-    'Finance',
-    'Science',
-    'Ancient History',
-    'Finance',
-  ];
   constructor(
     private modalService: NgbActiveModal,
     private router: Router,
@@ -63,17 +45,27 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     private communityService: CommunityService,
     public breakpointService: BreakpointService,
     private postService: PostService,
-    private seoService: SeoService
+    private seoService: SeoService,
+    private modalService2: NgbModal
   ) {
-    this.router.events.subscribe((event: any) => {
-      const id = event?.routerEvent?.url.split('/')[3];
-      this.profileId = id;
-      if (id) {
-        this.getProfile(id);
-      }
-      this.profileId = +localStorage.getItem('profileId');
-    });
+    // this.router.events.subscribe((event: any) => {
+    //   const id = event?.routerEvent?.url.split('/')[3];
+    //   this.profileId = id;
+    //   if (id) {
+    //     this.getProfile(id);
+    //   }
+    //   this.profileId = +localStorage.getItem('profileId');
+    // });
+    this.profileId = +localStorage.getItem('profileId');
+    if (this.profileId) {
+      this.getProfile(this.profileId);
+    }
   }
+
+  profilePre() {
+    this.profilePreview = !this.profilePreview
+  }
+
   ngOnInit(): void {
     if (!this.tokenStorage.getToken()) {
       this.router.navigate([`/login`]);
@@ -89,8 +81,8 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       next: (res: any) => {
         this.spinner.hide();
         if (res.data) {
-          this.customer = res.data[0];
-          this.userId = res.data[0]?.UserID;
+          this.customer = res.data;
+          this.userId = res.data?.UserID;
           const data = {
             title: this.customer?.FirstName + ' ' + this.customer?.LastName,
             url: `${environment.webUrl}settings/view-profile/${this.customer?.Id}`,
@@ -181,5 +173,23 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     // window.open(pdf);
     // pdfLink.download = "TestFile.pdf";
     pdfLink.click();
+  }
+
+  openModel(field: string): void {
+    const modalRef = this.modalService2.open(CompleteProfileModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.title = field;
+    modalRef.componentInstance.confirmButtonLabel = 'Yes';
+    modalRef.componentInstance.cancelButtonLabel = 'No';
+    // modalRef.componentInstance.message = step;
+    // modalRef.componentInstance.progressValue = this.progressValue
+    // modalRef.componentInstance.confirmButtonLabel = 'Done';
+    // modalRef.componentInstance.cancelButtonLabel = 'Cancel';
+    modalRef.result.then((res) => {
+      if (res) {
+        console.log(res);
+      }
+    });
   }
 }
