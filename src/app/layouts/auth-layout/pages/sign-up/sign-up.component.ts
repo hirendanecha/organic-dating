@@ -49,6 +49,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
   selectedDate: string;
   selectedMonth: number;
   selectedYear: number;
+  captchaToken = '';
 
   @ViewChild('zipCode') zipCode: ElementRef;
   registerForm = new FormGroup({
@@ -64,6 +65,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     birthDate: new FormControl('', [Validators.required]),
   });
   theme = '';
+  @ViewChild('captcha', { static: false }) captchaElement: ElementRef;
   constructor(
     private spinner: NgxSpinnerService,
     private route: ActivatedRoute,
@@ -93,11 +95,12 @@ export class SignUpComponent implements OnInit, AfterViewInit {
   }
 
   loadCloudFlareWidget() {
-    turnstile?.render('#captcha', {
+    turnstile?.render(this.captchaElement.nativeElement, {
       sitekey: environment.siteKey,
       theme: this.theme === 'dark' ? 'light' : 'dark',
       callback: function (token) {
         localStorage.setItem('captcha-token', token);
+        this.captchaToken = token;
         console.log(`Challenge Success ${token}`);
         if (!token) {
           this.msg = 'invalid captcha kindly try again!';
@@ -143,48 +146,49 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     if (!token) {
       this.msg = 'invalid captcha please kindly try again!';
       this.type = 'danger';
-    } else {
-      if (this.registerForm.valid) {
-        // this.spinner.show();
-        const data = {
-          email: this.registerForm.value.Email,
-          userName: this.registerForm.value.fullname,
-          password: this.registerForm.value.Password,
-          gender: this.registerForm.value.gender,
-          birthDate: this.registerForm.value.birthDate,
-        };
-        console.log(data);
-        this.customerService.createCustomer(data).subscribe({
-          next: (data: any) => {
-            this.spinner.hide();
-            if (!data.error) {
-              this.submitted = true;
-              this.type = 'success';
-              this.registrationMessage =
-                'Your account has registered successfully. Kindly login with your email and password !!!';
-              this.scrollTop();
-              this.isragister = true;
-              const userData = data.data;
-              if (userData) {
-                // this.createProfile(this.registerForm.value);
-                localStorage.setItem('register', String(this.isragister));
-                this.tokenStorageService.saveUser(userData);
-                // this.router.navigateByUrl('/login?isVerify=false');
-              }
-            }
-          },
-          error: (err) => {
-            this.registrationMessage = err.error.message;
-            this.type = 'danger';
-            this.spinner.hide();
+      this.scrollTop();
+      return;
+    }
+    if (this.registerForm.valid) {
+      this.spinner.show();
+      const data = {
+        email: this.registerForm.value.Email,
+        userName: this.registerForm.value.fullname,
+        password: this.registerForm.value.Password,
+        gender: this.registerForm.value.gender,
+        birthDate: this.registerForm.value.birthDate,
+      };
+      console.log(data);
+      this.customerService.createCustomer(data).subscribe({
+        next: (data: any) => {
+          this.spinner.hide();
+          if (!data.error) {
+            this.submitted = true;
+            this.type = 'success';
+            this.registrationMessage =
+              'Your account has registered successfully. Kindly login with your email and password !!!';
             this.scrollTop();
-          },
-        });
-      } else {
-        this.msg = 'Please enter mandatory fields(*) data.';
-        this.scrollTop();
-        // return false;
-      }
+            this.isragister = true;
+            const userData = data.data;
+            if (userData) {
+              // this.createProfile(this.registerForm.value);
+              localStorage.setItem('register', String(this.isragister));
+              this.tokenStorageService.saveUser(userData);
+              // this.router.navigateByUrl('/login?isVerify=false');
+            }
+          }
+        },
+        error: (err) => {
+          this.registrationMessage = err.error.message;
+          this.type = 'danger';
+          this.spinner.hide();
+          this.scrollTop();
+        },
+      });
+    } else {
+      this.msg = 'Please enter mandatory fields(*) data.';
+      this.scrollTop();
+      // return false;
     }
 
     // if (

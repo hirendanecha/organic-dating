@@ -268,42 +268,43 @@
   <div class="intrests-box mt-5 p-5">
     <div class="first-section d-flex justify-content-between">
       <!-- col-4 -->
-      <div class="d-flex flex-column justify-content-evenly col-12 col-md-3">
-        <div class="d-flex justify-content-between">
+      <div class="d-flex flex-column justify-content-center gap-4 col-12 col-md-3 col-xl-3 col-lg-auto">
+        <div class="d-flex justify-content-between view-border-bottom">
           <label>Name</label>
           <h6>{{ customer?.userName }}</h6>
         </div>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between view-border-bottom">
           <label>Location</label>
           <h6>{{ customer?.city }}, {{ customer?.country }}</h6>
         </div>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between view-border-bottom">
           <label>Birthday</label>
           <h6>{{ customer?.birthDate | date : "d MMM yyyy" }}</h6>
         </div>
       </div>
 
       <!-- offset-1 col-5 -->
-      <div class="col-12 offset-md-2 col-md-5 mt-lg-0 mt-md-0 mt-5 mb-3">
+      <div class="d-center col-12 col-md-5 mt-lg-0 mt-md-0 mt-5 mb-3">
         <img
-          src="{{ customer.profilePictures[0].imageUrl }}"
-          class="img-fluid w-100 h-100 rounded-3"
-          alt="..."
+          src="{{ displayImage || customer?.profilePictures?.[0]?.imageUrl }}"
+          class="img-fluid rounded-3"
         />
       </div>
 
       <!-- offset-1 col-1 -->
       <div
-        class="col-12 col-md-2 d-flex flex-md-column align-items-center justify-content-around gap-6 mt-lg-0 mt-md-0 mt-5 h-320-px overflow-y-auto"
+        class="col-12 col-md-2 d-flex flex-md-column align-items-center mt-lg-0 mt-md-0 mt-5 gap-2"
       >
-      <div *ngFor="let item of customer.profilePictures">
-        <img src="{{ item.imageUrl }}" class="h-56-px w-56-px rounded-3" alt="">
+      <div class="bg-light text-center d-center h-56-px w-56-px rounded-3 c-pointer" (click)="openModel('Photos')">
+        <fa-icon [icon]="['fas', 'plus']"></fa-icon>
+      </div>
+      <div class="d-flex flex-md-column set-max-height text-center gap-2 overflow-y-auto">
+        <div *ngFor="let item of customer.profilePictures">
+          <img src="{{ item.imageUrl }}" class="h-56-px w-56-px rounded-3" (click)="imageChange(item.imageUrl)">
+        </div>
       </div>
         <!-- <div class="bg-light text-center p-1 rounded-2 w-50">
-          <fa-icon [icon]="['fas', 'plus']" class="eye-icon"></fa-icon>
-        </div>
-        <div class="bg-light text-center p-1 rounded-2 w-50">
-          <fa-icon [icon]="['fas', 'plus']" class="eye-icon"></fa-icon>
+          <fa-icon [icon]="['fas', 'plus']" class="c-pointer"></fa-icon>
         </div>
         <div class="bg-light text-center p-1 rounded-2 w-50">
           <fa-icon [icon]="['fas', 'plus']" class="eye-icon"></fa-icon>
@@ -367,11 +368,13 @@
             <span>Relationship History</span>
             <div class="d-flex gap-3">
               <span>{{ customer.relationshipHistory }}</span>
-              <!-- <fa-icon
+              <fa-icon
+              *ngIf="customer.relationshipHistory !== null"
                 [icon]="['fas', 'pencil']"
-                class="eye-icon"
-                (click)="openModel(customer.haveChild)"
-              ></fa-icon> -->
+                class="c-pointer"
+                (click)="openModel('Relationship History')"
+              ></fa-icon>
+              <button *ngIf="customer.relationshipHistory === null" type="button" class="btn cmn-outline-primary rounded-5 py-0" (click)="openModel('Relationship History')">Add</button>
             </div>
           </div>
         </div>
@@ -380,7 +383,8 @@
             <span>Child</span>
             <div class="d-flex gap-3">
               <span>{{ customer.haveChild }}</span>
-              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.haveChild)"></fa-icon> -->
+              <fa-icon *ngIf="customer.haveChild !== null" [icon]="['fas', 'pencil']" class="c-pointer" (click)="openModel('Child')"></fa-icon>
+              <button *ngIf="customer.haveChild === null" type="button" class="btn cmn-outline-primary rounded-5 py-0" (click)="openModel('Child')">Add</button>
             </div>
           </div>
         </div>
@@ -392,7 +396,8 @@
             <span>Ethnicity</span>
             <div class="d-flex gap-3">
               <span>{{ customer.ethnicity }}</span>
-              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.ethnicity)"></fa-icon> -->
+              <fa-icon *ngIf="customer.ethnicity !== null" [icon]="['fas', 'pencil']" class="c-pointer" (click)="openModel('Ethnicity')"></fa-icon>
+              <button *ngIf="customer.ethnicity === null" type="button" class="btn cmn-outline-primary rounded-5 py-0" (click)="openModel('Ethnicity')">Add</button>
             </div>
           </div>
         </div>
@@ -401,7 +406,8 @@
             <span>Education</span>
             <div class="d-flex gap-3">
               <span>{{ customer.education }}</span>
-              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.education)"></fa-icon> -->
+              <fa-icon *ngIf="customer.education !== null" [icon]="['fas', 'pencil']" class="c-pointer" (click)="openModel('Education')"></fa-icon>
+              <button *ngIf="customer.education === null" type="button" class="btn cmn-outline-primary rounded-5 py-0" (click)="openModel('Education')">Add</button>
             </div>
           </div>
         </div>
@@ -413,7 +419,8 @@
             <span>Religion</span>
             <div class="d-flex gap-3">
               <span>{{ customer.religion }}</span>
-              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.education)"></fa-icon> -->
+              <fa-icon *ngIf="customer.religion !== null" [icon]="['fas', 'pencil']" class="c-pointer" (click)="openModel('Religion')"></fa-icon>
+              <button *ngIf="customer.religion === null" type="button" class="btn cmn-outline-primary rounded-5 py-0" (click)="openModel('Religion')">Add</button>
             </div>
           </div>
         </div>
@@ -421,8 +428,8 @@
           <div class="d-flex justify-content-between input-field p-3 rounded-5">
             <span>Gender</span>
             <div class="d-flex gap-3">
-              <span>{{ customer.gender }}</span>
-              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.gender)"></fa-icon> -->
+              <span>{{ customer.gender | uppercase }}</span>
+              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel('Gender')"></fa-icon> -->
             </div>
           </div>
         </div>
@@ -434,7 +441,8 @@
             <span>Body Type</span>
             <div class="d-flex gap-3">
               <span>{{ customer.bodyType }}</span>
-              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.haveChild)"></fa-icon> -->
+              <fa-icon *ngIf="customer.bodyType !== null" [icon]="['fas', 'pencil']" class="c-pointer" (click)="openModel('Body Type')"></fa-icon>
+              <button *ngIf="customer.bodyType === null" type="button" class="btn cmn-outline-primary rounded-5 py-0" (click)="openModel('Body Type')">Add</button>
             </div>
           </div>
         </div>
@@ -442,8 +450,9 @@
           <div class="d-flex justify-content-between input-field p-3 rounded-5">
             <span>Smoking</span>
             <div class="d-flex gap-3">
-              <span>{{ customer.isSmoke }}</span>
-              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.isSmoke)"></fa-icon> -->
+              <span>{{ customer.isSmoke === 'Y' ? 'Yes' : 'No' }}</span>
+              <fa-icon *ngIf="customer.isSmoke !== null" [icon]="['fas', 'pencil']" class="c-pointer" (click)="openModel('Smoking')"></fa-icon>
+              <button *ngIf="customer.isSmoke === null" type="button" class="btn cmn-outline-primary rounded-5 py-0" (click)="openModel('Smoking')">Add</button>
             </div>
           </div>
         </div>
@@ -455,7 +464,8 @@
             <span>Looking For</span>
             <div class="d-flex gap-3">
               <span>{{ customer.relationshipType }}</span>
-              <!-- <button class="btn cmn-btn rounded-5 py-0" (click)="openModel('Relationship History')">Add</button> -->
+              <fa-icon *ngIf="customer.relationshipType !== null" [icon]="['fas', 'pencil']" class="c-pointer" (click)="openModel('Looking For')"></fa-icon>
+              <button *ngIf="customer.relationshipType === null" type="button" class="btn cmn-outline-primary rounded-5 py-0" (click)="openModel('Looking For')">Add</button>
             </div>
           </div>
         </div>
@@ -464,7 +474,8 @@
             <span>Height</span>
             <div class="d-flex gap-3">
               <span>{{ customer.height }}</span>
-              <!-- <fa-icon [icon]="['fas', 'pencil']" class="eye-icon" (click)="openModel(customer.height)"></fa-icon> -->
+              <fa-icon *ngIf="customer.height !== null" [icon]="['fas', 'pencil']" class="c-pointer" (click)="openModel('Height')"></fa-icon>
+              <button *ngIf="customer.height === null" type="button" class="btn cmn-outline-primary rounded-5 py-0" (click)="openModel('Height')">Add</button>
             </div>
           </div>
         </div>
@@ -473,13 +484,26 @@
   </ng-container>
   <ng-container *ngIf="activeTab === 1">
     <div class="intrests-box single-box mt-8 p-8">
-      <h5 class="text-start">Interests</h5>
-      <div class="d-flex flex-row flex-wrap mt-5 gap-3">
+      <div class="d-flex justify-content-between">
+        <h5 class="text-start">Interests</h5>
+        <fa-icon [icon]="['fas', 'pencil']" class="c-pointer" (click)="openModel('Interests')"></fa-icon>
+      </div>
+      <div class="d-flex flex-row flex-wrap mt-2 gap-3">
         <div *ngFor="let item of customer.interestList">
           <span class="itrested-item">{{ item.name }}</span>
         </div>
       </div>
     </div>
+    <ng-container *ngIf="customer?.idealDate">
+      <div class="intrests-box single-box mt-8 py-5 px-8">
+        <div class="d-flex justify-content-between">
+          <h5 class="text-start">Ideal Date</h5>
+          <fa-icon [icon]="['fas', 'pencil']" class="c-pointer" (click)="openModel('Ideal date')"></fa-icon>
+        </div>
+        <span
+      >{{customer.idealDate}}</span>
+      </div>
+    </ng-container>
   </ng-container>
 </div>
 

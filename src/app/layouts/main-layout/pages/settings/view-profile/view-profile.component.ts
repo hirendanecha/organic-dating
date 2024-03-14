@@ -2,8 +2,6 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Customer } from 'src/app/@shared/constant/customer';
-import { ConfirmationModalComponent } from 'src/app/@shared/modals/confirmation-modal/confirmation-modal.component';
 import { BreakpointService } from 'src/app/@shared/services/breakpoint.service';
 import { CommunityService } from 'src/app/@shared/services/community.service';
 import { CustomerService } from 'src/app/@shared/services/customer.service';
@@ -13,7 +11,7 @@ import { SharedService } from 'src/app/@shared/services/shared.service';
 import { TokenStorageService } from 'src/app/@shared/services/token-storage.service';
 import { environment } from 'src/environments/environment';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CompleteProfileModalComponent } from 'src/app/@shared/modals/complete-profile/complete-profile-modal.component';
+import { EditProfileModalComponent } from 'src/app/@shared/modals/edit-profile/edit-profile-modal.component';
 
 @Component({
   selector: 'app-view-profile',
@@ -34,6 +32,7 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   isExpand = false;
   pdfList: any = [];
   profilePreview: boolean = false;
+  displayImage = '';
 
   constructor(
     private modalService: NgbActiveModal,
@@ -46,7 +45,7 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     public breakpointService: BreakpointService,
     private postService: PostService,
     private seoService: SeoService,
-    private modalService2: NgbModal
+    private modal: NgbModal
   ) {
     // this.router.events.subscribe((event: any) => {
     //   const id = event?.routerEvent?.url.split('/')[3];
@@ -175,21 +174,14 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     pdfLink.click();
   }
 
+  imageChange(img: any) {
+    this.displayImage = img;
+  }
+
   openModel(field: string): void {
-    const modalRef = this.modalService2.open(CompleteProfileModalComponent, {
+    const modalRef = this.modal.open(EditProfileModalComponent, {
       centered: true,
     });
     modalRef.componentInstance.title = field;
-    modalRef.componentInstance.confirmButtonLabel = 'Yes';
-    modalRef.componentInstance.cancelButtonLabel = 'No';
-    // modalRef.componentInstance.message = step;
-    // modalRef.componentInstance.progressValue = this.progressValue
-    // modalRef.componentInstance.confirmButtonLabel = 'Done';
-    // modalRef.componentInstance.cancelButtonLabel = 'Cancel';
-    modalRef.result.then((res) => {
-      if (res) {
-        console.log(res);
-      }
-    });
   }
 }

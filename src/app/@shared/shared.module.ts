@@ -96,6 +96,8 @@ import {
   faPencil,
   faBookOpenReader,
   faStar,
+  faChildren,
+  faMapLocationDot,
 } from '@fortawesome/free-solid-svg-icons';
 import { ClaimTokenModalComponent } from './modals/clai-1776-token-modal/claim-token-modal.component';
 import { WalletLinkComponent } from './modals/wallet-download-modal/1776-wallet.component';
@@ -122,6 +124,7 @@ import { HealthPraatitionerCardComponent } from './components/health-partitioner
 import { EditPostModalComponent } from './modals/edit-post-modal/edit-post-modal.component';
 import { CompleteProfileModalComponent } from './modals/complete-profile/complete-profile-modal.component';
 import { SubscribeModalComponent } from './modals/subscribe-model/subscribe-modal.component';
+import { EditProfileModalComponent } from './modals/edit-profile/edit-profile-modal.component';
 
 const sharedComponents = [
   ConfirmationModalComponent,
@@ -149,6 +152,7 @@ const sharedComponents = [
   EditPostModalComponent,
   CompleteProfileModalComponent,
   SubscribeModalComponent,
+  EditProfileModalComponent,
 ];
 
 const sharedModules = [
@@ -164,7 +168,7 @@ const sharedModules = [
   NgxTrimDirectiveModule,
   FontAwesomeModule,
   PipeModule,
-  MentionModule
+  MentionModule,
 ];
 
 @NgModule({
@@ -257,7 +261,9 @@ export class SharedModule {
       faHistory,
       faPencil,
       faBookOpenReader,
-      faStar
+      faStar,
+      faChildren,
+      faMapLocationDot
     );
   }
 }

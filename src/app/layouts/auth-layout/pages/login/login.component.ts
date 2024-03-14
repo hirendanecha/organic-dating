@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,7 +38,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   msg = '';
   type = 'danger';
   theme = '';
-
+  captchaToken = '';
+  @ViewChild('captcha', { static: false }) captchaElement: ElementRef;
   constructor(
     private modalService: NgbModal,
     private router: Router,
@@ -79,17 +86,19 @@ export class LoginComponent implements OnInit, AfterViewInit {
       Password: [null, [Validators.required]],
       // captcha: [null, [Validators.required]],
     });
+  }
+
+  ngAfterViewInit(): void {
     this.loadCloudFlareWidget();
   }
 
-  ngAfterViewInit(): void {}
-
   loadCloudFlareWidget() {
-    turnstile?.render('#captcha', {
+    turnstile?.render(this.captchaElement.nativeElement, {
       sitekey: environment.siteKey,
       theme: this.theme === 'dark' ? 'light' : 'dark',
       callback: function (token) {
         localStorage.setItem('captcha-token', token);
+        this.captchaToken = token;
         console.log(`Challenge Success ${token}`);
         if (!token) {
           this.msg = 'invalid captcha kindly try again!';
@@ -100,6 +109,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(): void {
+    const token = localStorage.getItem('captcha-token');
+    // if (!token) {
+    //   this.msg = 'Invalid captcha kindly try again!';
+    //   this.type = 'danger';
+    //   return;
+    // }
     this.spinner.show();
     this.authService.customerlogin(this.loginForm.value).subscribe({
       next: (data: any) => {
