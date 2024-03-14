@@ -99,6 +99,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
       sitekey: environment.siteKey,
       theme: this.theme === 'dark' ? 'light' : 'dark',
       callback: function (token) {
+        localStorage.setItem('captcha-token', token);
         this.captchaToken = token;
         console.log(`Challenge Success ${token}`);
         if (!token) {
@@ -141,7 +142,8 @@ export class SignUpComponent implements OnInit, AfterViewInit {
 
   onSubmit(): void {
     this.msg = '';
-    if (!this.captchaToken) {
+    const token = localStorage.getItem('captcha-token');
+    if (!token) {
       this.msg = 'invalid captcha please kindly try again!';
       this.type = 'danger';
       this.scrollTop();
