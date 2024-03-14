@@ -25,7 +25,7 @@ const routes: Routes = [
         data: {
           // isShowLeftSideBar: true,
         },
-        canActivate: mapToCanActivate([AuthenticationGuard]),
+        // canActivate: mapToCanActivate([AuthenticationGuard]),
       },
       {
         path: 'connection',
