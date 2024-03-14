@@ -96,6 +96,8 @@ import {
   faPencil,
   faBookOpenReader,
   faStar,
+  faChildren,
+  faMapLocationDot,
 } from '@fortawesome/free-solid-svg-icons';
 import { ClaimTokenModalComponent } from './modals/clai-1776-token-modal/claim-token-modal.component';
 import { WalletLinkComponent } from './modals/wallet-download-modal/1776-wallet.component';
@@ -166,7 +168,7 @@ const sharedModules = [
   NgxTrimDirectiveModule,
   FontAwesomeModule,
   PipeModule,
-  MentionModule
+  MentionModule,
 ];
 
 @NgModule({
@@ -259,7 +261,9 @@ export class SharedModule {
       faHistory,
       faPencil,
       faBookOpenReader,
-      faStar
+      faStar,
+      faChildren,
+      faMapLocationDot
     );
   }
 }
