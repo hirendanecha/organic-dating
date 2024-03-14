@@ -122,6 +122,7 @@ import { HealthPraatitionerCardComponent } from './components/health-partitioner
 import { EditPostModalComponent } from './modals/edit-post-modal/edit-post-modal.component';
 import { CompleteProfileModalComponent } from './modals/complete-profile/complete-profile-modal.component';
 import { SubscribeModalComponent } from './modals/subscribe-model/subscribe-modal.component';
+import { EditProfileModalComponent } from './modals/edit-profile/edit-profile-modal.component';
 
 const sharedComponents = [
   ConfirmationModalComponent,
@@ -149,6 +150,7 @@ const sharedComponents = [
   EditPostModalComponent,
   CompleteProfileModalComponent,
   SubscribeModalComponent,
+  EditProfileModalComponent,
 ];
 
 const sharedModules = [
