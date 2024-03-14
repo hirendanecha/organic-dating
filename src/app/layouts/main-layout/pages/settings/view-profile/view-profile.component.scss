@@ -61,46 +61,76 @@
 // .c-color {
 //   color: var(--para-2nd-color);
 // }
-
-.basic-info {
-  border-bottom: 2px solid var(--para-1st-color);
-}
-
-.about-me {
-  border-bottom: 2px solid var(--para-1st-color);
-}
-
-.active {
-  border-bottom: 2px solid var(--primary-color);
-  color: var(--primary-color);
-}
-
-.intrests-box {
-  border-radius: 10px;
-  text-align: start;
-  background: var(--section-1st-color);
-  .itrested-item {
-    color: var(--body-color);
-    background: var(--primary-color);
-    border-radius: 25px;
-    padding: 8px 15px;
+:host{
+  .basic-info {
+    border-bottom: 2px solid var(--para-1st-color);
   }
-}
-
-.input-field {
-  background: var(--body-color);
-}
-
-.first-section {
-  @media (max-width: 767px) {
-    display: flex;
-    flex-direction: column;
+  
+  .about-me {
+    border-bottom: 2px solid var(--para-1st-color);
   }
-}
+  
+  .active {
+    border-bottom: 2px solid var(--primary-color);
+    color: var(--primary-color);
+  }
 
-.carousel-custom-image{
-  min-height: 500px;
-  max-height: 500px;
+  .set-max-height{
+    max-height: 232px;
+  }
+
+  .view-border-bottom {
+    border-bottom: 1px solid var(--highlight-2nd-color);
+  }
+
+  .img-fluid{
+    min-height: 300px;
+    max-height: 300px;
+    min-width: 300px;
+    max-width: 300px;
+
+    @media (min-width: 992px) and (max-width: 1200px) {
+      min-height: 200px;
+      max-height: 200px;
+      min-width: 200px;
+      max-width: 200px;
+    }
+  }
+  
+  .intrests-box {
+    border-radius: 10px;
+    text-align: start;
+    background: var(--section-1st-color);
+    .itrested-item {
+      color: var(--body-color);
+      background: var(--primary-color);
+      border-radius: 25px;
+      padding: 8px 15px;
+    }
+    textarea {
+      resize: none;
+    }
+  }
+  
+  .input-field {
+    background: var(--body-color);
+  }
+  
+  .first-section {
+    @media (max-width: 767px) {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  
+  .carousel-custom-image{
+    min-height: 500px;
+    max-height: 500px;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 5px !important;
+  }
 }
 
 ::ng-deep {
