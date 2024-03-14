@@ -320,7 +320,7 @@ export class EditProfileModalComponent implements OnInit {
     );
     const height = feet + ' Feet ' + inches + ' Inches';
     this.updateUserData.height = height;
-    this.submitForm();
+    // this.submitForm();
   }
 
   vaccineStatus(vaccine: string, type: string) {
