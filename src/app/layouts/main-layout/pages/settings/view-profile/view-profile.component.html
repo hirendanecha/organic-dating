@@ -286,7 +286,7 @@
       <!-- offset-1 col-5 -->
       <div class="d-center col-12 col-md-5 mt-lg-0 mt-md-0 mt-5 mb-3">
         <img
-          src="{{ displayImage || customer?.profilePictures[0]?.imageUrl }}"
+          src="{{ displayImage || customer?.profilePictures?.[0]?.imageUrl }}"
           class="img-fluid rounded-3"
         />
       </div>
