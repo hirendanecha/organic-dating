@@ -242,6 +242,33 @@ export class OnBoardingComponent implements OnInit {
     }
   }
 
+  isNextButtonDisabled(): boolean {
+    switch (this.currentStep) {
+      case 0:
+        return !this.onBoardingForm.get('zip').valid && !this.onBoardingForm.get('city').valid;
+      case 1:
+        return !this.profileImg.file;
+      case 2:
+        return !this.onBoardingForm.get('isFluShot').valid || !this.onBoardingForm.get('isVaccinated').valid;
+      case 3:
+        return !this.onBoardingForm.get('haveChild').valid;
+      case 4:
+        return !this.onBoardingForm.get('education').valid;
+      case 5:
+        return !this.onBoardingForm.get('ethnicity').valid;
+      case 6:
+        return !this.onBoardingForm.get('height').valid;
+      case 7:
+        return !this.onBoardingForm.get('religion').valid;
+      case 8:
+        return !this.onBoardingForm.get('isSmoke').valid;
+      case 9:
+        return !this.onBoardingForm.get('relationshipType').valid;
+      default:
+        return !this.onBoardingForm.valid;
+    }
+  }
+
   nextStep(): void {
     if (this.currentStep < this.steps.length - 1) {
       this.currentStep++;
