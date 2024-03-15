@@ -166,7 +166,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
             this.submitted = true;
             this.type = 'success';
             this.registrationMessage =
-              'Your account has registered successfully. Kindly login with your email and password !!!';
+              'Please check your email and click the link to activate your account.';
             this.scrollTop();
             this.isragister = true;
             const userData = data.data;

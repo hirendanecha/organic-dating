@@ -40,7 +40,7 @@
 
   .action-button {
     width: 100px;
-    background: #ff8763;
+    background: #bf694f;
     // background: var(--primary-color);
     font-weight: bold;
     color: white;
@@ -56,9 +56,19 @@
     }
   }
 
+  .action-button:disabled,
+  .action-button.disabled,
+  fieldset:disabled .action-button {
+    color: #fff;
+    pointer-events: none;
+    background-color: #898989;
+    border-color: var(--bs-btn-disabled-border-color);
+    opacity: 0.6;
+  }
+
   .action-button-previous {
     width: 100px;
-    background: #ffd3c6;
+    background: #613f35;
     // background: var(--font-icon-color);
     font-weight: bold;
     color: white;
@@ -88,6 +98,7 @@
     font-size: 13px;
     color: #666;
     margin-bottom: 20px;
+    text-transform: none;
   }
 
   .progressbar {
