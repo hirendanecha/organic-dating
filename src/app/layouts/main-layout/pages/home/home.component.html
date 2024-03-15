@@ -613,7 +613,7 @@
   <p class="text-start mt-5">I teach learn and pursue music proffesionally</p>
 </div>
 
-<div class="story-box single-box h-156-px p-8">
+<div class="story-box single-box h-156-px p-8" *ngIf="profileList[currentIndex]?.idealDate">
   <h4 class="text-start">Ideal Date</h4>
-  <p class="text-start mt-5">Direct genuine meeting for trying the knot</p>
+  <p class="text-start mt-5">{{ profileList[currentIndex]?.idealDate }}</p>
 </div>

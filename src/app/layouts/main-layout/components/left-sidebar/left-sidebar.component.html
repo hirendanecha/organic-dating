@@ -11,14 +11,14 @@
         <img
           class="avatar-img max-un"
           loading="lazy"
-          data-src="{{ sharedService?.userData?.ProfilePicName }}"
+          data-src="{{ sharedService?.userData?.profilePictures[0]?.imageUrl }}"
           onerror="this.onerror=null;this.src='/assets/images/avtar/placeholder-user.png';"
           alt="avatar"
         />
       </div>
       <div class="text-area d-flex flex-column justify-content-start">
         <h6 class="m-0 text-ellipsis w-200-px">
-          {{ sharedService?.userData?.Username }}
+          {{ sharedService?.userData?.userName }}
         </h6>
       </div>
     </div>
