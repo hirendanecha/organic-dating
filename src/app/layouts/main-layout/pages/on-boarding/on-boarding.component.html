@@ -373,6 +373,7 @@
           class="next action-button"
           value="Next"
           (click)="validateAndNextStep()"
+          [disabled]="isNextButtonDisabled()"
           />
           <!-- (click)="nextStep()" -->
         <input
