@@ -124,6 +124,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     config.wrap = false;
     config.keyboard = false;
     config.pauseOnHover = false;
+    const data = {
+      title: 'Organic dating',
+      url: `${location.href}`,
+      description: '',
+    };
+    this.seoService.updateSeoMetaData(data);
+    
     // if (isPlatformBrowser(this.platformId)) {
     //   this.profileId = localStorage.getItem('profileId');
     //   this.postData.profileid = +this.profileId;

@@ -2,6 +2,7 @@ import { Component, ViewChild, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CustomerService } from 'src/app/@shared/services/customer.service';
+import { SeoService } from 'src/app/@shared/services/seo.service';
 import { TokenStorageService } from 'src/app/@shared/services/token-storage.service';
 
 @Component({
@@ -19,8 +20,16 @@ export class SettingsComponent {
     private router: Router,
     private spinner: NgxSpinnerService,
     private customerService: CustomerService,
-    private tokenStorageService: TokenStorageService
-  ) {}
+    private tokenStorageService: TokenStorageService,
+    private seoService:SeoService
+  ) {
+    const data = {
+      title: 'Organic dating Settings',
+      url: `${location.href}`,
+      description: '',
+    };
+    this.seoService.updateSeoMetaData(data);
+  }
 
   ngOnInit() {}
 

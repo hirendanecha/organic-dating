@@ -9,6 +9,7 @@ import {
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SubscribeModalComponent } from 'src/app/@shared/modals/subscribe-model/subscribe-modal.component';
 import { CustomerService } from 'src/app/@shared/services/customer.service';
+import { SeoService } from 'src/app/@shared/services/seo.service';
 
 @Component({
   selector: 'app-carousel',
@@ -55,8 +56,16 @@ export class CarouselComponent implements OnInit {
 
   constructor(
     private customerService: CustomerService,
-    private modelService: NgbModal
-  ) {}
+    private modelService: NgbModal,
+    private seoService:SeoService
+  ) {
+    const data = {
+      title: 'Organic dating Carousel',
+      url: `${location.href}`,
+      description: '',
+    };
+    this.seoService.updateSeoMetaData(data);
+  }
 
   ngOnInit(): void {
     this.currentImageIndex = this.pictureList.length;
