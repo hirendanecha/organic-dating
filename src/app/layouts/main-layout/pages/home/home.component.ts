@@ -722,8 +722,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getNextPageGroupPostsById(event: NgbSlideEvent): void {
     if (event.source === 'arrowRight') {
-      this.currentIndex = +event.current.split('-')[2];
-      console.log(this.currentIndex);
+      ++this.currentIndex
+      // this.currentIndex = +event.current.split('-')[2];
       if (this.currentIndex === 10) {
         this.pagination.page = this.pagination.page + 1;
         this.getProfile(this.pagination);
@@ -734,7 +734,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       //   group.page += 1;
       // }
     } else if (event.source === 'arrowLeft') {
-      this.currentIndex = +event.current.split('-')[2];
+      --this.currentIndex
+      // this.currentIndex = +event.current.split('-')[2];
     }
   }
 
@@ -746,7 +747,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: any) => {
           this.profileList = res.data;
-          console.log('hello', res);
+          // console.log('hello', res);
         },
         error: (err) => {},
       });
