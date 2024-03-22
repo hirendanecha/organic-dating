@@ -751,9 +751,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         error: (err) => {},
       });
   }
-  SendMessageInpt() {
+  SendMessageInpt(dataList) {
     const modalRef = this.modelService.open(SubscribeModalComponent, {
       centered: true,
     });
+    modalRef.componentInstance.dataList = dataList;
   }
 }
