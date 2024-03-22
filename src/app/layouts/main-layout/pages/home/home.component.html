@@ -581,7 +581,7 @@
       [(ngModel)]="message"
       (keyup)="sendMessage()"
     />
-    <button (click)="SendMessageInpt()" [disabled]="!message">
+    <button (click)="SendMessageInpt(profileList[currentIndex])" [disabled]="!message">
       <fa-icon class="msg-section-icon" [icon]="['fas', 'paper-plane']" />
     </button>
     <i class="fa-solid fa-gift"></i>

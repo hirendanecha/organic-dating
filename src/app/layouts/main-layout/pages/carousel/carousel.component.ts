@@ -45,14 +45,14 @@ export class CarouselComponent implements OnInit {
       img: 'assets/images/landingpage/OD-default-profile.png',
     },
   ];
-  pictureList: any = [];
+  dataList: any = [];
   pagination: any = {
     page: 0,
     limit: 10,
   };
 
   currentSlideIndex = 0;
-  currentImageIndex: number = this.pictureList.length - 1;
+  currentImageIndex: number = this.dataList.length - 1;
 
   constructor(
     private customerService: CustomerService,
@@ -68,7 +68,7 @@ export class CarouselComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.currentImageIndex = this.pictureList.length;
+    this.currentImageIndex = this.dataList.length;
     this.getPictures(this.pagination);
   }
 
@@ -76,12 +76,12 @@ export class CarouselComponent implements OnInit {
     if (this.currentImageIndex > 0) {
       this.currentImageIndex--;
     } else {
-      this.currentImageIndex = this.pictureList.length - 1;
+      this.currentImageIndex = this.dataList.length - 1;
     }
   }
 
   next() {
-    if (this.currentImageIndex < this.pictureList.length - 1) {
+    if (this.currentImageIndex < this.dataList.length - 1) {
       this.currentImageIndex++;
     } else {
       this.currentImageIndex = 0;
@@ -96,8 +96,7 @@ export class CarouselComponent implements OnInit {
       .getPictures(paggination.page, paggination.limit)
       .subscribe({
         next: (res: any) => {
-          this.pictureList = res.data;
-          console.log('hello', this.pictureList);
+          this.dataList = res.data;
         },
         error: (err) => {},
       });
@@ -116,5 +115,6 @@ export class CarouselComponent implements OnInit {
     const modalRef = this.modelService.open(SubscribeModalComponent, {
       centered: true,
     });
+    // modalRef.componentInstance.data = this.dataList;
   }
 }
