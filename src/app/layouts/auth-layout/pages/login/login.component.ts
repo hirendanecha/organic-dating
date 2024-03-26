@@ -110,11 +110,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   onSubmit(): void {
     const token = localStorage.getItem('captcha-token');
-    // if (!token) {
-    //   this.msg = 'Invalid captcha kindly try again!';
-    //   this.type = 'danger';
-    //   return;
-    // }
+    if (!token) {
+      this.msg = 'Invalid captcha kindly try again!';
+      this.type = 'danger';
+      return;
+    }
     this.spinner.show();
     this.authService.customerlogin(this.loginForm.value).subscribe({
       next: (data: any) => {

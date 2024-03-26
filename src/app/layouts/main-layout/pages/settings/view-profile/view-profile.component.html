@@ -293,9 +293,9 @@
 
       <!-- offset-1 col-1 -->
       <div
-        class="col-12 col-md-2 d-flex flex-md-column align-items-center mt-lg-0 mt-md-0 mt-5 gap-2"
+        class="col-12 col-md-2 d-flex flex-md-column justify-content-center align-items-center mt-lg-0 mt-md-0 mt-5 gap-2"
       >
-      <div class="bg-light text-center d-center h-56-px w-56-px rounded-3 c-pointer" (click)="openModel('Photos')">
+      <div *ngIf="customer.profileId === profileId" class="bg-light text-center d-center h-56-px w-56-px rounded-3 c-pointer" (click)="openModel('Photos')">
         <fa-icon [icon]="['fas', 'plus']"></fa-icon>
       </div>
       <div class="d-flex flex-md-column set-max-height text-center gap-2 overflow-y-auto">
