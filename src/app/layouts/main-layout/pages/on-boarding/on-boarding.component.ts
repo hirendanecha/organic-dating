@@ -96,6 +96,7 @@ export class OnBoardingComponent implements OnInit {
 
   onBoardingForm = new FormGroup({
     userId: new FormControl(null),
+    userName: new FormControl(''),
     isVaccinated: new FormControl('', [Validators.required]),
     isFluShot: new FormControl('', [Validators.required]),
     haveChild: new FormControl('', [Validators.required]),
@@ -287,7 +288,9 @@ export class OnBoardingComponent implements OnInit {
   submitForm(): void {
     this.userId = this.tokenStorageService.getUser()?.userId;
     this.profileId = this.tokenStorageService.getUser()?.profileId;
+    const userName = this.tokenStorageService.getUser()?.userName;
     this.onBoardingForm.get('userId').setValue(this.userId);
+    this.onBoardingForm.get('userName').setValue(userName);
     this.customerService
       .updateProfile(this.profileId, this.onBoardingForm.value)
       .subscribe({

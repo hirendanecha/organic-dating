@@ -131,10 +131,11 @@ export function app(): express.Express {
 
           console.log({ params }, { id }, { profile: JSON.stringify(profile) });
           const talent = {
-            name: profile[0]?.Username,
-            description: profile[0].FirstName + ' ' + profile[0].LastName,
-            image: profile[0].ProfilePicName,
+            name: profile[0]?.userName,
+            description: 'Organic dating',
+            image: profile?.[0]?.profilePictures?.[0]?.imageUrl,
           };
+          // description: profile[0]?.FirstName + ' ' + profile[0]?.LastName,
           seo.title = talent.name;
           seo.description = strip_html_tags(talent.description);
           seo.image = `${talent.image}`;
