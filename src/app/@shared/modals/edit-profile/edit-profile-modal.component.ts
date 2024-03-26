@@ -242,7 +242,7 @@ export class EditProfileModalComponent implements OnInit {
   }
 
   uploadImage() {
-    this.activeModal.close();
+    this.activeModal.close('success');
   }
 
   relationStatus(relation: string) {
@@ -303,7 +303,7 @@ export class EditProfileModalComponent implements OnInit {
     };
     this.customerService.addInterests(data).subscribe({
       next: (result) => {
-        this.activeModal.close();
+        this.activeModal.close('success');
       },
       error: (error) => {
         console.log(error);
@@ -381,7 +381,7 @@ export class EditProfileModalComponent implements OnInit {
 
 
   submitForm(): void {
-    this.activeModal.close();
+    this.activeModal.close('success');
     this.customerService
       .updateProfile(this.profileId, this.updateUserData)
       .subscribe({

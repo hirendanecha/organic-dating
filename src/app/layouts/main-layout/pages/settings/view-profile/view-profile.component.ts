@@ -47,18 +47,19 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     private seoService: SeoService,
     private modal: NgbModal
   ) {
-    // this.router.events.subscribe((event: any) => {
-    //   const id = event?.routerEvent?.url.split('/')[3];
-    //   this.profileId = id;
-    //   if (id) {
-    //     this.getProfile(id);
-    //   }
-    //   this.profileId = +localStorage.getItem('profileId');
-    // });
-    this.profileId = +localStorage.getItem('profileId');
-    if (this.profileId) {
-      this.getProfile(this.profileId);
-    }
+    this.router.events.subscribe((event: any) => {
+      const id = event?.routerEvent?.url.split('/')[3];
+      // this.profileId = id
+      if (id) {
+        this.getProfile(id);
+      }
+      this.profileId = +this.tokenStorage.getUser()?.profileId;
+    });
+    // this.profileId = this.tokenStorage.getUser()?.profileId;
+    // console.log(this.profileId);
+    // if (this.profileId) {
+    //   this.getProfile(this.profileId);
+    // }
   }
 
   profilePre() {
@@ -83,10 +84,10 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           this.customer = res.data;
           this.userId = res.data?.UserID;
           const data = {
-            title: this.customer?.FirstName + ' ' + this.customer?.LastName,
+            title: this.customer?.userName || 'Organic dating',
             url: `${environment.webUrl}settings/view-profile/${this.customer?.Id}`,
             description: '',
-            image: this.customer?.ProfilePicName,
+            image: this.customer?.profilePictures?.[0]?.imageUrl,
           };
           this.seoService.updateSeoMetaData(data);
         }
@@ -183,5 +184,11 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       centered: true,
     });
     modalRef.componentInstance.title = field;
+    modalRef.result.then((res) => {
+      if (res === 'success') {
+        this.customer = {};
+        this.getProfile(+this.profileId);
+      }
+    })
   }
 }
