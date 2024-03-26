@@ -47,14 +47,17 @@ export class ViewProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     private seoService: SeoService,
     private modal: NgbModal
   ) {
+    this.profileId = +this.tokenStorage.getUser()?.profileId;
     this.router.events.subscribe((event: any) => {
       const id = event?.routerEvent?.url.split('/')[3];
       // this.profileId = id
       if (id) {
         this.getProfile(id);
-      }
-      this.profileId = +this.tokenStorage.getUser()?.profileId;
+      } 
     });
+    if (!this.router.routerState.snapshot.url.includes('settings/view-profile')) {
+      this.getProfile(this.profileId);
+    }
     // this.profileId = this.tokenStorage.getUser()?.profileId;
     // console.log(this.profileId);
     // if (this.profileId) {
