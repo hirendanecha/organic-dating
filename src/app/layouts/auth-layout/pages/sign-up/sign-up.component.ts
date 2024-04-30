@@ -50,6 +50,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
   selectedMonth: number;
   selectedYear: number;
   captchaToken = '';
+  passwordHidden: boolean = true;
 
   @ViewChild('zipCode') zipCode: ElementRef;
   registerForm = new FormGroup({
@@ -108,6 +109,11 @@ export class SignUpComponent implements OnInit, AfterViewInit {
         }
       },
     });
+  }
+
+  togglePasswordVisibility(passwordInput: HTMLInputElement) {
+    passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    this.passwordHidden = !this.passwordHidden;
   }
 
   validatepassword(): boolean {

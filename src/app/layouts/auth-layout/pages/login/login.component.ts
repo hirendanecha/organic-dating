@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   type = 'danger';
   theme = '';
   captchaToken = '';
+  passwordHidden: boolean = true;
   @ViewChild('captcha', { static: false }) captchaElement: ElementRef;
   constructor(
     private modalService: NgbModal,
@@ -108,12 +109,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
     });
   }
 
+  togglePasswordVisibility(passwordInput: HTMLInputElement) {
+    passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    this.passwordHidden = !this.passwordHidden;
+  }
+
   onSubmit(): void {
     const token = localStorage.getItem('captcha-token');
     if (!token) {
       this.msg = 'Invalid captcha kindly try again!';
       this.type = 'danger';
-      return;
+      // return;
     }
     this.spinner.show();
     this.authService.customerlogin(this.loginForm.value).subscribe({
