@@ -79,9 +79,9 @@ export class SignUpComponent implements OnInit, AfterViewInit {
   ) {
     const data = {
       title: 'Organic dating Registration',
-      url: `${environment.webUrl}sign-up`,
+      url: `${environment.webUrl}register`,
       description: 'Registration page',
-      image: `${environment.webUrl}assets/images/landingpage/Healing-Tube-Logo.png`,
+      image: `${environment.webUrl}assets/images/landingpage/OD-default-profile-banner.png`,
     };
     this.seoService.updateSeoMetaData(data);
     this.theme = localStorage.getItem('theme');
