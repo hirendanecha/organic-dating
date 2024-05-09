@@ -84,14 +84,14 @@ export function app(): express.Express {
         }
         const params = req.params[0];
         var seo: any = {
-          title: 'Organic dating',
+          title: 'Organic.dating',
           description:
             'Find like minded male or female unvaccinated organic humans!',
           image:
             'https://www.organic.dating/assets/images/landingpage/OD-default-profile.png',
           site: 'https://www.organic.dating/',
           url: 'https://www.organic.dating' + params,
-          keywords: 'Organic dating',
+          keywords: 'Organic.dating',
         };
         if (
           params.indexOf('connection/') > -1 ||
@@ -132,7 +132,7 @@ export function app(): express.Express {
           console.log({ params }, { id }, { profile: JSON.stringify(profile) });
           const talent = {
             name: profile[0]?.userName,
-            description: 'Organic dating',
+            description: 'Organic.dating',
             image: profile?.[0]?.profilePictures?.[0]?.imageUrl,
           };
           // description: profile[0]?.FirstName + ' ' + profile[0]?.LastName,
@@ -175,7 +175,7 @@ export function app(): express.Express {
 
           console.log('group===>', group);
           const talent = {
-            name: `Organic dating Research ${group?.PageTitle}`,
+            name: `Organic.dating Research ${group?.PageTitle}`,
             description: group?.PageDescription,
             image: group?.CoverPicName || group?.ProfilePicName,
           };
