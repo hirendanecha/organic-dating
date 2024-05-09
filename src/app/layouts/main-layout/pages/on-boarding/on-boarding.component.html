@@ -15,7 +15,7 @@
         *ngFor="let step of steps; let i = index"
         [style.display]="i === currentStep ? 'block' : 'none'"
       >
-      <!-- <img [src]="'/assets/images/on-boarding/header/' + getImageName(step)" class="h-40-px w-40-px mb-3"> -->
+      <img [src]="'/assets/images/on-boarding/header/' + getImageName(step)" class="h-40-px w-40-px mb-3">
         <h2 class="fs-title">{{ step }}</h2>
         <ng-container *ngIf="i === 0">
           <h3 class="fs-subtitle">City or Zip Code</h3>
