@@ -65,7 +65,7 @@ export class ResearchListComponent {
     private socketService: SocketService
   ) {
     const data = {
-      title: 'Organic dating Research',
+      title: 'Organic.dating Research',
       url: `${window.location.href}`,
       description: '',
     };

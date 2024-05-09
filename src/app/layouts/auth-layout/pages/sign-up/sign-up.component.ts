@@ -78,7 +78,7 @@ export class SignUpComponent implements OnInit, AfterViewInit {
     private tokenStorageService: TokenStorageService
   ) {
     const data = {
-      title: 'Organic dating Registration',
+      title: 'Organic.dating Registration',
       url: `${environment.webUrl}register`,
       description: 'Registration page',
       image: `${environment.webUrl}assets/images/landingpage/OD-default-profile-banner.png`,

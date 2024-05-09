@@ -24,7 +24,7 @@ export class SettingsComponent {
     private seoService:SeoService
   ) {
     const data = {
-      title: 'Organic dating Settings',
+      title: 'Organic.dating Settings',
       url: `${location.href}`,
       description: '',
     };
