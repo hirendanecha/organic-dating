@@ -203,7 +203,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
           if (res?.profileImg?.body?.url) {
             this.profileImg['file'] = null;
             this.profileImg['url'] = res?.profileImg?.body?.url;
-            this.sharedService['userData']['ProfilePicName'] = this.profileImg['url'];
+            this.sharedService['userData']['profilePicName'] = this.profileImg['url'];
           }
 
           if (res?.profileCoverImg?.body?.url) {
@@ -227,7 +227,7 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
   updateCustomer(): void {
     if (this.profileId) {
       this.spinner.show();
-      this.customer.ProfilePicName = this.profileImg?.url || this.customer.ProfilePicName;
+      this.customer.profilePicName = this.profileImg?.url || this.customer.profilePicName;
       this.customer.CoverPicName = this.profileCoverImg?.url || this.customer.CoverPicName;
       this.customer.IsActive = 'Y';
       this.customer.UserID = +this.userId;
@@ -306,8 +306,8 @@ export class EditProfileComponent implements OnInit, AfterViewInit {
     });
   }
   onChangeTag(event) {
-    this.customer.Username = event.target.value.replaceAll(' ', '');
-    console.log(this.customer.Username);
+    this.customer.userName = event.target.value.replaceAll(' ', '');
+    console.log(this.customer.userName);
   }
 
   notificationSound(): void {

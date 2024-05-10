@@ -110,7 +110,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   togglePasswordVisibility(passwordInput: HTMLInputElement) {
-    passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    passwordInput.type =
+      passwordInput.type === 'password' ? 'text' : 'password';
     this.passwordHidden = !this.passwordHidden;
   }
 
@@ -137,6 +138,15 @@ export class LoginComponent implements OnInit, AfterViewInit {
           this.isLoginFailed = false;
           this.isLoggedIn = true;
           this.socketService.connect();
+          this.socketService.socket?.emit('online-users');
+          this.socketService?.socket?.on('get-users', (data) => {
+            data.map((ele) => {
+              if (!this.sharedService.onlineUserList.includes(ele.userId)) {
+                this.sharedService.onlineUserList.push(ele.userId);
+              }
+            });
+            // this.onlineUserList = data;
+          });
           this.toastService.success('Logged in successfully');
           this.router.navigate([`/home`]);
         } else {
@@ -161,7 +171,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   resend() {
     this.authService
-      .userVerificationResend({ username: this.loginForm.value.login_email })
+      .userVerificationResend({ userName: this.loginForm.value.login_email })
       .subscribe({
         next: (result: any) => {
           this.msg = result.message;

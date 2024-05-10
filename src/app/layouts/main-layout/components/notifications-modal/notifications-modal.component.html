@@ -13,7 +13,7 @@
               class="avatar-img w-52-px h-52-px rounded-5"
               loading="lazy"
               data-src="{{
-                notification?.ProfilePicName ||
+                notification?.profilePicName ||
                   '/assets/images/avtar/placeholder-user.png'
               }}"
               onerror="this.onerror=null;this.src='/assets/images/avtar/placeholder-user.png';"
@@ -22,7 +22,7 @@
           </div>
           <div class="text-area">
             <h6 class="m-0 mb-1">
-              {{ notification?.Username }}
+              {{ notification?.userName }}
               <!-- <span
                 *ngIf="notification?.isRead === 'N'"
                 class="unread-notification smtxt"

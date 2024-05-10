@@ -100,7 +100,7 @@ export class ResetPasswordComponent {
         error: (error) => {
           this.loading = false;
           this.submitted = false;
-          this.msg = 'You have entered the wrong password or username';
+          this.msg = 'You have entered the wrong password or userName';
           this.type = 'danger';
         },
       });

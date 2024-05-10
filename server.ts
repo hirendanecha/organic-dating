@@ -177,7 +177,7 @@ export function app(): express.Express {
           const talent = {
             name: `Organic.dating Research ${group?.PageTitle}`,
             description: group?.PageDescription,
-            image: group?.CoverPicName || group?.ProfilePicName,
+            image: group?.CoverPicName || group?.profilePicName,
           };
           seo.title = talent.name;
           seo.description = talent.description;
