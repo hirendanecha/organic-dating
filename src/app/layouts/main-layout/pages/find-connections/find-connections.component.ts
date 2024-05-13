@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbModal, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { SubscribeModalComponent } from 'src/app/@shared/modals/subscribe-model/subscribe-modal.component';
 import { CustomerService } from 'src/app/@shared/services/customer.service';
@@ -25,7 +26,8 @@ export class ConnectionsComponent implements OnInit {
     private seoService: SeoService,
     private customerService: CustomerService,
     private modelService: NgbModal,
-    private tokenStorageService: TokenStorageService
+    private tokenStorageService: TokenStorageService,
+    private router: Router
   ) {
     const data = {
       title: 'Organic.dating Connections',
@@ -86,9 +88,10 @@ export class ConnectionsComponent implements OnInit {
   sendMessage() {}
 
   SendMessageInpt(dataList) {
-    const modalRef = this.modelService.open(SubscribeModalComponent, {
-      centered: true,
-    });
-    modalRef.componentInstance.dataList = dataList;
+    // const modalRef = this.modelService.open(SubscribeModalComponent, {
+    //   centered: true,
+    // });
+    // modalRef.componentInstance.dataList = dataList;
+    this.router.navigate(['/chats'])
   }
 }

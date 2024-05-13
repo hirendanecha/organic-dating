@@ -158,20 +158,20 @@
     </ngb-carousel>
   </div>
   <div class="mt-5 p-5 mb-5 single-box">
-    <div class="d-flex justify-content-around">
+    <div class="d-flex justify-content-around gap-2 gap-sm-4">
       <button
-        class="intrests-box btn cmn-btn"
+        class="intrests-box btn cmn-btn d-flex gap-3"
         (click)="SendMessageInpt(profileList[currentIndex])"
       >
         <fa-icon class="msg-section-icon" [icon]="['fas', 'phone']" />
-        Request For Call
+        Request Video Call
       </button>
       <button
-        class="intrests-box btn cmn-btn"
+        class="intrests-box btn cmn-btn d-flex gap-3"
         (click)="SendMessageInpt(profileList[currentIndex])"
       >
         <fa-icon class="msg-section-icon" [icon]="['fas', 'message']" />
-        Request For Message
+        Request Messaging
       </button>
     </div>
   </div>
@@ -187,22 +187,23 @@
       </div>
     </div>
   </div>
+  <ng-container *ngIf="profileList[currentIndex]?.idealDate">
+    <div class="story-box single-box h-156-px p-8">
+      <h4 class="text-start">My Story</h4>
+      <p class="text-start mt-5 story-area">{{profileList[currentIndex]?.idealDate}}</p>
+    </div>
+  </ng-container>
 
-  <div class="story-box single-box h-156-px p-8">
-    <h4 class="text-start">Story</h4>
-    <p class="text-start mt-5">Western Dancing on bollywood</p>
-  </div>
-
-  <div class="story-box single-box h-156-px p-8">
+  <!-- <div class="story-box single-box h-156-px p-8">
     <h4 class="text-start">Perfect Match</h4>
     <p class="text-start mt-5">I teach learn and pursue music proffesionally</p>
-  </div>
+  </div> -->
 
-  <div
+  <!-- <div
     class="story-box single-box h-156-px p-8"
     *ngIf="profileList[currentIndex]?.idealDate"
   >
     <h4 class="text-start">Ideal Date</h4>
     <p class="text-start mt-5">{{ profileList[currentIndex]?.idealDate }}</p>
-  </div>
+  </div> -->
 </ng-container>

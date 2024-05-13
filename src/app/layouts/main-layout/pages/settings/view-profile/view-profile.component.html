@@ -257,7 +257,7 @@
 
 <!-- New view profile -->
 
-<div class="mt-8" *ngIf="!profilePreview">
+<div class="my-8" *ngIf="!profilePreview">
   <div class="d-flex justify-content-between">
     <h5>My Profile</h5>
     <button class="btn btn-sm cmn-btn" (click)="profilePre()">
@@ -499,14 +499,20 @@
         <h6 class="mt-2">Please finish this step for better match!</h6>
       </ng-template>
     </div>
-    <ng-container *ngIf="customer?.idealDate">
+    <ng-container>
       <div class="intrests-box single-box mt-8 py-5 px-8">
         <div class="d-flex justify-content-between">
           <h5 class="text-start">My Story</h5>
           <fa-icon *ngIf="customer.profileId === profileId" [icon]="['fas', 'pencil']" class="c-pointer" (click)="openModel('My Story')"></fa-icon>
         </div>
-        <span
+        <span class="story-area" *ngIf="customer?.idealDate; else noStory"
       >{{customer.idealDate}}</span>
+      <ng-template #noStory>
+        <div class="story-area">
+          <h5>Please tell your match your story!</h5>
+          <small class="text-danger">Minimum of 20 characters and maximum of 500 characters for better reach</small>
+        </div>
+      </ng-template>
       </div>
     </ng-container>
   </ng-container>

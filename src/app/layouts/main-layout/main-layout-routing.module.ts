@@ -48,6 +48,7 @@ const routes: Routes = [
           ),
         data: {
           isShowLeftSideBar: true,
+          isShowRightSideBar: true,
         },
         canActivate: mapToCanActivate([AuthenticationGuard]),
       },
