@@ -311,7 +311,7 @@ export class EditProfileModalComponent implements OnInit {
     this.customerService.addInterests(data).subscribe({
       next: (result) => {
         this.activeModal.close('success');
-        this.sharedService.getUserDetails();
+        this.submitForm();
       },
       error: (error) => {
         console.log(error);

@@ -71,7 +71,7 @@ export class CustomerService {
   }
 
   getProfile(id): Observable<Object> {
-    return this.http.get<Object>(`${this.baseUrl}/profile/${id}?q=${Date.now()}`);
+    return this.http.get<Object>(`${this.baseUrl}/profile/${id}&q=${Date.now()}`);
   }
 
   updateProfile(id, customer: any): Observable<Object> {
