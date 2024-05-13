@@ -143,7 +143,7 @@ export class EditProfileModalComponent implements OnInit {
         return 'history.png';
       case `Body Type`:
         return 'human-body.png';
-      case 'Ideal date':
+      case 'My Story':
         return 'idealDate.png';
       case 'Vaccine status':
         return 'vaccine.png';

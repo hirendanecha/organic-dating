@@ -127,13 +127,13 @@ export class OnBoardingComponent implements OnInit {
     zip: new FormControl({ value: '', disabled: true }, [Validators.required]),
     city: new FormControl({ value: '', disabled: true }, [Validators.required]),
     imageUrl: new FormControl('', [Validators.required]),
-    // matchIsVaccinated: new FormControl('', [Validators.required]),
-    // matchHaveChild: new FormControl('', [Validators.required]),
-    // matchEducation: new FormControl('', [Validators.required]),
-    // matchEthnicity: new FormControl('', [Validators.required]),
-    // matchBodyType: new FormControl('', [Validators.required]),
-    // matchReligion: new FormControl('', [Validators.required]),
-    // matchIsSmoke: new FormControl('', [Validators.required]),
+    matchIsVaccinated: new FormControl('', [Validators.required]),
+    matchHaveChild: new FormControl('', [Validators.required]),
+    matchEducation: new FormControl('', [Validators.required]),
+    matchEthnicity: new FormControl('', [Validators.required]),
+    matchBodyType: new FormControl('', [Validators.required]),
+    matchReligion: new FormControl('', [Validators.required]),
+    matchIsSmoke: new FormControl('', [Validators.required]),
   });
 
   constructor(
@@ -201,6 +201,8 @@ export class OnBoardingComponent implements OnInit {
         return 'smoke.png';
       case 'What type of relationship are you looking for?':
         return 'relationship.png';
+      case 'WHO ARE YOU LOOKING FOR?':
+        return 'search.png';
       default:
         return 'default.png';
     }
@@ -554,32 +556,38 @@ export class OnBoardingComponent implements OnInit {
 
   matchVaccineStatus(vaccine: string) {
     this.matchStatusofVaccine = vaccine;
-    // this.onBoardingForm.get('matchIsVaccinated').setValue(this.matchStatusofVaccine);
+    this.onBoardingForm.get('matchIsVaccinated').setValue(this.matchStatusofVaccine);
   }
 
   matchChildStatus(child: string) {
+    let mappedValue: string;
+    if (child === 'Yes') {
+      mappedValue = 'Y';
+    } else if (child === 'No') {
+      mappedValue = 'N';
+    }
     this.matchStatusofChild = child;
-    // this.onBoardingForm.get('matchHaveChild').setValue(this.matchStatusofChild);
+    this.onBoardingForm.get('matchHaveChild').setValue(mappedValue);
   }
 
   matchStudyStatus(study: string) {
     this.matchStatusofStudy = study;
-    // this.onBoardingForm.get('matchEducation').setValue(this.matchStatusofStudy);
+    this.onBoardingForm.get('matchEducation').setValue(this.matchStatusofStudy);
   }
   
   matchBodyType(body: string) {
     this.matchStatusofBody = body;
-    // this.onBoardingForm.get('matchBodyType').setValue(this.matchStatusofBody);
+    this.onBoardingForm.get('matchBodyType').setValue(this.matchStatusofBody);
   }
 
   matchEthnicityStatus(ethnicity: string) {
     this.matchStatusofEthnicity = ethnicity;
-    // this.onBoardingForm.get('matchEthnicity').setValue(this.matchStatusofEthnicity);
+    this.onBoardingForm.get('matchEthnicity').setValue(this.matchStatusofEthnicity);
   }
 
   matchReligionStatus(religion: string) {
     this.matchStatusofReligion = religion;
-    // this.onBoardingForm.get('matchReligion').setValue(this.matchStatusofReligion);
+    this.onBoardingForm.get('matchReligion').setValue(this.matchStatusofReligion);
   }
 
   matchSmokeStatus(smoke: string) {
@@ -592,6 +600,6 @@ export class OnBoardingComponent implements OnInit {
       mappedValue = 'It does not matter';
     }
     this.matchStatusofSmoke = smoke;
-    // this.onBoardingForm.get('matchIsSmoke').setValue(mappedValue);
+    this.onBoardingForm.get('matchIsSmoke').setValue(mappedValue);
   }
 }

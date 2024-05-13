@@ -91,7 +91,7 @@ export class CompleteProfileModalComponent implements OnInit, AfterViewInit {
         return 'human-body.png';
       case 'Photos':
         return 'photo.png';
-      case 'Ideal date':
+      case 'My Story':
         return 'idealDate.png';
       default:
         return 'default.png';

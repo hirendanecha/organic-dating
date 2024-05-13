@@ -5,8 +5,8 @@
         <li *ngFor="let step of visibleSteps(); let i = index"
             [class.active]="step <= currentStep" 
             class="step"
+            (click)="goToStep(step)"
             [attr.data-step]="step + 1">
-            <!-- (click)="goToStep(i)" -->
             <!-- {{ step }} -->
           </li>
         </ul>
