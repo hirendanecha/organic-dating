@@ -120,7 +120,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (!token) {
       this.msg = 'Invalid captcha kindly try again!';
       this.type = 'danger';
-      // return;
+      return;
     }
     this.spinner.show();
     this.authService.customerlogin(this.loginForm.value).subscribe({
