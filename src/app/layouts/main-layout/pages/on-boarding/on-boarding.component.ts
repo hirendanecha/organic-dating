@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { debounceTime, fromEvent } from 'rxjs';
 import { CustomerService } from 'src/app/@shared/services/customer.service';
 import { SharedService } from 'src/app/@shared/services/shared.service';
+import { SocketService } from 'src/app/@shared/services/socket.service';
 import { ToastService } from 'src/app/@shared/services/toast.service';
 import { TokenStorageService } from 'src/app/@shared/services/token-storage.service';
 import { UploadFilesService } from 'src/app/@shared/services/upload-files.service';
@@ -155,7 +156,8 @@ export class OnBoardingComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private tokenStorageService: TokenStorageService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private socketService: SocketService
   ) {
     this.route.queryParams.subscribe((params) => {
       const token = params['token'];
@@ -411,6 +413,7 @@ export class OnBoardingComponent implements OnInit {
             localStorage.setItem('profileId', String(this.profileId));
             this.toastService.success(res.message);
             this.sharedService.getUserDetails();
+            this.socketService.connect();
             this.router.navigate([`/home`]);
           } else {
             this.toastService.danger(res?.message);

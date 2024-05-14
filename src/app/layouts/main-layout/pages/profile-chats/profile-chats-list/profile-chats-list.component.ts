@@ -919,8 +919,8 @@ export class ProfileChatsListComponent
     });
     const originUrl = `callId-${new Date().getTime()}`;
     const data = {
-      ProfilePicName:
-        this.groupData?.ProfileImage || this.userChat?.ProfilePicName,
+      profilePicName:
+        this.groupData?.ProfileImage || this.userChat?.profilePicName,
       userName: this.groupData?.groupName || this?.userChat.userName,
       roomId: this.userChat?.roomId || null,
       groupId: this.userChat?.groupId || null,
@@ -944,7 +944,7 @@ export class ProfileChatsListComponent
       this.socketService?.startCall(data, (data: any) => {});
     } else  {
       const buzzRingData = {
-        ProfilePicName: this.groupData?.ProfileImage ||this.sharedService?.userData?.ProfilePicName,
+        profilePicName: this.groupData?.ProfileImage ||this.sharedService?.userData?.profilePicName,
         userName: this.groupData?.groupName || this.sharedService?.userData?.userName,
         actionType: "VC",
         notificationByProfileId: this.profileId,
@@ -968,7 +968,7 @@ export class ProfileChatsListComponent
 
           if (!this.sharedService?.onlineUserList.includes(this.userChat?.profileId)) {
             const buzzRingData = {
-              ProfilePicName: this.groupData?.ProfileImage || this.userChat?.ProfilePicName,
+              profilePicName: this.groupData?.ProfileImage || this.userChat?.profilePicName,
               userName: this.groupData?.groupName || this?.userChat.userName,
               actionType: "DC",
               notificationByProfileId: this.profileId,
@@ -1041,7 +1041,7 @@ export class ProfileChatsListComponent
     if (!this.userChat.groupId) {
       const data = {
         Id: this.userChat.profileId,
-        ProfilePicName: this.userChat.ProfilePicName,
+        profilePicName: this.userChat.profilePicName,
         userName: this.userChat.userName,
       };
       modalRef.componentInstance.data = data;

@@ -221,7 +221,7 @@ export class TagUserInputComponent implements OnChanges, OnDestroy {
     const text = htmlText.replace(
       `@${this.userNameSearch}`,
       `<a href="/settings/view-profile/${user?.Id
-      }" class="text-danger" data-id="${user?.Id}">@${user?.Username.split(
+      }" class="text-danger" data-id="${user?.Id}">@${user?.userName.split(
         ' '
       ).join('')}</a>`
     );
