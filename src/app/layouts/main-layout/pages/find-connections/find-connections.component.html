@@ -161,17 +161,25 @@
     <div class="d-flex justify-content-around gap-2 gap-sm-4">
       <button
         class="intrests-box btn cmn-btn d-flex gap-3"
-        (click)="SendMessageInpt(profileList[currentIndex])"
+        (click)="SendMessageInpt(profileList[currentIndex], 'video call')"
       >
         <fa-icon class="msg-section-icon" [icon]="['fas', 'phone']" />
         Request Video Call
       </button>
       <button
         class="intrests-box btn cmn-btn d-flex gap-3"
-        (click)="SendMessageInpt(profileList[currentIndex])"
+        (click)="SendMessageInpt(profileList[currentIndex],'messaging')"
       >
         <fa-icon class="msg-section-icon" [icon]="['fas', 'message']" />
         Request Messaging
+      </button>
+      <button
+        class="intrests-box btn cmn-btn d-flex gap-3"
+        (click)="unsubscribe(profileList[currentIndex])"
+        >
+        <!-- (click)="SendMessageInpt(profileList[currentIndex])" -->
+        <fa-icon class="msg-section-icon" [icon]="['fas', 'message']" />
+        Block
       </button>
     </div>
   </div>

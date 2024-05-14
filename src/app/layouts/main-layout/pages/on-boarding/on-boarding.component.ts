@@ -35,6 +35,7 @@ export class OnBoardingComponent implements OnInit {
     'WHO ARE YOU LOOKING FOR?',
     'WHO ARE YOU LOOKING FOR?',
     'WHO ARE YOU LOOKING FOR?',
+    'My Story'
   ];
   childOptions = [
     'No',
@@ -134,6 +135,7 @@ export class OnBoardingComponent implements OnInit {
     matchBodyType: new FormControl('', [Validators.required]),
     matchReligion: new FormControl('', [Validators.required]),
     matchIsSmoke: new FormControl('', [Validators.required]),
+    idealText: new FormControl('', [Validators.minLength(20), Validators.maxLength(500)]),
   });
 
   constructor(

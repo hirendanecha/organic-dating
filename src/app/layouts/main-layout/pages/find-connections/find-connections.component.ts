@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { SubscribeModalComponent } from 'src/app/@shared/modals/subscribe-model/subscribe-modal.component';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { RequestModalComponent } from 'src/app/@shared/modals/request-modal/request-modal.component';
 import { CustomerService } from 'src/app/@shared/services/customer.service';
 import { SeoService } from 'src/app/@shared/services/seo.service';
 import { SharedService } from 'src/app/@shared/services/shared.service';
 import { TokenStorageService } from 'src/app/@shared/services/token-storage.service';
+import { UnsubscribeProfileService } from 'src/app/@shared/services/unsubscribe-profile.service';
 
 @Component({
   selector: 'app-find-connections',
@@ -24,10 +26,12 @@ export class ConnectionsComponent implements OnInit {
   profileId: number;
   constructor(
     private seoService: SeoService,
+    private spinner: NgxSpinnerService,
     private customerService: CustomerService,
     private modelService: NgbModal,
     private tokenStorageService: TokenStorageService,
-    private router: Router
+    private router: Router,
+    private unsubscribeProfileService: UnsubscribeProfileService,
   ) {
     const data = {
       title: 'Organic-Connections',
@@ -43,15 +47,19 @@ export class ConnectionsComponent implements OnInit {
   }
 
   getProfile(paggination): void {
+    this.spinner.show();
     const gender = this.tokenStorageService.getUser()?.gender;
     this.customerService
       .getProfiles(paggination.page, paggination.limit, this.profileId, gender)
       .subscribe({
         next: (res: any) => {
           this.profileList = res.data;
+          this.spinner.hide();
           // console.log('hello', res);
         },
-        error: (err) => {},
+        error: (err) => {
+          this.spinner.hide();
+        },
       });
   }
 
@@ -85,13 +93,30 @@ export class ConnectionsComponent implements OnInit {
     return profile.profilePictures;
   }
 
-  sendMessage() {}
+  SendMessageInpt(dataList, type: string) {
+    const modalRef = this.modelService.open(RequestModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.dataList = dataList;
+    modalRef.componentInstance.title = type;
+    // this.router.navigate(['/chats'])
+  }
 
-  SendMessageInpt(dataList) {
-    // const modalRef = this.modelService.open(SubscribeModalComponent, {
-    //   centered: true,
-    // });
-    // modalRef.componentInstance.dataList = dataList;
-    this.router.navigate(['/chats'])
+  unsubscribe(post: any): void {
+    // post['hide'] = true;
+    console.log(post);
+    
+    this.unsubscribeProfileService
+      .create({
+        profileId: this.profileId,
+        unsubscribeProfileId: post?.profileId,
+      })
+      .subscribe({
+        next: (res) => {
+          // this.toastService.danger('Unsubscribe successfully');
+          this.getProfile(this.pagination);
+          return true;
+        },
+      });
   }
 }

@@ -1,5 +1,5 @@
 <div class="single-box p-sm-5 p-3">
-  <h6 class="head-area text-start m-0 pt-0 pb-5">Unsubscribe Users</h6>
+  <h6 class="head-area text-start m-0 pt-0 pb-5">Blocked Users</h6>
 
   <ng-container *ngIf="profiles.length > 0">
     <!-- <ul class="list-group list-group-flush"> -->
@@ -36,10 +36,10 @@
           </div>
         </div>
         <button
-          class="btn cmn-btn btn-sm"
+          class="btn cmn-btn btn w-80-px"
           (click)="removeUnsubscribeProfile(profile?.Id)"
         >
-          Re-Subscribe
+          Unblock
         </button>
       </div>
     </ng-container>
@@ -47,6 +47,6 @@
   </ng-container>
 
   <ng-container *ngIf="profiles.length === 0">
-    <span>No users unsubscribed yet!</span>
+    <span>No users block yet!</span>
   </ng-container>
 </div>
