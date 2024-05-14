@@ -35,7 +35,7 @@ export class OnBoardingComponent implements OnInit {
     'WHO ARE YOU LOOKING FOR?',
     'WHO ARE YOU LOOKING FOR?',
     'WHO ARE YOU LOOKING FOR?',
-    'My Story'
+    'My Story',
   ];
   childOptions = [
     'No',
@@ -82,7 +82,13 @@ export class OnBoardingComponent implements OnInit {
     `Don't know yet`,
     'Other',
   ];
-  bodyTypeOptions = ['It does not matter', 'Slim', 'Athletic', 'Average', 'Stout'];
+  bodyTypeOptions = [
+    'It does not matter',
+    'Slim',
+    'Athletic',
+    'Average',
+    'Stout',
+  ];
   defaultCountry = 'US';
   feetOptions: number[] = [];
   inchOptions: number[] = [];
@@ -103,7 +109,7 @@ export class OnBoardingComponent implements OnInit {
   selectedRelationOptions: string[] = [];
   userId: number;
   profileId: number;
-  
+
   matchStatusofVaccine: string = '';
   matchStatusofChild: string = '';
   matchStatusofStudy: string = '';
@@ -135,7 +141,10 @@ export class OnBoardingComponent implements OnInit {
     matchBodyType: new FormControl('', [Validators.required]),
     matchReligion: new FormControl('', [Validators.required]),
     matchIsSmoke: new FormControl('', [Validators.required]),
-    idealText: new FormControl('', [Validators.minLength(20), Validators.maxLength(500)]),
+    idealText: new FormControl('', [
+      Validators.minLength(20),
+      Validators.maxLength(500),
+    ]),
   });
 
   constructor(
@@ -170,15 +179,21 @@ export class OnBoardingComponent implements OnInit {
   }
   visibleSteps(): number[] {
     let rangeStart = Math.max(0, this.currentStep - 2);
-    let rangeEnd = Math.min(this.steps.length-1, rangeStart + 9);
+    let rangeEnd = Math.min(this.steps.length - 1, rangeStart + 9);
     if (rangeEnd - rangeStart < 9) {
       if (rangeStart === 1) {
-        rangeEnd = Math.min(this.steps.length, rangeEnd + (9 - (rangeEnd - rangeStart)));
+        rangeEnd = Math.min(
+          this.steps.length,
+          rangeEnd + (9 - (rangeEnd - rangeStart))
+        );
       } else {
         rangeStart = Math.max(1, rangeStart - (9 - (rangeEnd - rangeStart)));
       }
     }
-    return Array.from({ length: rangeEnd - rangeStart + 1 }, (_, i) => i + rangeStart);
+    return Array.from(
+      { length: rangeEnd - rangeStart + 1 },
+      (_, i) => i + rangeStart
+    );
   }
 
   getImageName(step: string): string {
@@ -321,11 +336,17 @@ export class OnBoardingComponent implements OnInit {
   isNextButtonDisabled(): boolean {
     switch (this.currentStep) {
       case 0:
-        return !this.onBoardingForm.get('zip').valid && !this.onBoardingForm.get('city').valid;
+        return (
+          !this.onBoardingForm.get('zip').valid &&
+          !this.onBoardingForm.get('city').valid
+        );
       case 1:
         return !this.profileImg.file;
       case 2:
-        return !this.onBoardingForm.get('isFluShot').valid || !this.onBoardingForm.get('isVaccinated').valid;
+        return (
+          !this.onBoardingForm.get('isFluShot').valid ||
+          !this.onBoardingForm.get('isVaccinated').valid
+        );
       case 3:
         return !this.onBoardingForm.get('haveChild').valid;
       case 4:
@@ -387,6 +408,7 @@ export class OnBoardingComponent implements OnInit {
         next: (res: any) => {
           this.spinner.hide();
           if (!res.error) {
+            localStorage.setItem('profileId', String(this.profileId));
             this.toastService.success(res.message);
             this.sharedService.getUserDetails();
             this.router.navigate([`/home`]);
@@ -543,11 +565,11 @@ export class OnBoardingComponent implements OnInit {
     this.onBoardingForm.get('relationshipType').setValue(selectedValue);
   }
 
-//match pepole
+  //match pepole
   matchEthnicities() {
     return ['It does not matter', ...this.ethnicities];
   }
-  
+
   matchReligions() {
     return ['It does not matter', ...this.religions];
   }
@@ -558,7 +580,9 @@ export class OnBoardingComponent implements OnInit {
 
   matchVaccineStatus(vaccine: string) {
     this.matchStatusofVaccine = vaccine;
-    this.onBoardingForm.get('matchIsVaccinated').setValue(this.matchStatusofVaccine);
+    this.onBoardingForm
+      .get('matchIsVaccinated')
+      .setValue(this.matchStatusofVaccine);
   }
 
   matchChildStatus(child: string) {
@@ -576,7 +600,7 @@ export class OnBoardingComponent implements OnInit {
     this.matchStatusofStudy = study;
     this.onBoardingForm.get('matchEducation').setValue(this.matchStatusofStudy);
   }
-  
+
   matchBodyType(body: string) {
     this.matchStatusofBody = body;
     this.onBoardingForm.get('matchBodyType').setValue(this.matchStatusofBody);
@@ -584,12 +608,16 @@ export class OnBoardingComponent implements OnInit {
 
   matchEthnicityStatus(ethnicity: string) {
     this.matchStatusofEthnicity = ethnicity;
-    this.onBoardingForm.get('matchEthnicity').setValue(this.matchStatusofEthnicity);
+    this.onBoardingForm
+      .get('matchEthnicity')
+      .setValue(this.matchStatusofEthnicity);
   }
 
   matchReligionStatus(religion: string) {
     this.matchStatusofReligion = religion;
-    this.onBoardingForm.get('matchReligion').setValue(this.matchStatusofReligion);
+    this.onBoardingForm
+      .get('matchReligion')
+      .setValue(this.matchStatusofReligion);
   }
 
   matchSmokeStatus(smoke: string) {
