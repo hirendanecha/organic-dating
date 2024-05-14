@@ -26,7 +26,7 @@ export class SupportTicketPageComponent implements OnInit {
     private toasterService: ToastService
   ) {
     const data = {
-      title: 'Support Ticket page',
+      title: 'Organic-Support Ticket page',
       url: `${location.href}`,
       description: '',
     };
