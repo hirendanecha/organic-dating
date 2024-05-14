@@ -125,7 +125,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     config.keyboard = false;
     config.pauseOnHover = false;
     const data = {
-      title: 'Organic.dating',
+      title: 'Organic-Home',
       url: `${location.href}`,
       description: '',
     };
@@ -145,7 +145,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.isNavigationEnd = true;
       });
       const data = {
-        title: 'Organic.dating',
+        title: 'Organic-Home',
         url: `${location.href}`,
       };
       this.seoService.updateSeoMetaData(data);

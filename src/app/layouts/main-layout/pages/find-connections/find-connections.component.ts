@@ -30,7 +30,7 @@ export class ConnectionsComponent implements OnInit {
     private router: Router
   ) {
     const data = {
-      title: 'Organic.dating Connections',
+      title: 'Organic-Connections',
       url: `${location.href}`,
       description: '',
     };

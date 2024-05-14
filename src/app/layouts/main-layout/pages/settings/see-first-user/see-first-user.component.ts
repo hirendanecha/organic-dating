@@ -19,7 +19,7 @@ export class SeeFirstUserComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     const data = {
-      title: 'Organic.dating See First User',
+      title: 'Organic-See First User',
       url: `${window.location.href}`,
       description: '',
     };

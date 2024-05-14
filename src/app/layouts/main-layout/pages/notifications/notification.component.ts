@@ -24,7 +24,7 @@ export class NotificationsComponent {
     private socketService: SocketService
   ) {
     const data = {
-      title: 'Freedom.Buzz Notification',
+      title: 'Organic-Notification',
       url: `${location.href}`,
       description: '',
     };

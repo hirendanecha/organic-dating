@@ -64,7 +64,7 @@ export class CarouselComponent implements OnInit {
   ) {
     this.profileId = +localStorage.getItem('profileId');
     const data = {
-      title: 'Organic.dating Carousel',
+      title: 'Organic-Carousel',
       url: `${location.href}`,
       description: '',
     };

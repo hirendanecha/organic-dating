@@ -107,7 +107,7 @@ export class ProfileChatsListComponent
     this.profileId = +localStorage.getItem('profileId');
 
     const data = {
-      title: 'Organic Chat',
+      title: 'Organic-Chat',
       url: `${location.href}`,
       description: '',
     };
