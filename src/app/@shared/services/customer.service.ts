@@ -85,7 +85,7 @@ export class CustomerService {
   }
   getProfiles(pages, limit, profileId, gender): Observable<object> {
     return this.http.get(
-      `${this.baseUrl}/get-profiles/${profileId}?page=${pages}&limit=${limit}&gender=${gender}?q=${Date.now()}`
+      `${this.baseUrl}/get-profiles/${profileId}?page=${pages}&limit=${limit}&gender=${gender}&?q=${Date.now()}`
     );
   }
 

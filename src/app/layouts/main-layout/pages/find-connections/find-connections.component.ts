@@ -6,6 +6,8 @@ import { RequestModalComponent } from 'src/app/@shared/modals/request-modal/requ
 import { CustomerService } from 'src/app/@shared/services/customer.service';
 import { SeoService } from 'src/app/@shared/services/seo.service';
 import { SharedService } from 'src/app/@shared/services/shared.service';
+import { SocketService } from 'src/app/@shared/services/socket.service';
+import { ToastService } from 'src/app/@shared/services/toast.service';
 import { TokenStorageService } from 'src/app/@shared/services/token-storage.service';
 import { UnsubscribeProfileService } from 'src/app/@shared/services/unsubscribe-profile.service';
 
@@ -32,6 +34,8 @@ export class ConnectionsComponent implements OnInit {
     private tokenStorageService: TokenStorageService,
     private router: Router,
     private unsubscribeProfileService: UnsubscribeProfileService,
+    private socketService: SocketService,
+    private toastService: ToastService
   ) {
     const data = {
       title: 'Organic-Connections',
@@ -50,7 +54,12 @@ export class ConnectionsComponent implements OnInit {
     this.spinner.show();
     const gender = this.tokenStorageService.getUser()?.gender;
     this.customerService
-      .getProfiles(paggination.page, paggination.limit, this.profileId, gender)
+      .getProfiles(
+        paggination.page,
+        paggination.limit,
+        this.profileId,
+        String(gender)
+      )
       .subscribe({
         next: (res: any) => {
           this.profileList = res.data;
@@ -100,12 +109,30 @@ export class ConnectionsComponent implements OnInit {
     modalRef.componentInstance.dataList = dataList;
     modalRef.componentInstance.title = type;
     // this.router.navigate(['/chats'])
+    modalRef.result.then((res) => {
+      if (res === 'success') {
+        this.inviteForChat(dataList);
+      }
+    });
+  }
+
+  inviteForChat(invite): void {
+    this.socketService.createChatRoom(
+      {
+        profileId1: this.profileId,
+        profileId2: invite?.profileId,
+      },
+      (data: any) => {
+        this.toastService.success('Invitation sent successfully');
+        // console.log(data);
+      }
+    );
   }
 
   unsubscribe(post: any): void {
     // post['hide'] = true;
     console.log(post);
-    
+
     this.unsubscribeProfileService
       .create({
         profileId: this.profileId,
@@ -113,7 +140,7 @@ export class ConnectionsComponent implements OnInit {
       })
       .subscribe({
         next: (res) => {
-          // this.toastService.danger('Unsubscribe successfully');
+          this.toastService.danger('Unsubscribe successfully');
           this.getProfile(this.pagination);
           return true;
         },

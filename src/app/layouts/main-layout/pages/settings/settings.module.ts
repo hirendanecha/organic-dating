@@ -10,6 +10,7 @@ import { DeleteAccountComponent } from './delete-account/delete-account.componen
 import { CompleteProfileComponent } from './complete-profile/complete-profile.component';
 import { SettingsComponent } from './settings.component';
 import { SupportTicketPageComponent } from './support-ticket-page/support-ticket-page.component';
+import { NotificationsModule } from '../notifications/notification.module';
 
 @NgModule({
   declarations: [
@@ -20,8 +21,8 @@ import { SupportTicketPageComponent } from './support-ticket-page/support-ticket
     UnsubscribedUsersComponent,
     CompleteProfileComponent,
     SettingsComponent,
-    SupportTicketPageComponent
+    SupportTicketPageComponent,
   ],
-  imports: [SettingsRoutingModule, SharedModule],
+  imports: [SettingsRoutingModule, SharedModule, NotificationsModule],
 })
 export class SettingsModule {}
