@@ -140,7 +140,7 @@ export class ConnectionsComponent implements OnInit {
       })
       .subscribe({
         next: (res) => {
-          this.toastService.danger('Unsubscribe successfully');
+          this.toastService.danger('Unblock successfully');
           this.getProfile(this.pagination);
           return true;
         },
