@@ -10,7 +10,7 @@
         class="d-flex flex-column justify-content-center align-items-center gap-3 my-8 p-6 rounded-3 box-bg w-75"
       >
         <img
-          [src]="userChat.profilePicName"
+          [src]="userChat.profilePicName || '/assets/images/avtar/placeholder-user.png'"
           class="w-60-px h-60-px"
           alt="image"
           onerror="this.onerror=null;this.src='/assets/images/avtar/placeholder-user.png';"
@@ -34,7 +34,7 @@
         class="d-flex flex-row justify-content-center align-items-center gap-5 my-8 p-6 w-75 rounded-3 box-bg"
       >
         <img
-          [src]="sharedService?.userData?.profilePicName"
+          [src]="sharedService?.userData?.profilePicName || '/assets/images/avtar/placeholder-user.png'"
           class="rounded-circle w-60-px h-60-px"
           alt="image"
           onerror="this.onerror=null;this.src='/assets/images/avtar/placeholder-user.png';"

@@ -11,7 +11,7 @@
           <div class="avatar-item">
             <!--  -->
             <img
-              [src]="sharedService?.userData?.profilePicName"
+              [src]="sharedService?.userData?.profilePicName || '/assets/images/avtar/placeholder-user.png'"
               class="w-48-px rounded-3"
               alt="avatar"
             />

@@ -506,7 +506,7 @@
                     class="d-flex justify-content-between align-items-center w-100"
                   >
                     <h6 class="m-0">
-                      {{ comment.userN?.split(" ")?.join("") }}
+                      {{ comment.userName?.split(" ")?.join("") }}
                       <span class="font-12-px text-lowercase">
                         <fa-icon class="ms-2" [icon]="['fas', 'clock']" />
                         {{ comment.createdDate | dateDay }}</span
@@ -702,7 +702,7 @@
                             class="d-flex justify-content-between align-items-center w-100"
                           >
                             <h6 class="m-0 align-items-center">
-                              {{ reply.userN?.split(" ")?.join("") }}
+                              {{ reply.userName?.split(" ")?.join("") }}
                               <span class="font-12-px text-lowercase">
                                 <fa-icon
                                   class="ms-2"
