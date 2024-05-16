@@ -142,7 +142,7 @@ export class OnBoardingComponent implements OnInit {
     matchBodyType: new FormControl('', [Validators.required]),
     matchReligion: new FormControl('', [Validators.required]),
     matchIsSmoke: new FormControl('', [Validators.required]),
-    idealText: new FormControl('', [
+    idealDate: new FormControl('', [
       Validators.minLength(20),
       Validators.maxLength(500),
     ]),

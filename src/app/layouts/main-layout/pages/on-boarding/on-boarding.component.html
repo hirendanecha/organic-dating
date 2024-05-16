@@ -578,10 +578,10 @@
               placeholder="start typing..."
               formControlName="idealText"
             ></textarea>
-            <span class="text-danger">{{ onBoardingForm.get('idealText').value?.length || 0 }} / 500</span>
-            <div *ngIf="onBoardingForm.get('idealText').invalid && (onBoardingForm.get('idealText').dirty || onBoardingForm.get('idealText').touched)">
-              <div *ngIf="onBoardingForm.get('idealText').errors?.minlength" class="text-danger">Minimum length is 20 characters.</div>
-              <div *ngIf="onBoardingForm.get('idealText').errors?.maxlength" class="text-danger">Maximum length is 500 characters.</div>
+            <span class="text-danger">{{ onBoardingForm.get('idealDate').value?.length || 0 }} / 500</span>
+            <div *ngIf="onBoardingForm.get('idealDate').invalid && (onBoardingForm.get('idealDate').dirty || onBoardingForm.get('idealDate').touched)">
+              <div *ngIf="onBoardingForm.get('idealDate').errors?.minlength" class="text-danger">Minimum length is 20 characters.</div>
+              <div *ngIf="onBoardingForm.get('idealDate').errors?.maxlength" class="text-danger">Maximum length is 500 characters.</div>
             </div>
           </div>
         </ng-container>
