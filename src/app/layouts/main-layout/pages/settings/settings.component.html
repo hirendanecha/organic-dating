@@ -13,7 +13,7 @@
         >Settings</span
       >
     </div>
-    <div class="c-pointer" (click)="editProfieMenu()" *ngIf="visibleIndex === 'profile'">
+    <div class="c-pointer" (click)="editProfieMenu()" *ngIf="visibleIndex === 'profile' && isCollapsed">
       <fa-icon class="top-icon me-3" [icon]="['fas', 'pencil']" /><span
         >Edit</span
       >
