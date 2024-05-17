@@ -685,7 +685,7 @@ export class OnBoardingComponent implements OnInit {
 
   onClickInterest(id: number) {
     const index = this.selectedInterests.indexOf(id);
-    if (index === -1 && this.selectedInterests.length < 10) {
+    if (index === -1 && this.selectedInterests.length < 30) {
       this.selectedInterests.push(id);
       // if (this.removeInterestList.includes(id)) {
       //   this.removeInterestList.splice(index, 1);

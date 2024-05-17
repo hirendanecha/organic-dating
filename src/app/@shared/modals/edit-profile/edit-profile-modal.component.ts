@@ -292,7 +292,7 @@ export class EditProfileModalComponent implements OnInit {
 
   onClickInterest(id: number) {
     const index = this.selectedInterests.indexOf(id);
-    if (index === -1 && this.selectedInterests.length < 10) {
+    if (index === -1 && this.selectedInterests.length < 30) {
       this.selectedInterests.push(id);
       if (this.removeInterestList.includes(id)) {
         this.removeInterestList.splice(index, 1);
@@ -304,7 +304,7 @@ export class EditProfileModalComponent implements OnInit {
           this.removeInterestList.push(id)}
       });
     } else {
-      this.toastService.danger('You can only select up to 10 values at a time.');
+      this.toastService.danger('You can only select up to 30 values at a time.');
     }
   }
 
