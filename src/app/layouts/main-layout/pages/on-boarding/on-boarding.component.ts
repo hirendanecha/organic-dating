@@ -85,7 +85,7 @@ export class OnBoardingComponent implements OnInit {
     'Other',
   ];
   bodyTypeOptions = [
-    'It does not matter',
+    'It Does Not Matter',
     'Slim',
     'Athletic',
     'Average',
@@ -606,15 +606,15 @@ export class OnBoardingComponent implements OnInit {
 
   //match pepole
   matchEthnicities() {
-    return ['It does not matter', ...this.ethnicities];
+    return ['It Does Not Matter', ...this.ethnicities];
   }
 
   matchReligions() {
-    return ['It does not matter', ...this.religions];
+    return ['It Does Not Matter', ...this.religions];
   }
 
   matchnoYesOptions() {
-    return ['It does not matter', ...this.noYesOptions];
+    return ['It Does Not Matter', ...this.noYesOptions];
   }
 
   matchVaccineStatus(vaccine: string) {
@@ -666,7 +666,7 @@ export class OnBoardingComponent implements OnInit {
     } else if (smoke === 'No') {
       mappedValue = 'N';
     } else {
-      mappedValue = 'N';
+      mappedValue = null;
     }
     this.matchStatusofSmoke = smoke;
     this.onBoardingForm.get('matchIsSmoke').setValue(mappedValue);

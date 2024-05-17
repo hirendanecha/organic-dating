@@ -1,5 +1,5 @@
 <div class="d-flex flex-column main-setting ms-md-5 ms-lg-5">
-  <div class="d-flex">
+  <div class="d-flex align-items-center">
     <button
       class="btn btn-sm cmn-btn"
       (click)="goBack()"
@@ -11,6 +11,11 @@
     <div class="m-auto">
       <fa-icon class="top-icon me-3" [icon]="['fas', 'gear']" /><span
         >Settings</span
+      >
+    </div>
+    <div class="c-pointer" (click)="editProfieMenu()" *ngIf="visibleIndex === 'profile'">
+      <fa-icon class="top-icon me-3" [icon]="['fas', 'pencil']" /><span
+        >Edit</span
       >
     </div>
   </div>
