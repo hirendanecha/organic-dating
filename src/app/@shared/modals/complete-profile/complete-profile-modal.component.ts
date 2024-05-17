@@ -224,7 +224,7 @@ export class CompleteProfileModalComponent implements OnInit, AfterViewInit {
           this.removeInterestList.push(id)}
       });
     } else {
-      this.toastService.danger('You can only select up to 10 values at a time.');
+      this.toastService.danger('You can only select up to 30 values at a time.');
     }
   }
 
