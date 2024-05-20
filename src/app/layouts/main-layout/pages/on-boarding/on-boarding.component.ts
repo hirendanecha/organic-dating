@@ -472,7 +472,7 @@ export class OnBoardingComponent implements OnInit {
             const zipData = data[0];
             // this.onBoardingForm.get('city').enable();
             this.onBoardingForm.patchValue({
-              city: zipData.city,
+              city: zipData.places,
             });
             this.onBoardingForm.patchValue({
               state: zipData.state,
