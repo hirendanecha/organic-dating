@@ -135,9 +135,7 @@ export class OnBoardingComponent implements OnInit {
     country: new FormControl('US', [Validators.required]),
     zip: new FormControl({ value: '', disabled: true }, [Validators.required]),
     city: new FormControl({ value: '', disabled: true }, [Validators.required]),
-    state: new FormControl({ value: '', disabled: true }, [
-      Validators.required,
-    ]),
+    state: new FormControl('', [Validators.required,]),
     imageUrl: new FormControl('', [Validators.required]),
     matchIsVaccinated: new FormControl('', [Validators.required]),
     matchHaveChild: new FormControl('', [Validators.required]),
@@ -145,7 +143,7 @@ export class OnBoardingComponent implements OnInit {
     matchEthnicity: new FormControl('', [Validators.required]),
     matchBodyType: new FormControl('', [Validators.required]),
     matchReligion: new FormControl('', [Validators.required]),
-    matchIsSmoke: new FormControl('', [Validators.required]),
+    matchIsSmoke: new FormControl(''),
     idealDate: new FormControl('', [
       Validators.minLength(20),
       Validators.maxLength(500),
