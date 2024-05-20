@@ -90,16 +90,14 @@ export class RightSidebarComponent implements OnInit {
   }
 
   getFavoriteProfileList() {
-    const profileId = +localStorage.getItem('profileId');
-    this.isCommunitiesLoader = true;
-    this.favoriteProfileService.getFavoriteProfile(profileId).subscribe({
-      next: (res: any) => {
-        this.communities = res.data;
+    this.favoriteProfileService.fetchFavoriteProfiles();
+    this.favoriteProfileService.favoriteProfileListSubject.subscribe({
+      next: (communities) => {
+        this.communities = communities;
+        this.isCommunitiesLoader = false;
       },
       error: (error) => {
         console.log(error);
-      },
-      complete: () => {
         this.isCommunitiesLoader = false;
       },
     });
