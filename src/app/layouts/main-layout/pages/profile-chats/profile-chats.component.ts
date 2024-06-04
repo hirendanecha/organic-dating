@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  NgZone,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -13,6 +14,9 @@ import { ConfirmationModalComponent } from 'src/app/@shared/modals/confirmation-
 import { BreakpointService } from 'src/app/@shared/services/breakpoint.service';
 import { take } from 'rxjs';
 import * as moment from 'moment';
+import { AppQrModalComponent } from 'src/app/@shared/modals/app-qr-modal/app-qr-modal.component';
+import { ConferenceLinkComponent } from 'src/app/@shared/modals/create-conference-link/conference-link-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-chat-list',
@@ -39,6 +43,10 @@ export class ProfileChartsComponent implements OnInit, OnDestroy {
     isShowChatListSideBar: true,
   };
   oldChat: any = {};
+  isMessageSoundEnabled: boolean = true;
+  isCallSoundEnabled: boolean = true;
+  isInnerWidthSmall: boolean;
+  isSidebarOpen: boolean = false;
 
   constructor(
     private renderer: Renderer2,
@@ -47,12 +55,22 @@ export class ProfileChartsComponent implements OnInit, OnDestroy {
     private sharedService: SharedService,
     private socketService: SocketService,
     private modalService: NgbModal,
-    public breakpointService: BreakpointService
+    public breakpointService: BreakpointService,
+    private ngZone:NgZone,
+    private router: Router,
+
   ) {
     this.profileId = +localStorage.getItem('profileId');
     if (this.sharedService.isNotify) {
       this.sharedService.isNotify = false;
     }
+    this.isInnerWidthSmall = window.innerWidth < 576;
+    if (this.isInnerWidthSmall && !this.isSidebarOpen) {
+      this.openChatListSidebar();
+    }
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('resize', this.onResize.bind(this));
+    });
   }
   ngOnInit(): void {
     this.socketService.connect();
@@ -65,6 +83,13 @@ export class ProfileChartsComponent implements OnInit, OnDestroy {
         }
       });
     }
+    this.isInnerWidthSmall = window.innerWidth < 576;
+    if (this.isInnerWidthSmall && !this.isSidebarOpen && this.router.url === '/profile-chats') {
+      this.openChatListSidebar();
+    }
+    this.ngZone.runOutsideAngular(() => {
+      window.addEventListener('resize', this.onResize.bind(this));
+    });
   }
 
   mobileMenu(): void {
@@ -102,15 +127,29 @@ export class ProfileChartsComponent implements OnInit, OnDestroy {
   onSelectChat(id) {
     this.selectedRoomId = id;
   }
+  
+  onResize() {
+    this.ngZone.run(() => {
+      this.isInnerWidthSmall = window.innerWidth < 576;
+      // if (this.isInnerWidthSmall && !this.isSidebarOpen) {
+      //   this.openChatListSidebar();
+      // }
+    });
+  }
 
   openChatListSidebar() {
+    this.isSidebarOpen = true;
     const offcanvasRef = this.offcanvasService.open(
       ProfileChatsSidebarComponent,
       this.userChat
     );
+    this.isSidebarOpen = true;
     offcanvasRef.componentInstance.onNewChat.subscribe((emittedData: any) => {
       this.onChatPost(emittedData);
     });
+    offcanvasRef.result.then((result) => {}).catch((reason) => {
+      this.isSidebarOpen = false;
+  });
   }
 
   mobileShortCutPopup() {
@@ -124,6 +163,7 @@ export class ProfileChartsComponent implements OnInit, OnDestroy {
       'Would you like to add a Organic.dating icon to your mobile Home screen?';
     modalRef.result.then((res) => {
       if (res === 'success') {
+        localStorage.setItem('isMobilePopShow', 'N');
         const modalRef = this.modalService.open(ConfirmationModalComponent, {
           centered: true,
         });
@@ -141,8 +181,27 @@ export class ProfileChartsComponent implements OnInit, OnDestroy {
     });
   }
 
+  toggleSoundPreference(property: string, ngModelValue: boolean): void {
+    const soundPreferences =
+      JSON.parse(localStorage.getItem('soundPreferences')) || {};
+    soundPreferences[property] = ngModelValue ? 'Y' : 'N';
+    localStorage.setItem('soundPreferences', JSON.stringify(soundPreferences));
+  }
+
+  appQrmodal(){
+    const modalRef = this.modalService.open(AppQrModalComponent, {
+      centered: true,
+    });
+  }
+  uniqueLink(){
+    const modalRef = this.modalService.open(ConferenceLinkComponent ,{
+      centered: true,
+    });
+  }
+
   ngOnDestroy(): void {
     this.isRoomCreated = false;
+    window.removeEventListener('resize', this.onResize.bind(this));
     // if (this.socketService?.socket) {
     //   this.socketService.socket?.disconnect();
     // }

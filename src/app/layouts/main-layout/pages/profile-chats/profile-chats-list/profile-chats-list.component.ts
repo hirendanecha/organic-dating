@@ -32,6 +32,7 @@ import { CustomerService } from 'src/app/@shared/services/customer.service';
 import { environment } from 'src/environments/environment';
 import { SeoService } from 'src/app/@shared/services/seo.service';
 import { ForwardChatModalComponent } from 'src/app/@shared/modals/forward-chat-modal/forward-chat-modal.component';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-profile-chats-list',
   templateUrl: './profile-chats-list.component.html',
@@ -89,6 +90,8 @@ export class ProfileChatsListComponent
   emojiPaths = EmojiPaths;
   originalFavicon: HTMLLinkElement;
   isGallerySidebarOpen: boolean = false;
+  userStatus: string;
+  isOnline = false;
   currentUser: any = []
   // messageList: any = [];
   constructor(
@@ -102,7 +105,8 @@ export class ProfileChatsListComponent
     private modalService: NgbModal,
     private offcanvasService: NgbOffcanvas,
     private customerService: CustomerService,
-    private seoService: SeoService,
+    private route: ActivatedRoute,
+    private seoService: SeoService
   ) {
     this.profileId = +localStorage.getItem('profileId');
 
@@ -176,6 +180,9 @@ export class ProfileChatsListComponent
           if (this.filteredMessageList[lastIndex]) {
             this.filteredMessageList[lastIndex]?.messages.push(data);
           }
+          else {
+            this.filteredMessageList.push({ messages: [data] });
+          }
           if (this.userChat.groupId === data?.groupId) {
             if (this.userChat?.groupId) {
               const date = moment(new Date()).utc();
@@ -209,12 +216,20 @@ export class ProfileChatsListComponent
     this.socketService.socket.on('seen-room-message', (data) => {
       this.readMessageRoom = 'Y';
     });
+
     this.socketService.socket?.on('get-users', (data) => {
-      data.map((ele) => {
-        if (!this.sharedService?.onlineUserList.includes(ele.userId)) {
-          this.sharedService.onlineUserList.push(ele.userId);
-        }
+      const index = data.findIndex((ele) => {
+        return ele.userId === this.profileId;
       });
+      if (!this.sharedService.onlineUserList[index]) {
+        data.map((ele) => {
+          this.sharedService.onlineUserList.push({
+            userId: ele.userId,
+            status: ele.status,
+          });
+        });
+      }
+      console.log(this.sharedService.onlineUserList);
     });
     this.socketService.socket?.emit('online-users');
     this.socketService.socket?.on('typing', (data) => {
@@ -250,13 +265,21 @@ export class ProfileChatsListComponent
       this.resetData();
       this.getMessageList();
       this.hasMoreData = false;
-      this.socketService.socket.on('get-users', (data) => {
-        data.map((ele) => {
-          if (!this.sharedService?.onlineUserList.includes(ele.userId)) {
-            this.sharedService.onlineUserList.push(ele.userId);
-          }
+      this.socketService.socket?.on('get-users', (data) => {
+        const index = data.findIndex((ele) => {
+          return ele.userId === this.profileId;
         });
+        if (!this.sharedService.onlineUserList[index]) {
+          data.map((ele) => {
+            this.sharedService.onlineUserList.push({
+              userId: ele.userId,
+              status: ele.status,
+            });
+          });
+        }
+        console.log(this.sharedService.onlineUserList);
       });
+      this.findUserStatus(this.userChat.profileId);
     }
   }
 
@@ -868,47 +891,64 @@ export class ProfileChatsListComponent
 
   getMetaDataFromUrlStr(url: string): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (url === this.metaData?.url) {
-        resolve(this.metaData);
-        return;
-      }
-      this.isMetaLoader = true;
-      this.ngUnsubscribe.next();
-      const unsubscribe$ = new Subject<void>();
-      this.postService
-        .getMetaData({ url })
-        .pipe(takeUntil(unsubscribe$))
-        .subscribe({
-          next: (res: any) => {
-            this.isMetaLoader = false;
-            const meta = res.meta || {};
-            const imageUrl = Array.isArray(meta.image?.url)
-              ? meta.image.url[0]
-              : meta.image?.url;
-            const metaTitle = Array.isArray(meta.title)
-              ? meta.title[0]
-              : meta.title;
-            const metaDescription = meta.description;
+      if (url !== this.metaData?.url) {
+        this.isMetaLoader = true;
+        this.ngUnsubscribe.next();
+        const unsubscribe$ = new Subject<void>();
 
-            const metaData = {
-              title: metaTitle,
-              metadescription: metaDescription,
-              metaimage: imageUrl,
-              metalink: url,
-              url: url,
-            };
-            this.metaData = metaData;
-            resolve(metaData);
-          },
-          error: (err) => {
-            this.isMetaLoader = false;
-            reject(err);
-          },
-          complete: () => {
-            unsubscribe$.next();
-            unsubscribe$.complete();
-          },
-        });
+        this.postService
+          .getMetaData({ url })
+          .pipe(takeUntil(unsubscribe$))
+          .subscribe({
+            next: (res: any) => {
+              this.isMetaLoader = false;
+              if (res?.meta?.image) {
+                const urls = res.meta?.image?.url;
+                const imgUrl = Array.isArray(urls) ? urls?.[0] : urls;
+
+                const metatitles = res?.meta?.title;
+                const metatitle = Array.isArray(metatitles)
+                  ? metatitles?.[0]
+                  : metatitles;
+
+                const metaursl = Array.isArray(url) ? url?.[0] : url;
+                this.metaData = {
+                  title: metatitle,
+                  metadescription: res?.meta?.description,
+                  metaimage: imgUrl,
+                  metalink: metaursl,
+                  url: url,
+                };
+                resolve(this.metaData);
+              } else {
+                const metatitles = res?.meta?.title;
+                const metatitle = Array.isArray(metatitles)
+                  ? metatitles?.[0]
+                  : metatitles;
+                const metaursl = Array.isArray(url) ? url?.[0] : url;
+                const metaLinkData = {
+                  title: metatitle,
+                  metadescription: res?.meta?.description,
+                  metalink: metaursl,
+                  url: url,
+                };
+                resolve(metaLinkData);
+              }
+            },
+            error: (err) => {
+              this.metaData.metalink = url;
+              this.isMetaLoader = false;
+              this.spinner.hide();
+              reject(err);
+            },
+            complete: () => {
+              unsubscribe$.next();
+              unsubscribe$.complete();
+            },
+          });
+      } else {
+        resolve(this.metaData);
+      }
     });
   }
 
@@ -1126,5 +1166,11 @@ export class ProfileChatsListComponent
       // panelClass: 'w-400-px',
     });
     offcanvasRef.componentInstance.userChat = this.userChat;
+  }
+  findUserStatus(id) {
+    const index = this.sharedService.onlineUserList.findIndex(
+      (ele) => ele.userId === id
+    );
+    this.isOnline = this.sharedService.onlineUserList[index] ? true : false;
   }
 }
