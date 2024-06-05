@@ -33,6 +33,7 @@ import { environment } from 'src/environments/environment';
 import { SeoService } from 'src/app/@shared/services/seo.service';
 import { ForwardChatModalComponent } from 'src/app/@shared/modals/forward-chat-modal/forward-chat-modal.component';
 import { ActivatedRoute } from '@angular/router';
+import { v4 as uuid } from 'uuid';
 @Component({
   selector: 'app-profile-chats-list',
   templateUrl: './profile-chats-list.component.html',
@@ -981,25 +982,68 @@ export class ProfileChatsListComponent
     modalRef.componentInstance.sound = callSound;
     modalRef.componentInstance.title = 'RINGING...';
 
-    if (this.sharedService?.onlineUserList.includes(this.userChat?.profileId)) {
-      this.socketService?.startCall(data, (data: any) => {});
-    } else  {
+    this.socketService?.startCall(data, (data: any) => {});
+    // if (this.sharedService?.onlineUserList.includes(this.userChat?.profileId)) {
+    // } else {
+    // }
+    let uuId = uuid();
+    console.log(uuId);
+    localStorage.setItem('uuId', uuId);
+    if (this.userChat?.roomId) {
       const buzzRingData = {
-        profilePicName: this.groupData?.ProfileImage ||this.sharedService?.userData?.profilePicName,
-        userName: this.groupData?.groupName || this.sharedService?.userData?.userName,
-        actionType: "VC",
+        ProfilePicName:
+          this.groupData?.ProfileImage ||
+          this.sharedService?.userData?.ProfilePicName,
+        Username:
+          this.groupData?.groupName || this.sharedService?.userData?.Username,
+        actionType: 'VC',
         notificationByProfileId: this.profileId,
-        link: `${this.webUrl}dating-call/${originUrl}`,
+        link: `${this.webUrl}Buzz-call/${originUrl}`,
         roomId: this.userChat?.roomId || null,
         groupId: this.userChat?.groupId || null,
-        notificationDesc: this.groupData?.groupName ||this.sharedService?.userData?.userName + " incoming call...",
+        notificationDesc:
+          this.groupData?.groupName ||
+          this.sharedService?.userData?.Username + ' incoming call...',
         notificationToProfileId: this.userChat.profileId,
-        domain: "organic.dating"
+        domain: 'goodday.chat',
+        uuId: uuId,
       };
-      // this.customerService.startCallToBuzzRing(buzzRingData).subscribe({
-      //   // next: (data: any) => {},
-      //   error: (err) => {console.log(err)}
-      // });
+      this.customerService.startCallToBuzzRing(buzzRingData).subscribe({
+        // next: (data: any) => {},
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    } else if (this.userChat?.groupId) {
+      let groupMembers = this.groupData?.memberList
+        ?.filter((item) => item.profileId !== this.profileId)
+        ?.map((item) => item.profileId);
+      const buzzRingGroupData = {
+        ProfilePicName:
+          this.groupData?.ProfileImage ||
+          this.sharedService?.userData?.ProfilePicName,
+        Username:
+          this.groupData?.groupName || this.sharedService?.userData?.Username,
+        actionType: 'VC',
+        notificationByProfileId: this.profileId,
+        link: `${this.webUrl}Buzz-call/${originUrl}`,
+        roomId: this.userChat?.roomId || null,
+        groupId: this.userChat?.groupId || null,
+        notificationDesc:
+          this.groupData?.groupName ||
+          this.sharedService?.userData?.Username + ' incoming call...',
+        notificationToProfileIds: groupMembers,
+        domain: 'goodday.chat',
+        uuId: uuId,
+      };
+      this.customerService
+        .startGroupCallToBuzzRing(buzzRingGroupData)
+        .subscribe({
+          // next: (data: any) => {},
+          error: (err) => {
+            console.log(err);
+          },
+        });
     }
     modalRef.result.then((res) => {
       if (!window.document.hidden) {
