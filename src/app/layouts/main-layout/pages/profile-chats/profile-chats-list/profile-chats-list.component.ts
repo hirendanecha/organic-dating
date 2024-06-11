@@ -51,7 +51,7 @@ export class ProfileChatsListComponent
     new EventEmitter<any>();
   @ViewChild('chatContent') chatContent!: ElementRef;
 
-  webUrl = environment.webUrl
+  webUrl = environment.webUrl;
   profileId: number;
   chatObj = {
     msgText: null,
@@ -93,7 +93,7 @@ export class ProfileChatsListComponent
   isGallerySidebarOpen: boolean = false;
   userStatus: string;
   isOnline = false;
-  currentUser: any = []
+  currentUser: any = [];
   // messageList: any = [];
   constructor(
     private socketService: SocketService,
@@ -180,8 +180,7 @@ export class ProfileChatsListComponent
           const lastIndex = this.filteredMessageList.length - 1;
           if (this.filteredMessageList[lastIndex]) {
             this.filteredMessageList[lastIndex]?.messages.push(data);
-          }
-          else {
+          } else {
             this.filteredMessageList.push({ messages: [data] });
           }
           if (this.userChat.groupId === data?.groupId) {
@@ -297,7 +296,7 @@ export class ProfileChatsListComponent
       {
         profileId1: this.profileId,
         profileId2: this.userChat?.Id || this.userChat?.profileId,
-        type: 'chat'
+        type: 'chat',
       },
       (data: any) => {
         // console.log(data);
@@ -322,7 +321,8 @@ export class ProfileChatsListComponent
   }
 
   prepareMessage(text: string): string | null {
-    const regex = /<img\s+[^>]*src="data:image\/.*?;base64,[^\s]*"[^>]*>|<img\s+[^>]*src=""[^>]*>/g;
+    const regex =
+      /<img\s+[^>]*src="data:image\/.*?;base64,[^\s]*"[^>]*>|<img\s+[^>]*src=""[^>]*>/g;
     let cleanedText = text.replace(regex, '');
     const divregex = /<div\s*>\s*<\/div>/g;
     if (cleanedText.replace(divregex, '').trim() === '') return null;
@@ -336,7 +336,10 @@ export class ProfileChatsListComponent
       //   this.chatObj.msgText !== null
       //     ? this.encryptDecryptService?.encryptUsingAES256(this.chatObj.msgText)
       //     : null;
-      const message = this.chatObj.msgText !== null ? this.prepareMessage(this.chatObj.msgText) : null;
+      const message =
+        this.chatObj.msgText !== null
+          ? this.prepareMessage(this.chatObj.msgText)
+          : null;
       const data = {
         id: this.chatObj.id,
         messageText: message,
@@ -382,7 +385,10 @@ export class ProfileChatsListComponent
       //   this.chatObj.msgText !== null
       //     ? this.encryptDecryptService?.encryptUsingAES256(this.chatObj.msgText)
       //     : null;
-      const message = this.chatObj.msgText !== null ? this.prepareMessage(this.chatObj.msgText) : null;
+      const message =
+        this.chatObj.msgText !== null
+          ? this.prepareMessage(this.chatObj.msgText)
+          : null;
       const data = {
         messageText: message,
         roomId: this.userChat?.roomId || null,
@@ -624,7 +630,9 @@ export class ProfileChatsListComponent
   }
 
   onTagUserInputChangeEvent(data: any): void {
-    this.chatObj.msgText = this.extractImageUrlFromContent(data?.html.replace(/<div>\s*<br\s*\/?>\s*<\/div>\s*$/, ''));
+    this.chatObj.msgText = this.extractImageUrlFromContent(
+      data?.html.replace(/<div>\s*<br\s*\/?>\s*<\/div>\s*$/, '')
+    );
     if (data.html === '') {
       this.resetData();
     }
@@ -693,7 +701,7 @@ export class ProfileChatsListComponent
       media.endsWith('.xls') ||
       media.endsWith('.xlsx') ||
       media.endsWith('.zip') ||
-      media.endsWith('.apk')
+      media.endsWith('.apk');
     return media && fileType;
   }
 
@@ -707,7 +715,15 @@ export class ProfileChatsListComponent
   }
 
   isFile(media: string): boolean {
-    const FILE_EXTENSIONS = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.zip','.apk'];
+    const FILE_EXTENSIONS = [
+      '.pdf',
+      '.doc',
+      '.docx',
+      '.xls',
+      '.xlsx',
+      '.zip',
+      '.apk',
+    ];
     return FILE_EXTENSIONS.some((ext) => media?.endsWith(ext));
   }
 
@@ -786,8 +802,7 @@ export class ProfileChatsListComponent
       size: 'md',
     });
     modalRef.componentInstance.data = msgObj;
-    modalRef.result.then((res) => {
-    });
+    modalRef.result.then((res) => {});
   }
 
   editMsg(msgObj): void {
@@ -1051,15 +1066,22 @@ export class ProfileChatsListComponent
           this.chatObj.msgText = 'You have a missed call';
           this.sendMessage();
 
-          if (!this.sharedService?.onlineUserList.includes(this.userChat?.profileId)) {
+          if (
+            !this.sharedService?.onlineUserList.includes(
+              this.userChat?.profileId
+            )
+          ) {
             const buzzRingData = {
-              profilePicName: this.groupData?.ProfileImage || this.userChat?.profilePicName,
+              profilePicName:
+                this.groupData?.ProfileImage || this.userChat?.profilePicName,
               userName: this.groupData?.groupName || this?.userChat.userName,
-              actionType: "DC",
+              actionType: 'DC',
               notificationByProfileId: this.profileId,
-              notificationDesc: this.groupData?.groupName || this?.userChat.userName + "incoming call...",
+              notificationDesc:
+                this.groupData?.groupName ||
+                this?.userChat.userName + 'incoming call...',
               notificationToProfileId: this.userChat.profileId,
-              domain: "organic.dating"
+              domain: 'organic.dating',
             };
             // this.customerService.startCallToBuzzRing(buzzRingData).subscribe({
             //   // next: (data: any) => {},
@@ -1216,5 +1238,18 @@ export class ProfileChatsListComponent
       (ele) => ele.userId === id
     );
     this.isOnline = this.sharedService.onlineUserList[index] ? true : false;
+  }
+
+  profileStatus(status: string) {
+    const data = {
+      status: status,
+      id: this.profileId,
+    };
+    const localUserData = JSON.parse(localStorage.getItem('userData'));
+    this.socketService.switchOnlineStatus(data, (res) => {
+      this.sharedService.userData.userStatus = res.status;
+      localUserData.userStatus = res.status;
+      localStorage.setItem('userData', JSON.stringify(localUserData));
+    });
   }
 }
