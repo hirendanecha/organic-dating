@@ -150,12 +150,12 @@ export class CustomerService {
     return this.http.post(`${this.baseUrl}/get-meta`, url);
   }
   startCallToBuzzRing(callerData: Object): Observable<any>{
-    const url = 'https://ring-dev-api.freedom.buzz/api/customers/call-notification';
+    const url = 'https://ring-dev-api.organic.dating/api/customers/call-notification';
     return this.http.post(url, callerData);
   }
   
   startGroupCallToBuzzRing(callerData: Object): Observable<any>{
-    const url = 'https://ring-api.freedom.buzz/api/v1/customers/group-call-notification';
+    const url = 'https://ring-api.organic.dating/api/v1/customers/group-call-notification';
     return this.http.post(url, callerData);
   }
 }

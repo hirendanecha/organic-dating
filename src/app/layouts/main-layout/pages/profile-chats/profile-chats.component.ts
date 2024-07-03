@@ -15,8 +15,9 @@ import { BreakpointService } from 'src/app/@shared/services/breakpoint.service';
 import { take } from 'rxjs';
 import * as moment from 'moment';
 import { AppQrModalComponent } from 'src/app/@shared/modals/app-qr-modal/app-qr-modal.component';
-import { ConferenceLinkComponent } from 'src/app/@shared/modals/create-conference-link/conference-link-modal.component';
+// import { ConferenceLinkComponent } from 'src/app/@shared/modals/create-conference-link/conference-link-modal.component';
 import { Router } from '@angular/router';
+import { ConferenceLinkComponent } from 'src/app/@shared/modals/create-conference-link/conference-link-modal.component';
 
 @Component({
   selector: 'app-profile-chat-list',
@@ -43,6 +44,7 @@ export class ProfileChartsComponent implements OnInit, OnDestroy {
     isShowChatListSideBar: true,
   };
   oldChat: any = {};
+
   isMessageSoundEnabled: boolean = true;
   isCallSoundEnabled: boolean = true;
   isInnerWidthSmall: boolean;
@@ -58,23 +60,15 @@ export class ProfileChartsComponent implements OnInit, OnDestroy {
     public breakpointService: BreakpointService,
     private ngZone:NgZone,
     private router: Router,
-
   ) {
     this.profileId = +localStorage.getItem('profileId');
     if (this.sharedService.isNotify) {
       this.sharedService.isNotify = false;
     }
-    this.isInnerWidthSmall = window.innerWidth < 576;
-    if (this.isInnerWidthSmall && !this.isSidebarOpen) {
-      this.openChatListSidebar();
-    }
-    this.ngZone.runOutsideAngular(() => {
-      window.addEventListener('resize', this.onResize.bind(this));
-    });
   }
   ngOnInit(): void {
     this.socketService.connect();
-
+    
     const isMobilePopUp = localStorage.getItem('isMobilePopShow');
     if (isMobilePopUp !== 'N') {
       this.breakpointService.screen.pipe(take(1)).subscribe((screen) => {
@@ -83,6 +77,7 @@ export class ProfileChartsComponent implements OnInit, OnDestroy {
         }
       });
     }
+   
     this.isInnerWidthSmall = window.innerWidth < 576;
     if (this.isInnerWidthSmall && !this.isSidebarOpen && this.router.url === '/profile-chats') {
       this.openChatListSidebar();
@@ -127,11 +122,11 @@ export class ProfileChartsComponent implements OnInit, OnDestroy {
   onSelectChat(id) {
     this.selectedRoomId = id;
   }
-  
+
   onResize() {
     this.ngZone.run(() => {
       this.isInnerWidthSmall = window.innerWidth < 576;
-      // if (this.isInnerWidthSmall && !this.isSidebarOpen) {
+      // if (this.isInnerWidthSmall && !this.isSidebarOpen && this.router.url === '/profile-chats') {
       //   this.openChatListSidebar();
       // }
     });
@@ -143,13 +138,12 @@ export class ProfileChartsComponent implements OnInit, OnDestroy {
       ProfileChatsSidebarComponent,
       this.userChat
     );
-    this.isSidebarOpen = true;
     offcanvasRef.componentInstance.onNewChat.subscribe((emittedData: any) => {
       this.onChatPost(emittedData);
     });
     offcanvasRef.result.then((result) => {}).catch((reason) => {
-      this.isSidebarOpen = false;
-  });
+        this.isSidebarOpen = false;
+    });
   }
 
   mobileShortCutPopup() {
@@ -160,21 +154,21 @@ export class ProfileChartsComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.confirmButtonLabel = 'Yes';
     modalRef.componentInstance.cancelButtonLabel = 'No';
     modalRef.componentInstance.message =
-      'Would you like to add a Organic.dating icon to your mobile Home screen?';
+      'Would you like to add a organic.dating icon to your mobile Home screen?';
     modalRef.result.then((res) => {
+      localStorage.setItem('isMobilePopShow', 'N');
       if (res === 'success') {
-        localStorage.setItem('isMobilePopShow', 'N');
         const modalRef = this.modalService.open(ConfirmationModalComponent, {
           centered: true,
         });
-        modalRef.componentInstance.title = 'Add dating chats on home';
+        modalRef.componentInstance.title = 'Add freedom chats on home';
         modalRef.componentInstance.confirmButtonLabel = 'Do not display again';
         modalRef.componentInstance.cancelButtonLabel = 'Close';
         modalRef.componentInstance.message =
           'On your browser click on browser menu, then click Add to Home Screen';
         modalRef.result.then((res) => {
           if (res === 'success') {
-            localStorage.setItem('isMobilePopShow', 'N');
+            // localStorage.setItem('isMobilePopShow', 'N');
           }
         });
       }
