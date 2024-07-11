@@ -470,8 +470,14 @@ export class ProfileChatsListComponent
           : null;
       const data = {
         messageText: message,
-        roomId: this.uploadTo.roomId ?? (this.uploadTo.groupId ? null : this.userChat?.roomId) ?? null,
-        groupId: this.uploadTo.groupId ?? (this.uploadTo.roomId ? null : this.userChat?.groupId) ?? null,
+        roomId:
+          this.uploadTo.roomId ??
+          (this.uploadTo.groupId ? null : this.userChat?.roomId) ??
+          null,
+        groupId:
+          this.uploadTo.groupId ??
+          (this.uploadTo.roomId ? null : this.userChat?.groupId) ??
+          null,
         sentBy: this.profileId,
         messageMedia: this.chatObj?.msgMedia,
         profileId: this.userChat.profileId,
@@ -971,7 +977,7 @@ export class ProfileChatsListComponent
     const data = {
       profilePicName:
         this.groupData?.ProfileImage || this.userChat?.profilePicName,
-        userName: this.groupData?.groupName || this?.userChat.userName,
+      userName: this.groupData?.groupName || this?.userChat.userName,
       roomId: this.userChat?.roomId || null,
       groupId: this.userChat?.groupId || null,
       notificationByProfileId: this.profileId,
@@ -1003,7 +1009,7 @@ export class ProfileChatsListComponent
         profilePicName:
           this.groupData?.ProfileImage ||
           this.sharedService?.userData?.profilePicName,
-          userName:
+        userName:
           this.groupData?.groupName || this.sharedService?.userData?.userName,
         actionType: 'VC',
         notificationByProfileId: this.profileId,
@@ -1031,7 +1037,7 @@ export class ProfileChatsListComponent
         profilePicName:
           this.groupData?.ProfileImage ||
           this.sharedService?.userData?.profilePicName,
-          userName:
+        userName:
           this.groupData?.groupName || this.sharedService?.userData?.userName,
         actionType: 'VC',
         notificationByProfileId: this.profileId,
@@ -1065,7 +1071,7 @@ export class ProfileChatsListComponent
           const buzzRingData = {
             profilePicName:
               this.groupData?.ProfileImage || this.userChat?.profilePicName,
-              userName: this.groupData?.groupName || this?.userChat.userName,
+            userName: this.groupData?.groupName || this?.userChat.userName,
             actionType: 'DC',
             notificationByProfileId: this.profileId,
             notificationDesc:
@@ -1143,6 +1149,7 @@ export class ProfileChatsListComponent
         Id: this.userChat.profileId,
         profilePicName: this.userChat.profilePicName,
         userName: this.userChat.userName,
+        isUpdate: true,
       };
       modalRef.componentInstance.data = data;
     }
