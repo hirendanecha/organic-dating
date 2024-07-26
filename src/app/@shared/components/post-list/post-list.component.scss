@@ -39,6 +39,7 @@
 
   .share-post {
       border:1px solid var(--post-border-color);
+      max-width: 663px;
     .post-message-input {
       a {
         font-size: 16px;
