@@ -48,7 +48,7 @@ export class UnsubscribedUsersComponent implements OnInit {
     this.unsubscribeProfileService.remove(id).subscribe({
       next: (res: any) => {
         this.getUnsubscribeProfiles();
-        this.toastService.success(res.message);
+        this.toastService.success("Unblock Profile Successfully");
       },
     });
   }
