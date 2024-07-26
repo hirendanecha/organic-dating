@@ -30,8 +30,6 @@ import { environment } from 'src/environments/environment';
 import { SeoService } from 'src/app/@shared/services/seo.service';
 import { AddCommunityModalComponent } from '../communities/add-community-modal/add-community-modal.component';
 import { AddFreedomPageComponent } from '../freedom-page/add-page-modal/add-page-modal.component';
-import { Meta } from '@angular/platform-browser';
-// import { MetafrenzyService } from 'ngx-metafrenzy';
 import { isPlatformBrowser } from '@angular/common';
 import { Howl } from 'howler';
 import { EditPostModalComponent } from 'src/app/@shared/modals/edit-post-modal/edit-post-modal.component';
@@ -40,9 +38,8 @@ import { SubscribeModalComponent } from 'src/app/@shared/modals/subscribe-model/
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  // providers: [MetafrenzyService]
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   postMessageInputValue: string = '';
   postMessageTags: any[];
   postData: any = {
@@ -130,7 +127,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       description: '',
     };
     this.seoService.updateSeoMetaData(data);
-
     if (isPlatformBrowser(this.platformId)) {
       this.profileId = localStorage.getItem('profileId');
       this.postData.profileid = +this.profileId;
@@ -161,53 +157,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    if (!this.socketService.socket?.connected) {
-      this.socketService.socket?.connect();
-    }
-    if (!this.socketService.socket?.connected) {
-      this.socketService.socket?.connect();
-    }
-
-    this.socketService.socket?.emit('join', { room: this.profileId });
-    this.socketService.socket?.on('notification', (data: any) => {
-      if (data) {
-        console.log('new-notification', data);
-        this.notificationId = data.id;
-        this.sharedService.isNotify = true;
-        this.originalFavicon.href = '/assets/images/icon-unread.jpg';
-        if (data?.actionType === 'T') {
-          var sound = new Howl({
-            src: [
-              'https://s3.us-east-1.wasabisys.com/freedom-social/freedom-notification.mp3',
-            ],
-          });
-          this.notificationSoundOct = localStorage?.getItem(
-            'notificationSoundEnabled'
-          );
-          if (this.notificationSoundOct !== 'N') {
-            if (sound) {
-              sound?.play();
-            }
-          }
-        }
-        if (this.notificationId) {
-          this.customerService.getNotification(this.notificationId).subscribe({
-            next: (res) => {
-              localStorage.setItem('isRead', res.data[0]?.isRead);
-            },
-            error: (error) => {
-              console.log(error);
-            },
-          });
-        }
-      }
-    });
     const isRead = localStorage.getItem('isRead');
     if (isRead === 'N') {
       this.sharedService.isNotify = true;
-    }
-    if (!this.socketService.socket?.connected) {
-      this.socketService.socket?.connect();
     }
     this.socketService.socket?.on(
       'new-post-added',
@@ -225,8 +177,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   onPostFileSelect(event: any): void {
+    const tagUserInput = document.querySelector('.home-input app-tag-user-input .tag-input-div') as HTMLInputElement;
+    if (tagUserInput) {tagUserInput.focus()}
     const file = event.target?.files?.[0] || {};
-    // console.log(file)
     if (file.type.includes('application/pdf')) {
       this.postData['file'] = file;
       this.pdfName = file?.name;
@@ -335,7 +288,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             if (res?.body?.url) {
               if (this.postData?.file.type.includes('application/pdf')) {
                 this.postData['pdfUrl'] = res?.body?.url;
-                console.log('pdfUrl', res?.body?.url);
                 this.postData['imageUrl'] = null;
                 this.createOrEditPost();
               } else {
@@ -373,30 +325,16 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.postData.title = null;
         this.postData.metaimage = null;
         this.postData.metadescription = null;
-        console.log(this.postData);
       }
-      // this.spinner.show();
-      console.log(
-        'postData',
-        this.postData,
-        this.socketService.socket?.connected
-      );
       this.toastService.success('Post created successfully.');
       this.socketService?.createOrEditPost(this.postData);
       this.buttonClicked = false;
       this.resetPost();
-      // , (data) => {
-      //   this.spinner.hide();
-      //   console.log(data)
-      //   return data;
-      // });
     }
   }
 
   onTagUserInputChangeEvent(data: any): void {
-    // this.postMessageInputValue = data?.html
     this.extractImageUrlFromContent(data.html);
-    // this.postData.postdescription = data?.html;
     this.postData.meta = data?.meta;
     this.postMessageTags = data?.tags;
   }
@@ -418,26 +356,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onEditPost(post: any): void {
-    // console.log('edit-post', post)
     if (post.posttype === 'V') {
       this.openUploadVideoModal(post);
     }
-    //  else if (post.pdfUrl) {
-    //   this.pdfName = post.pdfUrl.split('/')[3];
-    //   console.log(this.pdfName);
-    //   this.postData = { ...post };
-    //   this.postMessageInputValue = this.postData?.postdescription;
-    // }
     else {
       this.openUploadEditPostModal(post);
-      // this.postData = { ...post };
-      // this.postMessageInputValue = this.postData?.postdescription;
     }
-    // window.scroll({
-    //   top: 0,
-    //   left: 0,
-    //   behavior: 'smooth',
-    // });
   }
 
   editCommunity(data): void {
@@ -485,14 +409,13 @@ export class HomeComponent implements OnInit, OnDestroy {
         isAdmin: 'N',
       };
       this.searchText = '';
-      console.log(data);
       this.communityService.joinCommunity(data).subscribe(
         (res: any) => {
           if (res) {
             this.toastService.success("Add Membar Successfully");
             this.getCommunityDetailsBySlug();
           }
-        },  
+        },
         (error) => {
           console.log(error);
         }
@@ -564,7 +487,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               console.log(error);
               this.toastService.success(error.message);
             },
-          });
+        });
       }
     });
   }
@@ -619,7 +542,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     modalRef.result.then((res) => {
       if (res.id) {
         this.postData = res;
-        console.log(this.postData);
         this.uploadPostFileAndCreatePost();
       }
     });
@@ -650,6 +572,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     const imgTag = contentContainer.querySelector('img');
 
     if (imgTag) {
+      const tagUserInput = document.querySelector('app-tag-user-input .tag-input-div') as HTMLInputElement;
+      if (tagUserInput) {setTimeout(() => {
+        tagUserInput.innerText = tagUserInput.innerText + ' '.slice(0, -1);
+        const range = document.createRange();
+        const selection = window.getSelection();
+        if (selection) {
+          range.selectNodeContents(tagUserInput);
+          range.collapse(false);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+      }, 100);}
       const imgTitle = imgTag.getAttribute('title');
       const imgStyle = imgTag.getAttribute('style');
       const imageGif = imgTag
