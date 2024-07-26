@@ -489,9 +489,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.communityService.joinCommunity(data).subscribe(
         (res: any) => {
           if (res) {
+            this.toastService.success("Add Membar Successfully");
             this.getCommunityDetailsBySlug();
           }
-        },
+        },  
         (error) => {
           console.log(error);
         }

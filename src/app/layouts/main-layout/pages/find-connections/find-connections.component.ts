@@ -141,7 +141,7 @@ export class ConnectionsComponent implements OnInit {
       })
       .subscribe({
         next: (res) => {
-          this.toastService.danger('Unblock successfully');
+          this.toastService.danger('block successfully');
           this.getProfile(this.pagination);
           return true;
         },

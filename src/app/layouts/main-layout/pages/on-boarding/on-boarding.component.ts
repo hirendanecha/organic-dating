@@ -701,7 +701,7 @@ export class OnBoardingComponent implements OnInit {
       console.log(this.selectedInterests);
     } else {
       this.toastService.danger(
-        'You can only select up to 10 values at a time.'
+        'You can only select up to 30 values at a time.'
       );
     }
   }
