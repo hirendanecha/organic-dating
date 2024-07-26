@@ -403,6 +403,9 @@ export class EditProfileModalComponent implements OnInit {
     this.submitForm();
   }
 
+  matchBody() {
+    return ['It Does Not Matter', ...this.bodyTypeOptions];
+  }
   matchEthnicities() {
     return ['It Does Not Matter', ...this.ethnicities];
   }

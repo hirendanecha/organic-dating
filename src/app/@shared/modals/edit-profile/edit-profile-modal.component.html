@@ -455,7 +455,7 @@
         role="radiogroup"
       >
         <div
-          *ngFor="let option of bodyTypeOptions"
+          *ngFor="let option of matchBody()"
           (click)="matchBodyType(option)"
           [ngClass]="matchStatusofBody === option ? 'active' : ''"
           class="chip chip-checkbox justify-content-center w-268-px"
