@@ -16,6 +16,7 @@ export class SharedService {
   userData: any = {};
   notificationList: any = [];
   isNotify = false;
+  linkMetaData: {};
   advertizementLink: any = [];
   onlineUserList: any = [];
   private isRoomCreatedSubject: BehaviorSubject<boolean> =
@@ -66,13 +67,12 @@ export class SharedService {
   }
 
   getUserDetails() {
-    // const profileId = localStorage.getItem('profileId');
-    const profileId = this.tokenStorageService.getUser()?.profileId;
+    const profileId = localStorage.getItem('profileId');
     if (profileId) {
-      // const localUserData = JSON.parse(localStorage.getItem('userData'));
-      // if (localUserData?.Id) {
-      //   this.userData = localUserData;
-      // }
+      const localUserData = JSON.parse(localStorage.getItem('userData'));
+      if (localUserData?.ID) {
+        this.userData = localUserData;
+      }
 
       this.spinner.show();
 
@@ -83,7 +83,6 @@ export class SharedService {
 
           if (data) {
             this.userData = data;
-            console.log(this.userData);
             localStorage.setItem('userData', JSON.stringify(this.userData));
           }
         },
@@ -101,32 +100,44 @@ export class SharedService {
 
   getNotificationList() {
     const id = localStorage.getItem('profileId');
-    this.customerService.getNotificationList(Number(id)).subscribe({
+    const data = {
+      page: 1,
+      size: 20,
+    };
+    this.customerService.getNotificationList(Number(id), data).subscribe({
       next: (res: any) => {
         this.isNotify = false;
-        this.notificationList = res?.data;
+        this.notificationList = res.data.filter((ele) => {
+          ele.notificationToProfileId === id;
+          return ele;
+        });
       },
       error: (error) => {
         console.log(error);
       },
     });
   }
+
   getAdvertizeMentLink(id): void {
     if (id) {
-      // this.communityService.getLinkById(id).subscribe({
-      //   next: ((res: any) => {
-      //     if (res.data) {
-      //       console.log(res.data)
-      //       if (res.data[0]?.link1 || res.data[0]?.link2) {
-      //         this.getMetaDataFromUrlStr(res.data[0]?.link1);
-      //         this.getMetaDataFromUrlStr(res.data[0]?.link2);
-      //       }
-      //     }
-      //   }),
-      //   error: (err) => {
-      //     console.log(err);
-      //   }
-      // })
+      this.communityService.getLinkById(id).subscribe({
+        next: (res: any) => {
+          if (res.data) {
+            if (res.data[0]?.link1 || res.data[0]?.link2) {
+              this.advertizementLink = [];
+              if (res.data[0]?.link1) {
+                this.getMetaDataFromUrlStr(res.data[0]?.link1);
+              }
+              if (res.data[0]?.link2) {
+                this.getMetaDataFromUrlStr(res.data[0]?.link2);
+              }
+            }
+          }
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
     } else {
       this.advertizementLink = null;
     }
@@ -135,18 +146,17 @@ export class SharedService {
   getMetaDataFromUrlStr(url): void {
     this.postService.getMetaData({ url }).subscribe({
       next: (res: any) => {
-        if (res?.meta?.image) {
-          const urls = res.meta?.image?.url;
-          const imgUrl = Array.isArray(urls) ? urls?.[0] : urls;
-          const linkMetaData = {
-            title: res?.meta?.title,
-            metadescription: res?.meta?.description,
-            metaimage: imgUrl,
-            metalink: res?.meta?.url || url,
-            url: url,
-          };
-          this.advertizementLink?.push(linkMetaData);
-        }
+        const meta = res?.meta;
+        const urls = meta?.image?.url;
+        const imgUrl = Array.isArray(urls) ? urls?.[0] : urls;
+        const linkMetaData = {
+          title: meta?.title,
+          metadescription: meta?.description,
+          metaimage: imgUrl,
+          metalink: meta?.url || url,
+          url: url,
+        };
+        this.advertizementLink.push(linkMetaData);
       },
       error: (err) => {
         console.log(err);
