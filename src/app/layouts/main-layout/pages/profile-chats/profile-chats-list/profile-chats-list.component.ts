@@ -154,7 +154,7 @@ export class ProfileChatsListComponent
     this.isOnCall = this.router.url.includes('/dating-call/') || false;
   }
   ngAfterViewInit(): void {
-    if (this.callRoomId) {
+    if (this.callRoomId && !this.sidebarClass) {
       localStorage.removeItem('callRoomId');
       this.callRoomId = null;
     }
@@ -343,7 +343,7 @@ export class ProfileChatsListComponent
       });
       this.findUserStatus(this.userChat.profileId);
     }
-    this.messageElements.changes.subscribe(() => {
+    this.messageElements?.changes?.subscribe(() => {
       this.resetIndex();
     });
   }
@@ -548,12 +548,7 @@ export class ProfileChatsListComponent
 
   // getMessages
   getMessageList(): void {
-    const tagUserInput = document.querySelector(
-      'app-tag-user-input .tag-input-div'
-    ) as HTMLInputElement;
-    if (tagUserInput) {
-      tagUserInput.focus();
-    }
+    this.messageInputFocus();
     this.getMessagesBySocket();
   }
 
@@ -580,6 +575,7 @@ export class ProfileChatsListComponent
       this.selectedFile = file;
       this.viewUrl = URL.createObjectURL(file);
     }
+    this.messageInputFocus();
     document.addEventListener('keyup', this.onKeyUp);
   }
 
@@ -748,12 +744,7 @@ export class ProfileChatsListComponent
   }
 
   replyMsg(msgObj): void {
-    const tagUserInput = document.querySelector(
-      'app-tag-user-input .tag-input-div'
-    ) as HTMLInputElement;
-    if (tagUserInput) {
-      tagUserInput.focus();
-    }
+    this.messageInputFocus();
     this.chatObj.parentMessageId = msgObj?.id;
     this.replyMessage.msgText = msgObj.messageText;
     this.replyMessage.createdDate = msgObj?.createdDate;
@@ -767,6 +758,15 @@ export class ProfileChatsListComponent
       } else {
         this.viewUrl = msgObj.messageMedia;
       }
+    }
+  }
+
+  messageInputFocus() {
+    const tagUserInput = document.querySelector(
+      'app-tag-user-input .tag-input-div'
+    ) as HTMLInputElement;
+    if (tagUserInput) {
+      tagUserInput.focus();
     }
   }
 
@@ -1097,6 +1097,7 @@ export class ProfileChatsListComponent
     contentContainer.innerHTML = content;
     const imgTag = contentContainer.querySelector('img');
     if (imgTag) {
+      this.focusTagInput()
       const imgTitle = imgTag.getAttribute('title');
       const imgStyle = imgTag.getAttribute('style');
       const imageGif = imgTag
@@ -1137,6 +1138,27 @@ export class ProfileChatsListComponent
       return content;
     }
     return null;
+  }
+
+  focusTagInput(){
+    if (this.selectedFile) {
+      const tagUserInput = document.querySelector(
+        'app-tag-user-input .tag-input-div'
+      ) as HTMLDivElement;
+      if (tagUserInput) {
+        setTimeout(() => {
+          tagUserInput.innerText = tagUserInput.innerText + ' '.slice(0, -1);
+          const range = document.createRange();
+          const selection = window.getSelection();
+          if (selection) {
+            range.selectNodeContents(tagUserInput);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+          }
+        }, 100);    
+      }
+    }
   }
 
   createGroup() {
