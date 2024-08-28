@@ -71,17 +71,23 @@ export class ProfileChatsSidebarComponent
     private toasterService: ToastService,
     public encryptDecryptService: EncryptDecryptService,
     private modalService: NgbModal,
-    private activeCanvas: NgbOffcanvas,
+    private activeCanvas: NgbOffcanvas
   ) {
     this.profileId = +localStorage.getItem('profileId');
-    const notificationSound =
-      JSON.parse(localStorage.getItem('soundPreferences')) || {};
-    if (notificationSound?.messageSoundEnabled === 'N') {
-      this.isMessageSoundEnabled = false;
-    }
-    if (notificationSound?.callSoundEnabled === 'N') {
-      this.isCallSoundEnabled = false;
-    }
+    // const notificationSound =
+    //   JSON.parse(localStorage.getItem('soundPreferences')) || {};
+    // if (notificationSound?.messageSoundEnabled === 'N') {
+    //   this.isMessageSoundEnabled = false;
+    // }
+    // if (notificationSound?.callSoundEnabled === 'N') {
+    //   this.isCallSoundEnabled = false;
+    // }
+    this.sharedService.loginUserInfo.subscribe((user) => {
+      this.isCallSoundEnabled =
+        user?.callNotificationSound === 'Y' ? true : false;
+      this.isMessageSoundEnabled =
+        user?.messageNotificationSound === 'Y' ? true : false;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -102,7 +108,7 @@ export class ProfileChatsSidebarComponent
     this.socketService.connect();
     this.getChatList();
     this.getGroupList();
-    this.backCanvas =this.activeCanvas.hasOpenOffcanvas();
+    this.backCanvas = this.activeCanvas.hasOpenOffcanvas();
   }
 
   ngAfterViewInit(): void {
@@ -187,10 +193,24 @@ export class ProfileChatsSidebarComponent
   }
 
   toggleSoundPreference(property: string, ngModelValue: boolean): void {
-    const soundPreferences =
-      JSON.parse(localStorage.getItem('soundPreferences')) || {};
-    soundPreferences[property] = ngModelValue ? 'Y' : 'N';
-    localStorage.setItem('soundPreferences', JSON.stringify(soundPreferences));
+    // const soundPreferences =
+    //   JSON.parse(localStorage.getItem('soundPreferences')) || {};
+    // soundPreferences[property] = ngModelValue ? 'Y' : 'N';
+    // localStorage.setItem('soundPreferences', JSON.stringify(soundPreferences));
+    const soundObj = {
+      property: property,
+      value: ngModelValue ? 'Y' : 'N',
+    };
+    this.customerService.updateNotificationSound(soundObj).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.toasterService.success(res.message);
+        this.sharedService.getUserDetails();
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   clearChatList() {
@@ -249,12 +269,12 @@ export class ProfileChatsSidebarComponent
       }
     });
   }
-  appQrmodal(){
+  appQrmodal() {
     const modalRef = this.modalService.open(AppQrModalComponent, {
       centered: true,
     });
   }
-  uniqueLink(){
+  uniqueLink() {
     const modalRef = this.modalService.open(ConferenceLinkComponent, {
       centered: true,
     });
